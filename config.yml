@@ -1,0 +1,81 @@
+baseURL: "https://padepokanpenguin.github.io/"
+title: arianurjamal
+theme: ["PaperMod"]
+
+enableRobotsTXT: true
+buildDrafts: false
+buildFuture: false
+buildExpired: false
+
+googleAnalytics: G-X60YCVVTT6
+
+params:
+  env: production # to enable google analytics, opengraph, twitter-cards and schema.
+  title: arianurjamal
+  description: "Full Snack Developer"
+  keywords: [Blog, Portfolio, PaperMod]
+  author: Aria Nur Jamal
+  # author: ["Me", "You"] # multiple authors
+  images: ["<link or path of image for opengraph, twitter-cards>"]
+  DateFormat: "January 2, 2006"
+  defaultTheme: auto # dark, light
+  disableThemeToggle: false
+
+  ShowReadingTime: true
+  ShowShareButtons: true
+  ShowPostNavLinks: true
+  ShowBreadCrumbs: true
+  ShowCodeCopyButtons: true
+    #ShowWordCount: true
+  ShowRssButtonInSectionTermList: true
+  UseHugoToc: true
+  disableSpecial1stPost: false
+  disableScrollToTop: false
+  comments: false
+  hidemeta: false
+  hideSummary: false
+  showtoc: false
+  tocopen: false
+
+  homeInfoParams:
+    Title: "Personal Blog"
+    Content: >
+      🧑🏾‍💻 **Full Snack Developer**
+
+      - I'm eating for life but my life was not only for eating
+  
+  socialIcons:
+    - name: github
+      title: Follow me on Github
+      url: "https://github.com/padepokanpenguin/"
+    - name: linkedin
+      title: Connect with me in linkedin
+      url: "https://discord.gg/ahpmTvhVmp"
+    - name: X
+      title: Share PapeirMod on X/Twitter
+      url: "https://twitter.com/aria_nur_jamal"
+    - name: medium
+      title: Read my other articles in medium
+      url: "https://tripletwinsco.medium.com/"
+    - name: telegram
+      title: Contact me on telegram
+      url: "https://t.me/kalang_kabut"
+
+menu:
+  main:
+    - identifier: home
+      name: Home
+      url: /
+      weight: 1
+    - identifier: portfolio
+      name: Portfolio
+      url: /portfolio/
+      weight: 20
+    - identifier: tags
+      name: Tags
+      url: /tags/
+      weight: 10
+    - identifier: about
+      name: About
+      url: /about/
+      weight: 30
