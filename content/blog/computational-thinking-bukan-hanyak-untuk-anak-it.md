@@ -13,7 +13,9 @@ Kira-kira hal apa yang bisa dari pemrograman atau IT yang bisa digabungkan denga
 
 ## Apa itu Computational Thinking?
 
-Computational Thinking atau berfikir secara komputasi adalah salah satu proses berfikir yang melibatkan bagaimana memformulasikan persoalan dan solusinya sehingga solusi tersebut dapat direpresentasikan dalam bentuk yang efektif. Dalam berfikir secara komputasi memiliki 4 landasan, yaitu dekomposisi, 
+Computational Thinking atau berfikir secara komputasi adalah salah satu proses berfikir yang melibatkan bagaimana memformulasikan persoalan dan solusinya sehingga solusi tersebut dapat direpresentasikan dalam bentuk yang efektif. Dalam berfikir secara komputasi memiliki beberapa landasan, yaitu dekomposisi, abstraksi, algoritma, pengenalan pola, dan mengevaluasi cara.
+
+Mari kita bahas satu persatu dari landasan tersebut.
 
 ### 1. Dekomposisi (Decompotition)
 Dekomposisi atau decompotition adalah memecahkan atau membagi suatu masalah menjadi bagian-bagian kecil, sehingga membuat kita lebih mudah dalam menyelesaikan masalah tersebut. Pada kasus kali ini kita akan menggunakan masalah pembuatan meja. Jika kita ingin membuat meja kita harus melihat apa saja yang kita butuhkan dalam pembuatan meja tersebut dan membagi hal tersebut menjadi bagian-bagian yang memiliki fungsi sendiri. Suatu meja memiliki tatakan (bagian atas), kaki-kaki meja dan penyambung antara kaki dan meja bagian atas. Dari sini kita dapat mengambil kesimpulan bahwa kita memiliki 3 bagian dari masalah pembuatan meja yaitu kita harus menyiapkan bagian atas meja, kaki-kaki meja dan penyambung antara kaki-kaki meja dan bagian atas meja. Sehingga kita bisa fokus dalam memaksimalkan fungsi-fungsi dari bagian-bagian yang akan kita buat.
