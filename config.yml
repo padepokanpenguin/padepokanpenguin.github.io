@@ -26,6 +26,7 @@ params:
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
+  goatcounter: padepokanpenguin
     #ShowWordCount: true
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
