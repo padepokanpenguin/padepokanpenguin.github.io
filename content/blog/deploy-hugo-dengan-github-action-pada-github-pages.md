@@ -1,6 +1,6 @@
 +++
 title = 'Deploy Hugo Dengan Github Action Pada Github Pages'
-date = 2024-02-11T21:49:41+07:00
+date = 2024-04-07T21:49:41+07:00
 draft = false
 author = "Aria Nur Jamal"
 categories = ["Tutorial"]
@@ -173,7 +173,7 @@ Press Ctrl+C to stop
 
 Dan bukalah ```http://localhost:1313/``` di browser anda, maka kurang lebih akan tampil seperti ini.
 
-![Image Alt Text](/assets/images/hugo-1.png)
+![Hugo First Page](/assets/images/hugo_first-page.png)
 
 ## Deploy hugo menggunakan Github Pages
 Untuk melakukan kustomisasi pada hugo, kalian dapat mengubah konfigurasinya pada file config.yml
