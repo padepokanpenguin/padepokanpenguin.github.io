@@ -1,68 +1,68 @@
 ---
-title: "Debugging GitHub Pages Deployment: A Developer's Journey"
+title: "Debugging Deployment GitHub Pages: Perjalanan Seorang Developer"
 date: 2025-08-03T17:00:00+07:00
 draft: false
 tags: ["debugging", "github-pages", "hugo", "devops", "troubleshooting"]
 categories: ["tutorial", "story"]
-description: "A first-person narrative of debugging a Hugo site deployment on GitHub Pages - from mysterious 404 errors to discovering hidden configuration issues."
+description: "Narasi orang pertama tentang debugging deployment situs Hugo di GitHub Pages - dari error 404 misterius hingga menemukan masalah konfigurasi tersembunyi."
 ---
 
-## The Mystery of the Missing Website
+## Misteri Website yang Hilang
 
-It was a typical Saturday afternoon when I encountered what would become one of those debugging adventures that remind you why software development is both an art and a science. My Hugo blog had been working perfectly, but suddenly, visitors were greeted with nothing but a cold, unwelcoming 404 error.
+Itu adalah sore Sabtu yang biasa ketika saya menghadapi apa yang akan menjadi salah satu petualangan debugging yang mengingatkan mengapa pengembangan perangkat lunak adalah seni sekaligus sains. Blog Hugo saya telah berjalan dengan sempurna, tetapi tiba-tiba, pengunjung disambut dengan error 404 yang dingin dan tidak menyambut.
 
-"This can't be right," I muttered, staring at my browser displaying the dreaded "Page not found" message at `padepokanpenguin.github.io`.
+"Ini tidak mungkin benar," gumam saya, menatap browser yang menampilkan pesan menakutkan "Page not found" di `padepokanpenguin.github.io`.
 
-## Chapter 1: The First Clues
+## Bab 1: Petunjuk Pertama
 
-I started my investigation the way any developer would - by checking the most recent changes. My GitHub Actions workflow showed a peculiar pattern: some runs were successful (✅), others were failing (❌), and the latest one claimed to be working fine.
+Saya memulai investigasi seperti yang dilakukan developer mana pun - dengan memeriksa perubahan terbaru. GitHub Actions workflow saya menunjukkan pola yang aneh: beberapa run berhasil (✅), yang lain gagal (❌), dan yang terbaru mengklaim berjalan dengan baik.
 
 ```bash
 gh run list --limit 10
 ```
 
-The output revealed a story:
-- ✅ Recent deployment: "Use Hugo 0.123.0..." - Success
-- ❌ Previous attempt: "Update Hugo version..." - Failed  
-- ✅ Even earlier: "Revert Hugo version..." - Success
+Output mengungkapkan sebuah cerita:
+- ✅ Deployment terbaru: "Use Hugo 0.123.0..." - Berhasil
+- ❌ Percobaan sebelumnya: "Update Hugo version..." - Gagal  
+- ✅ Lebih awal lagi: "Revert Hugo version..." - Berhasil
 
-Something was definitely wrong with the Hugo version updates. I dove deeper into the failed run logs:
+Ada yang salah dengan pembaruan versi Hugo. Saya menggali lebih dalam ke log run yang gagal:
 
 ```bash
 gh run view 16703525626 --log-failed
 ```
 
-## Chapter 2: The Template Mystery
+## Bab 2: Misteri Template
 
-The error logs painted a clear picture of the problem:
+Log error menggambarkan masalah dengan jelas:
 
 ```
 ERROR render of "/" failed: partial "partials/templates/_funcs/get-page-images" not found
 ```
 
-My heart sank. The PaperMod theme was missing critical template files. But why? I had been using this theme for months without issues.
+Hati saya merosot. Theme PaperMod kehilangan file template penting. Tapi mengapa? Saya telah menggunakan theme ini selama berbulan-bulan tanpa masalah.
 
-I checked the submodule status:
+Saya memeriksa status submodule:
 
 ```bash
 git submodule status
 ```
 
-The output showed: `-dad94ab4b7c55eea0b63f7b81419d027fe9a8d81 themes/PaperMod`
+Output menunjukkan: `-dad94ab4b7c55eea0b63f7b81419d027fe9a8d81 themes/PaperMod`
 
-That negative sign was my first real clue - it indicated an uninitialized submodule. The plot thickened when I discovered the themes directory was completely empty.
+Tanda negatif itu adalah petunjuk nyata pertama saya - menunjukkan submodule yang tidak diinisialisasi. Plot menjadi rumit ketika saya menemukan direktori themes benar-benar kosong.
 
-## Chapter 3: The Submodule Saga
+## Bab 3: Saga Submodule
 
-"Of course!" I exclaimed. The git submodules weren't properly initialized. This is a classic mistake that catches even experienced developers off guard.
+"Tentu saja!" seru saya. Git submodule tidak diinisialisasi dengan benar. Ini adalah kesalahan klasik yang mengejutkan bahkan developer berpengalaman.
 
-I fixed this immediately:
+Saya memperbaiki ini segera:
 
 ```bash
 git submodule update --init --recursive
 ```
 
-Watching the terminal output as it cloned the PaperMod theme gave me a sense of relief:
+Menyaksikan output terminal saat mengkloning theme PaperMod memberi saya rasa lega:
 
 ```
 Submodule 'themes/PaperMod' registered for path 'themes/PaperMod'
@@ -70,11 +70,11 @@ Cloning into 'themes/PaperMod'...
 Submodule path 'themes/PaperMod': checked out 'dad94ab4b7c55eea0b63f7b81419d027fe9a8d81'
 ```
 
-But my celebration was premature.
+Tapi perayaan saya terlalu dini.
 
-## Chapter 4: The Version Compatibility Trap
+## Bab 4: Jebakan Kompatibilitas Versi
 
-I discovered another issue lurking in my `.gitmodules` file - duplicate submodule entries:
+Saya menemukan masalah lain yang mengintai di file `.gitmodules` saya - entri submodule duplikat:
 
 ```ini
 [submodule "PaperMod"]
@@ -85,43 +85,43 @@ I discovered another issue lurking in my `.gitmodules` file - duplicate submodul
     url = https://github.com/adityatelange/hugo-PaperMod.git
 ```
 
-I cleaned this up, keeping only the correct entry for `themes/PaperMod`.
+Saya membersihkan ini, hanya menyimpan entri yang benar untuk `themes/PaperMod`.
 
-Then I tackled the Hugo version compatibility issue. The failed deployment had tried to use Hugo 0.148.0, but this version introduced breaking changes that deprecated `.Site.Social` - something the PaperMod theme was still using.
+Kemudian saya menangani masalah kompatibilitas versi Hugo. Deployment yang gagal telah mencoba menggunakan Hugo 0.148.0, tetapi versi ini memperkenalkan breaking changes yang menghapus `.Site.Social` - sesuatu yang masih digunakan theme PaperMod.
 
-I made strategic decisions:
-1. Update PaperMod to the latest version (v8.0)
-2. Use a stable Hugo version (0.123.0) that works with the theme
+Saya membuat keputusan strategis:
+1. Update PaperMod ke versi terbaru (v8.0)
+2. Menggunakan versi Hugo yang stabil (0.123.0) yang bekerja dengan theme
 
 ```bash
 cd themes/PaperMod
 git checkout v8.0
 ```
 
-## Chapter 5: The Deployment Success... Or So I Thought
+## Bab 5: Sukses Deployment... Atau Begitu Saya Kira
 
-After committing my fixes, I watched the GitHub Actions run with anticipation. Green checkmarks appeared across all steps:
+Setelah commit perbaikan saya, saya menyaksikan GitHub Actions run dengan penuh harap. Tanda centang hijau muncul di semua langkah:
 
 - ✅ Install Hugo CLI
-- ✅ Checkout (with submodules)
+- ✅ Checkout (dengan submodules)
 - ✅ Setup Pages  
 - ✅ Build with Hugo
 - ✅ Upload artifact
 - ✅ Deploy
 
-Hugo reported building 37 pages successfully. Everything looked perfect in the logs. Yet, when I visited my site... 404 error again.
+Hugo melaporkan berhasil membangun 37 halaman. Semuanya terlihat sempurna di log. Namun, ketika saya mengunjungi situs saya... error 404 lagi.
 
-## Chapter 6: The Hidden Configuration Culprit
+## Bab 6: Dalang Konfigurasi Tersembunyi
 
-This is where the real detective work began. The deployment was successful, the files were built correctly, but the site wasn't showing. I suspected a configuration issue.
+Di sinilah pekerjaan detektif yang sesungguhnya dimulai. Deployment berhasil, file dibangun dengan benar, tetapi situs tidak muncul. Saya curiga ada masalah konfigurasi.
 
-I checked the GitHub Pages API:
+Saya memeriksa GitHub Pages API:
 
 ```bash
 gh api repos/padepokanpenguin/padepokanpenguin.github.io/pages
 ```
 
-The response revealed the smoking gun:
+Responnya mengungkapkan smoking gun:
 
 ```json
 {
@@ -133,48 +133,48 @@ The response revealed the smoking gun:
 }
 ```
 
-**"Legacy" build type!** 
+**Build type "Legacy"!** 
 
-I had been running my custom Hugo GitHub Actions workflow perfectly, but GitHub Pages was completely ignoring it. Instead, it was trying to use the old Jekyll-based system to build my site. Since I don't have Jekyll files, this resulted in... you guessed it, a 404 error.
+Saya telah menjalankan custom Hugo GitHub Actions workflow dengan sempurna, tetapi GitHub Pages sepenuhnya mengabaikannya. Sebaliknya, ia mencoba menggunakan sistem berbasis Jekyll lama untuk membangun situs saya. Karena saya tidak memiliki file Jekyll, ini menghasilkan... ya, error 404.
 
-## Chapter 7: The Solution
+## Bab 7: Solusinya
 
-The fix was surprisingly simple but hidden in the repository settings. I needed to change the GitHub Pages source from "Deploy from a branch" to "GitHub Actions" in the repository settings.
+Perbaikannya ternyata sangat sederhana tetapi tersembunyi di pengaturan repository. Saya perlu mengubah sumber GitHub Pages dari "Deploy from a branch" menjadi "GitHub Actions" di pengaturan repository.
 
-This tells GitHub: "Hey, don't try to build this site yourself. Use the custom workflow I've created instead."
+Ini memberitahu GitHub: "Hei, jangan coba bangun situs ini sendiri. Gunakan workflow kustom yang sudah saya buat."
 
-## The Lessons Learned
+## Pelajaran yang Dipetik
 
-This debugging journey taught me several valuable lessons:
+Perjalanan debugging ini mengajarkan saya beberapa pelajaran berharga:
 
-1. **Always check submodule initialization** - Empty directories can be deceiving
-2. **Version compatibility matters** - Newer isn't always better
-3. **Configuration can override code** - Even perfect workflows can be ignored by incorrect settings
-4. **The real problem might not be where you think** - Sometimes it's not your code, it's the platform configuration
+1. **Selalu periksa inisialisasi submodule** - Direktori kosong bisa menyesatkan
+2. **Kompatibilitas versi itu penting** - Yang lebih baru tidak selalu lebih baik
+3. **Konfigurasi bisa override kode** - Bahkan workflow sempurna bisa diabaikan oleh pengaturan yang salah
+4. **Masalah sebenarnya mungkin bukan di tempat yang Anda pikirkan** - Kadang bukan kode Anda, tapi konfigurasi platform
 
-## Debugging Best Practices I Applied
+## Praktik Debugging Terbaik yang Saya Terapkan
 
-### 1. Start with Recent Changes
-I began by examining what had changed recently, using git logs and GitHub Actions history.
+### 1. Mulai dengan Perubahan Terbaru
+Saya mulai dengan memeriksa apa yang berubah baru-baru ini, menggunakan git logs dan riwayat GitHub Actions.
 
-### 2. Follow the Error Trail
-Each error message led to the next clue - from template errors to submodule issues to version conflicts.
+### 2. Ikuti Jejak Error
+Setiap pesan error mengarah ke petunjuk berikutnya - dari error template ke masalah submodule hingga konflik versi.
 
-### 3. Verify Assumptions
-I assumed my GitHub Actions workflow was being used, but the API revealed otherwise.
+### 3. Verifikasi Asumsi
+Saya mengasumsikan GitHub Actions workflow saya sedang digunakan, tetapi API mengungkapkan sebaliknya.
 
-### 4. Test Incrementally
-I fixed issues one by one: submodules first, then versions, then configuration.
+### 4. Test Secara Bertahap
+Saya memperbaiki masalah satu per satu: submodule dulu, kemudian versi, lalu konfigurasi.
 
-### 5. Document the Journey
-Writing this post helps me remember the solution for future similar issues.
+### 5. Dokumentasikan Perjalanan
+Menulis post ini membantu saya mengingat solusi untuk masalah serupa di masa depan.
 
-## The Happy Ending
+## Akhir yang Bahagia
 
-After changing the GitHub Pages setting to use GitHub Actions, my site finally came back to life. The 37 pages Hugo had been successfully building were now properly served to visitors.
+Setelah mengubah pengaturan GitHub Pages untuk menggunakan GitHub Actions, situs saya akhirnya kembali hidup. 37 halaman yang berhasil dibangun Hugo kini dapat diakses dengan benar oleh pengunjung.
 
-Sometimes the most frustrating bugs teach us the most. This particular debugging session reminded me that in our complex development ecosystems, the problem isn't always in our code - sometimes it's in the configuration of the platforms we depend on.
+Kadang bug yang paling frustasi mengajarkan kita yang paling banyak. Sesi debugging khusus ini mengingatkan saya bahwa dalam ekosistem pengembangan yang kompleks, masalah tidak selalu ada di kode kita - kadang ada di konfigurasi platform yang kita andalkan.
 
 ---
 
-*Have you encountered similar deployment mysteries? Share your debugging war stories in the comments below. Remember, every bug is a learning opportunity in disguise.*
+*Apakah Anda pernah mengalami misteri deployment serupa? Bagikan cerita perang debugging Anda di komentar di bawah. Ingat, setiap bug adalah kesempatan belajar yang menyamar.*
