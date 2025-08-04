@@ -38,6 +38,14 @@ params:
   showtoc: false
   tocopen: false
 
+  # Chatbot Configuration
+  chatbot:
+    enabled: true
+    apiKey: "AIzaSyCxP3iwugOceMhLQHu_MCDF7FvcG6-prq0" # Add your Gemini API key here or use environment variable
+    model: "gemini-1.5-flash"
+    proxyMode: false # Set to true if using a proxy server
+    proxyUrl: "" # URL of your proxy server if using proxy mode
+
   homeInfoParams:
     Title: "Personal Blog"
     Content: >
