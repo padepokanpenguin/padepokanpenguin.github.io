@@ -8,10 +8,7 @@ tags: ["IT"]
 ShowWordCount: false
 ---
 
-
-*Panduan berbasis cerita tentang menciptakan API Express.js yang siap produksi untuk model AI Gemini Google*
-
-## Kata Pengantar: Perjalanan Bootcamp Integrasi AI Saya
+## Kata Pengantar: Perjalanan Bootcamp Integrasi AI
 
 Setelah menyelesaikan bootcamp intensif yang berfokus pada integrasi AI ke dalam aplikasi Node.js, saya menemukan diri saya dilengkapi dengan pengetahuan dasar tentang kecerdasan buatan dan keterampilan praktis untuk membangun layanan web bertenaga AI. Bootcamp tersebut mengajarkan saya dasar-dasar konsep AI, cara bekerja dengan API AI, dan fundamental membangun aplikasi Node.js yang memanfaatkan kemampuan machine learning. Namun, seperti kebanyakan lulusan bootcamp, saya menghadapi tantangan untuk mengambil keterampilan yang baru diperoleh dan membangun sesuatu yang substansial dan siap produksi.
 
