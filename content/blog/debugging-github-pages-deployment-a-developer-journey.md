@@ -1,10 +1,10 @@
 ---
 title: "Debugging Deployment GitHub Pages: Perjalanan Seorang Developer"
 date: 2025-08-03T17:00:00+07:00
-draft: false
+draft: true
 tags: ["debugging", "github-pages", "hugo", "devops", "troubleshooting"]
 categories: ["tutorial", "story"]
-description: "Narasi orang pertama tentang debugging deployment situs Hugo di GitHub Pages - dari error 404 misterius hingga menemukan masalah konfigurasi tersembunyi."
+description: "debugging deployment situs Hugo di GitHub Pages dengan error 404."
 ---
 
 ## Misteri Website yang Hilang

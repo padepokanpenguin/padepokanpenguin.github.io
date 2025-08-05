@@ -8,6 +8,11 @@ window.chatbotConfig = {
     proxyMode: {{ .Site.Params.chatbot.proxyMode | default false }},
     proxyUrl: "{{ .Site.Params.chatbot.proxyUrl | default "" }}"
 };
+
+// Check if API key is available
+if (!window.chatbotConfig.apiKey && !window.chatbotConfig.proxyMode) {
+    console.warn('Chatbot: API key not configured. Please set up GEMINI_API_KEY secret in GitHub.');
+}
 </script>
 <script src="{{ "js/chatbot.js" | absURL }}"></script>
 {{- end }}
