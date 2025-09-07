@@ -1,7 +1,7 @@
 ---
 title: "Debugging Deployment GitHub Pages: Perjalanan Seorang Developer"
 date: 2025-09-07T15:00:00+07:00
-draft: true
+draft: false
 tags: ["debugging", "github-pages", "hugo", "devops", "troubleshooting"]
 categories: ["tutorial", "story"]
 description: "debugging deployment situs Hugo di GitHub Pages dengan error 404."
