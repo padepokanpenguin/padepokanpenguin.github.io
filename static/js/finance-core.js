@@ -109,7 +109,6 @@ class AdvancedFinanceAPI {
             const url = `${this.config.endpoints.coingecko}/simple/price?ids=${coins}&vs_currencies=usd&include_24hr_change=true&include_24hr_vol=true&include_market_cap=true`;
             
             const response = await fetch(url);
-            console.log(JSON.stringify(response))
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             
             const data = await response.json();

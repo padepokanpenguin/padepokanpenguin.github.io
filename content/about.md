@@ -32,12 +32,17 @@ I believe in continuous learning and sharing knowledge with the community. This 
 - **JavaScript** & **TypeScript** - Modern ES6+ features and type-safe development
 - **React.js** - Component-based UI development with hooks and context
 - **Next.js** - Full-stack React framework with SSR/SSG capabilities
+- **SvelteKit** - Modern, fast, and simple framework for building web applications with Svelte
+- **Angular** - Robust framework for building scalable and maintainable web applications
+
 
 ### Backend Development
 - **Node.js** - Server-side JavaScript development
 - **Express.js** - Fast and minimalist web framework
+- **NestJS** - Progressive Node.js framework for building efficient, scalable server-side applications
 - **AdonisJS** - Full-featured MVC framework for Node.js
 - **.NET Core** - Cross-platform framework for building modern applications
+
 
 ### Development Practices
 - RESTful API design and development
