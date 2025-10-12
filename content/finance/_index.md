@@ -20,7 +20,6 @@ markup: "html"
 
 <!-- Load Finance API Scripts -->
 <script src="/js/finance-core.js"></script>
-<script src="/js/finance-data.js"></script>
 
 <style>
 .crypto-ticker {
