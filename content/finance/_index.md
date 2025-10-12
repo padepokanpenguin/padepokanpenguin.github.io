@@ -18,6 +18,10 @@ markup: "html"
     </div>
 </div>
 
+<!-- Load Finance API Scripts -->
+<script src="/js/finance-core.js"></script>
+<script src="/js/finance-data.js"></script>
+
 <style>
 .crypto-ticker {
     display: flex;
@@ -101,11 +105,15 @@ markup: "html"
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    if (typeof window.financeAPI !== 'undefined') {
-        initializeDashboard();
-    } else {
-        console.error('Finance API not loaded');
-    }
+    // Wait a bit for scripts to load
+    setTimeout(() => {
+        if (typeof window.financeAPI !== 'undefined') {
+            initializeDashboard();
+        } else {
+            console.error('Finance API not loaded, using mock data');
+            loadMockData();
+        }
+    }, 100);
 });
 
 async function initializeDashboard() {
@@ -148,5 +156,29 @@ function setupAutoRefresh() {
     setInterval(async () => {
         await loadCryptoTicker();
     }, 30000);
+}
+
+function loadMockData() {
+    // Mock cryptocurrency data for testing
+    const mockData = [
+        { symbol: 'BTC', price: 67500, change24h: 2.45 },
+        { symbol: 'ETH', price: 3420, change24h: -1.23 },
+        { symbol: 'SOL', price: 145.67, change24h: 5.67 },
+        { symbol: 'ADA', price: 0.45, change24h: -0.89 },
+        { symbol: 'DOT', price: 8.23, change24h: 1.34 },
+        { symbol: 'MATIC', price: 0.89, change24h: -2.45 }
+    ];
+    
+    const ticker = document.getElementById('crypto-ticker');
+    ticker.innerHTML = mockData.map((crypto, index) => `
+        <div class="ticker-item">
+            <div class="crypto-number">${index + 1}</div>
+            <span class="crypto-symbol">${crypto.symbol}</span>
+            <span class="crypto-price">$${crypto.price.toLocaleString()}</span>
+            <span class="crypto-change ${crypto.change24h >= 0 ? 'positive' : 'negative'}">
+                ${crypto.change24h >= 0 ? '+' : ''}${crypto.change24h.toFixed(2)}%
+            </span>
+        </div>
+    `).join('');
 }
 </script>
