@@ -61,7 +61,23 @@ I believe in continuous learning and sharing knowledge with the community. This 
 
 ## 💼 Work Experience
 
-### 🏥 **Fullstack Developer** | *Dec 2023 - Present*
+### 🏥 **Fullstack Developer** | *Dec 2023 - Present* 
+*<p style={{}} id="siloam-duration"></p>*
+<script>
+(function() {
+  const start = new Date(2023, 11); // December 2023 (0-based month)
+  const now = new Date();
+  let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth()) + 1;
+  let years = Math.floor(months / 12);
+  let remMonths = months % 12;
+  let text = '';
+  if (years > 0) text += years + (years === 1 ? ' year' : ' years');
+  if (remMonths > 0) text += (text ? ' ' : '') + remMonths + (remMonths === 1 ? ' month' : ' months');
+  if (!text) text = '0 month';
+  document.getElementById('siloam-duration').textContent = text;
+})();
+</script>
+
 **Siloam Hospital Group**
 
 PT. Siloam International Hospitals Tbk (Siloam Hospitals) is Indonesia's largest private hospital network, operating over 41 hospital branches and 25 clinics nationwide. Equipped with state-of-the-art facilities and professional medical staff, Siloam Hospitals provides high-quality, international-standard medical services.
@@ -74,7 +90,21 @@ PT. Siloam International Hospitals Tbk (Siloam Hospitals) is Indonesia's largest
 
 ---
 
-### 🎨 **Graphic Designer** | *Apr 2022 - Present*
+### 🎨 **Graphic Designer** | *Apr 2022 - Present* 
+*<p id="shl-duration"></p>*
+<script>
+(function() {
+  const start = new Date(2022, 3); // April 2022 (0-based month)
+  const now = new Date();
+  let months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth()) + 1;
+  let years = Math.floor(months / 12);
+  let remMonths = months % 12;
+  let text = '';
+  if (years > 0) text += years + (years === 1 ? ' year' : ' years');
+  if (remMonths > 0) text += (text ? ' ' : '') + remMonths + (remMonths === 1 ? ' month' : ' months');
+  document.getElementById('shl-duration').textContent = text;
+})();
+</script>
 **Surabaya Hacker Link**
 
 Surabaya Hacker Link (SHL) is a non-profit IT community focused on data security education, hosting events like workshops and the "Unmask Cyber Crime" annual gathering. It is one of the senior active IT communities in Indonesia.
@@ -85,7 +115,21 @@ Surabaya Hacker Link (SHL) is a non-profit IT community focused on data security
 
 ---
 
-### ⚙️ **Backend Developer** | *May 2023 - Dec 2023*
+### ⚙️ **Backend Developer** | *May 2023 - Dec 2023* 
+*<span id="fg-duration"></span>*
+<script>
+(function() {
+  const start = new Date(2023, 4); // May 2023 (0-based month)
+  const end = new Date(2023, 11); // Dec 2023 (0-based month)
+  let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+  let years = Math.floor(months / 12);
+  let remMonths = months % 12;
+  let text = '';
+  if (years > 0) text += years + (years === 1 ? ' year' : ' years');
+  if (remMonths > 0) text += (text ? ' ' : '') + remMonths + (remMonths === 1 ? ' month' : ' months');
+  document.getElementById('fg-duration').textContent = text;
+})();
+</script>
 **Future Gate High School**
 
 Future Gate High School focuses on empowering women through education that combines knowledge, practical skills, and values to prepare them for future roles as wives, mothers, and professionals. It develops effective learning models and prepares students for both their careers and higher education opportunities.
@@ -97,7 +141,21 @@ Future Gate High School focuses on empowering women through education that combi
 
 ---
 
-### 💻 **Programmer** | *Oct 2022 - Mar 2023*
+### 💻 **Programmer** | *Oct 2022 - Mar 2023* 
+*<span id="abqory-duration"></span>*
+<script>
+(function() {
+  const start = new Date(2022, 9); // October 2022 (0-based month)
+  const end = new Date(2023, 2); // March 2023 (0-based month)
+  let months = (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1;
+  let years = Math.floor(months / 12);
+  let remMonths = months % 12;
+  let text = '';
+  if (years > 0) text += years + (years === 1 ? ' year' : ' years');
+  if (remMonths > 0) text += (text ? ' ' : '') + remMonths + (remMonths === 1 ? ' month' : ' months');
+  document.getElementById('abqory-duration').textContent = text;
+})();
+</script>
 **PT. Abqory Sharia Group**
 
 PT. Abqory Sharia Groups is an educational platform focused on Islamic Economic Law, providing comprehensive learning to enhance understanding of the principles and applications of Shariah economics.
