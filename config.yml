@@ -9,6 +9,11 @@ buildExpired: false
 
 googleAnalytics: G-X60YCVVTT6
 
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
   title: arianurjamal
@@ -87,6 +92,10 @@ menu:
       name: Tags
       url: /tags/
       weight: 10
+    - identifier: finance
+      name: Finance
+      url: /finance/
+      weight: 25
     - identifier: about
       name: About
       url: /about/

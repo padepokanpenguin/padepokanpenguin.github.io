@@ -16,3 +16,14 @@ if (!window.chatbotConfig.apiKey && !window.chatbotConfig.proxyMode) {
 </script>
 <script src="{{ "js/chatbot.js" | absURL }}"></script>
 {{- end }}
+
+{{- if or (eq .Section "finance") (hasPrefix .RelPermalink "/finance") }}
+<!-- Finance Section JavaScript -->
+<script src="{{ "js/finance-core.js" | absURL }}"></script>
+{{- if or (hasPrefix .RelPermalink "/finance/news") (hasPrefix .RelPermalink "/finance/crypto") }}
+<script src="{{ "js/finance-news.js" | absURL }}"></script>
+{{- end }}
+{{- if hasPrefix .RelPermalink "/finance/trade" }}
+<script src="{{ "js/finance-trade.js" | absURL }}"></script>
+{{- end }}
+{{- end }}
