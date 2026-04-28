@@ -12,6 +12,20 @@ markup: "html"
         <p>Welcome to the comprehensive finance data center with real-time market information.</p>
     </header>
 
+    <h2>🧮 Calculators</h2>
+    <div class="submenu-grid">
+        <a href="/finance/investment-calculator/" class="submenu-card">
+            <span class="submenu-icon">💰</span>
+            <span class="submenu-title">Investment Calculator</span>
+            <span class="submenu-desc">Calculate your investment returns</span>
+        </a>
+        <a href="/finance/pension-calculator/" class="submenu-card">
+            <span class="submenu-icon">🏠</span>
+            <span class="submenu-title">Pension Calculator</span>
+            <span class="submenu-desc">Plan your retirement savings</span>
+        </a>
+    </div>
+
     <h2>Live Market Overview</h2>
     <div id="crypto-ticker" class="crypto-ticker">
         <div class="loading-skeleton">Loading live cryptocurrency data...</div>
@@ -22,6 +36,48 @@ markup: "html"
 <script src="/js/finance-core.js"></script>
 
 <style>
+.submenu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0 30px 0;
+}
+
+.submenu-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 25px 20px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.submenu-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.submenu-icon {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+}
+
+.submenu-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 6px;
+}
+
+.submenu-desc {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+}
+
 .crypto-ticker {
     display: flex;
     flex-direction: column;
