@@ -79,9 +79,73 @@ markup: "html"
     gap: 30px;
 }
 
+/* Responsive - Tablet */
 @media (max-width: 768px) {
     .calculator-container {
         grid-template-columns: 1fr;
+    }
+    
+    .calculator-header h1 {
+        font-size: 1.5rem;
+    }
+    
+    .calculator-header p {
+        font-size: 0.9rem;
+    }
+    
+    .calculator-inputs,
+    .calculator-results {
+        padding: 20px;
+    }
+}
+
+/* Responsive - Mobile Small */
+@media (max-width: 480px) {
+    .calculator-page {
+        padding: 15px;
+    }
+    
+    .calculator-header h1 {
+        font-size: 1.3rem;
+    }
+    
+    .input-group {
+        margin-bottom: 15px;
+    }
+    
+    .input-group label {
+        font-size: 0.9rem;
+    }
+    
+    .input-group input {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+    
+    .input-group .hint {
+        font-size: 0.75rem;
+    }
+    
+    .calc-button {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+    
+    .result-item {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .result-label {
+        font-size: 0.85rem;
+    }
+    
+    .result-value {
+        font-size: 1.1rem;
+    }
+    
+    .result-item.highlight .result-value {
+        font-size: 1.2rem;
     }
 }
 
@@ -184,9 +248,60 @@ markup: "html"
     font-weight: 700;
     color: #333;
 }
+
+/* Angka Terbilang */
+.terbilang {
+    font-size: 0.8rem;
+    color: #888;
+    font-style: italic;
+    margin-top: 4px;
+    display: block;
+}
+
+.result-item .result-value {
+    display: block;
+}
+
+.result-item.highlight .terbilang {
+    color: #4a90e2;
+    font-style: normal;
+    font-weight: 500;
+}
 </style>
 
 <script>
+// Fungsi angka bercerita (terbilang) untuk Rupiah
+function numberToWords(num) {
+    if (num === 0) return 'nol';
+    
+    num = Math.floor(num);
+    if (num > 999999999999) return 'Angka terlalu besar';
+    
+    const ones = ['', 'satu', 'dua', 'tiga', 'empat', 'lima', 'enam', 'tujuh', 'delapan', 'sembilan'];
+    const tens = ['', '', 'dua puluh', 'tiga puluh', 'empat puluh', 'lima puluh', 'enam puluh', 'tujuh puluh', 'delapan puluh', 'sembilan puluh'];
+    const teens = ['sepuluh', 'sebelas', 'dua belas', 'tiga belas', 'empat belas', 'lima belas', 'enam belas', 'tujuh belas', 'delapan belas', 'sembilan belas'];
+    
+    function convertChunk(n) {
+        if (n === 0) return '';
+        if (n < 10) return ones[n];
+        if (n < 20) return teens[n - 10];
+        if (n < 100) return tens[Math.floor(n / 10)] + (n % 10 !== 0 ? ' ' + ones[n % 10] : '');
+        if (n < 1000) return ones[Math.floor(n / 100)] + ' ratus' + (n % 100 !== 0 ? ' ' + convertChunk(n % 100) : '');
+        if (n < 1000000) return convertChunk(Math.floor(n / 1000)) + ' ribu' + (n % 1000 !== 0 ? ' ' + convertChunk(n % 1000) : '');
+        if (n < 1000000000) return convertChunk(Math.floor(n / 1000000)) + ' juta' + (n % 1000000 !== 0 ? ' ' + convertChunk(n % 1000000) : '');
+        return convertChunk(Math.floor(n / 1000000000)) + ' miliar' + (n % 1000000000 !== 0 ? ' ' + convertChunk(n % 1000000000) : '');
+    }
+    
+    return convertChunk(num);
+}
+
+function formatCurrency(value) {
+    return 'Rp ' + value.toLocaleString('id-ID', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    });
+}
+
 document.addEventListener('DOMContentLoaded', function() {
     const calcBtn = document.getElementById('calculate-investment');
     calcBtn.addEventListener('click', calculateInvestment);
@@ -211,15 +326,8 @@ function calculateInvestment() {
     const totalInvested = initial + (monthly * months);
     const totalInterest = futureValue - totalInvested;
 
-    document.getElementById('total-invested').textContent = formatCurrency(totalInvested);
-    document.getElementById('total-interest').textContent = formatCurrency(totalInterest);
-    document.getElementById('future-value').textContent = formatCurrency(futureValue);
-}
-
-function formatCurrency(value) {
-    return 'Rp ' + value.toLocaleString('id-ID', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    });
+    document.getElementById('total-invested').innerHTML = formatCurrency(totalInvested) + '<span class="terbilang">(' + numberToWords(totalInvested) + ')</span>';
+    document.getElementById('total-interest').innerHTML = formatCurrency(totalInterest) + '<span class="terbilang">(' + numberToWords(totalInterest) + ')</span>';
+    document.getElementById('future-value').innerHTML = formatCurrency(futureValue) + '<span class="terbilang">(' + numberToWords(futureValue) + ')</span>';
 }
 </script>
