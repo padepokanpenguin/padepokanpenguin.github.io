@@ -24,6 +24,11 @@ markup: "html"
             <span class="submenu-title">Pension Calculator</span>
             <span class="submenu-desc">Plan your retirement savings</span>
         </a>
+        <a href="/finance/news/" class="submenu-card">
+            <span class="submenu-icon">📰</span>
+            <span class="submenu-title">Financial News</span>
+            <span class="submenu-desc">Latest headlines from global sources</span>
+        </a>
     </div>
 
     <h2>📈 Market Indices & Commodities</h2>
