@@ -83,9 +83,10 @@ function renderCrypto(crypto) {
     }
     
     const items = [];
-    if (crypto.BTC) items.push(createTickerItem('BTC', 'BTC/USD', crypto.BTC.price, crypto.BTC.change_pct, 'Bitcoin'));
-    if (crypto.ETH) items.push(createTickerItem('ETH', 'ETH/USD', crypto.ETH.price, crypto.ETH.change_pct, 'Ethereum'));
-    if (crypto.SOL) items.push(createTickerItem('SOL', 'SOL/USD', crypto.SOL.price, crypto.SOL.change_pct, 'Solana'));
+    // Keys from API are uppercase: BITCOIN, ETHEREUM, SOLANA
+    if (crypto.BITCOIN) items.push(createTickerItem('BTC', 'BTC/USD', crypto.BITCOIN.price, crypto.BITCOIN.change_pct, 'Bitcoin'));
+    if (crypto.ETHEREUM) items.push(createTickerItem('ETH', 'ETH/USD', crypto.ETHEREUM.price, crypto.ETHEREUM.change_pct, 'Ethereum'));
+    if (crypto.SOLANA) items.push(createTickerItem('SOL', 'SOL/USD', crypto.SOLANA.price, crypto.SOLANA.change_pct, 'Solana'));
     
     container.innerHTML = items.join('');
 }
