@@ -26,14 +26,96 @@ markup: "html"
         </a>
     </div>
 
-    <h2>Live Market Overview</h2>
+    <h2>📈 Market Indices & Commodities</h2>
+    <div id="indices-ticker" class="indices-ticker">
+        <div class="loading-skeleton">Loading market data...</div>
+    </div>
+
+    <h2>₿ Cryptocurrency</h2>
     <div id="crypto-ticker" class="crypto-ticker">
-        <div class="loading-skeleton">Loading live cryptocurrency data...</div>
+        <div class="loading-skeleton">Loading cryptocurrency data...</div>
     </div>
 </div>
 
 <!-- Load Finance API Scripts -->
 <script src="/js/finance-core.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadMarketData();
+    // Refresh market data every 5 minutes (300000ms)
+    setInterval(loadMarketData, 300000);
+});
+
+async function loadMarketData() {
+    try {
+        const response = await fetch('/data/market-prices.json');
+        if (!response.ok) throw new Error('Failed to load market data');
+        const data = await response.json();
+        renderIndices(data.indices);
+        renderCrypto(data.crypto);
+    } catch (error) {
+        console.error('Error loading market data:', error);
+        document.getElementById('indices-ticker').innerHTML = '<div class="loading-skeleton">Failed to load market data. Please refresh.</div>';
+        document.getElementById('crypto-ticker').innerHTML = '<div class="loading-skeleton">Failed to load crypto data. Please refresh.</div>';
+    }
+}
+
+function renderIndices(indices) {
+    const container = document.getElementById('indices-ticker');
+    if (!indices) {
+        container.innerHTML = '<div class="loading-skeleton">No market data available</div>';
+        return;
+    }
+    
+    const items = [];
+    if (indices.SP500) items.push(createTickerItem('SP500', '^GSPC', indices.SP500.price, indices.SP500.change_percent, 'S&P 500'));
+    if (indices.NASDAQ) items.push(createTickerItem('NASDAQ', '^IXIC', indices.NASDAQ.price, indices.NASDAQ.change_percent, 'NASDAQ'));
+    if (indices.GOLD) items.push(createTickerItem('GOLD', 'XAU/USD', indices.GOLD.price, indices.GOLD.change_percent, 'Gold'));
+    
+    container.innerHTML = items.join('');
+}
+
+function renderCrypto(crypto) {
+    const container = document.getElementById('crypto-ticker');
+    if (!crypto) {
+        container.innerHTML = '<div class="loading-skeleton">No crypto data available</div>';
+        return;
+    }
+    
+    const items = [];
+    if (crypto.BTC) items.push(createTickerItem('BTC', 'BTC/USD', crypto.BTC.price, crypto.BTC.change_pct, 'Bitcoin'));
+    if (crypto.ETH) items.push(createTickerItem('ETH', 'ETH/USD', crypto.ETH.price, crypto.ETH.change_pct, 'Ethereum'));
+    if (crypto.SOL) items.push(createTickerItem('SOL', 'SOL/USD', crypto.SOL.price, crypto.SOL.change_pct, 'Solana'));
+    
+    container.innerHTML = items.join('');
+}
+
+function createTickerItem(symbol, fullName, price, changePercent, label) {
+    const isPositive = changePercent >= 0;
+    const sign = isPositive ? '+' : '';
+    const changeClass = isPositive ? 'positive' : 'negative';
+    
+    let displayPrice = price;
+    if (price >= 1000) {
+        displayPrice = '$' + price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+    } else {
+        displayPrice = '$' + price.toFixed(2);
+    }
+    
+    return `
+        <div class="ticker-item">
+            <div class="ticker-symbol">
+                <span class="ticker-name">${label}</span>
+                <span class="ticker-full">${fullName}</span>
+            </div>
+            <div class="ticker-price">${displayPrice}</div>
+            <div class="ticker-change ${changeClass}">
+                ${sign}${changePercent.toFixed(2)}%
+            </div>
+        </div>
+    `;
+}
+</script>
 
 <style>
 .submenu-grid {
@@ -78,20 +160,18 @@ markup: "html"
     text-align: center;
 }
 
-.crypto-ticker {
+/* Ticker styles */
+.indices-ticker, .crypto-ticker {
     display: flex;
     flex-direction: column;
     gap: 12px;
-    max-height: 500px;
-    overflow-y: auto;
-    padding: 0;
-    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .ticker-item {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
     padding: 16px 20px;
     background: white;
     border-radius: 8px;
@@ -104,49 +184,46 @@ markup: "html"
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.crypto-number {
-    background: #4a90e2;
-    color: white;
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+.ticker-symbol {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-    flex-shrink: 0;
+    flex-direction: column;
+    min-width: 100px;
 }
 
-.crypto-symbol {
-    font-weight: bold;
+.ticker-name {
+    font-weight: 700;
     color: #333;
-    min-width: 80px;
     font-size: 1rem;
 }
 
-.crypto-price {
+.ticker-full {
+    font-size: 0.75rem;
+    color: #888;
+}
+
+.ticker-price {
+    flex: 1;
     font-weight: 600;
     color: #2c3e50;
-    flex: 1;
-    text-align: center;
     font-size: 1.1rem;
-}
-
-.crypto-change {
-    font-weight: 500;
-    padding: 4px 8px;
-    border-radius: 4px;
-    min-width: 70px;
     text-align: center;
 }
 
-.crypto-change.positive {
+.ticker-change {
+    font-weight: 600;
+    padding: 6px 12px;
+    border-radius: 6px;
+    min-width: 80px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.ticker-change.positive {
     background-color: #d4edda;
     color: #155724;
 }
 
-.crypto-change.negative {
+.ticker-change.negative {
     background-color: #f8d7da;
     color: #721c24;
 }
@@ -155,85 +232,17 @@ markup: "html"
     text-align: center;
     padding: 20px;
     color: #666;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+@media (max-width: 600px) {
+    .ticker-item {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .ticker-price {
+        text-align: left;
+    }
 }
 </style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Wait a bit for scripts to load
-    setTimeout(() => {
-        if (typeof window.financeAPI !== 'undefined') {
-            initializeDashboard();
-        } else {
-            console.error('Finance API not loaded, using mock data');
-            loadMockData();
-        }
-    }, 100);
-});
-
-async function initializeDashboard() {
-    try {
-        // Load crypto ticker
-        await loadCryptoTicker();
-        
-        // Setup auto-refresh
-        setupAutoRefresh();
-        
-    } catch (error) {
-        console.error('Error initializing dashboard:', error);
-    }
-}
-
-async function loadCryptoTicker() {
-    try {
-        const cryptoData = await window.financeAPI.getCryptocurrencyData();
-        const ticker = document.getElementById('crypto-ticker');
-        
-        if (cryptoData && cryptoData.length > 0) {
-            ticker.innerHTML = cryptoData.map((crypto, index) => `
-                <div class="ticker-item">
-                    <div class="crypto-number">${index + 1}</div>
-                    <span class="crypto-symbol">${crypto.symbol}</span>
-                    <span class="crypto-price">${window.financeAPI.formatCurrency(crypto.price)}</span>
-                    <span class="crypto-change ${crypto.change24h >= 0 ? 'positive' : 'negative'}">
-                        ${window.financeAPI.formatPercentage(crypto.change24h)}
-                    </span>
-                </div>
-            `).join('');
-        }
-    } catch (error) {
-        console.error('Error loading crypto ticker:', error);
-    }
-}
-
-function setupAutoRefresh() {
-    // Refresh crypto ticker every 30 seconds
-    setInterval(async () => {
-        await loadCryptoTicker();
-    }, 30000);
-}
-
-function loadMockData() {
-    // Mock cryptocurrency data for testing
-    const mockData = [
-        { symbol: 'BTC', price: 67500, change24h: 2.45 },
-        { symbol: 'ETH', price: 3420, change24h: -1.23 },
-        { symbol: 'SOL', price: 145.67, change24h: 5.67 },
-        { symbol: 'ADA', price: 0.45, change24h: -0.89 },
-        { symbol: 'DOT', price: 8.23, change24h: 1.34 },
-        { symbol: 'MATIC', price: 0.89, change24h: -2.45 }
-    ];
-    
-    const ticker = document.getElementById('crypto-ticker');
-    ticker.innerHTML = mockData.map((crypto, index) => `
-        <div class="ticker-item">
-            <div class="crypto-number">${index + 1}</div>
-            <span class="crypto-symbol">${crypto.symbol}</span>
-            <span class="crypto-price">$${crypto.price.toLocaleString()}</span>
-            <span class="crypto-change ${crypto.change24h >= 0 ? 'positive' : 'negative'}">
-                ${crypto.change24h >= 0 ? '+' : ''}${crypto.change24h.toFixed(2)}%
-            </span>
-        </div>
-    `).join('');
-}
-</script>
