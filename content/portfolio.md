@@ -48,30 +48,6 @@ outputs: ["html"]
     <div class="feature-tag">Dashboard Analytics</div>
   </div>
 
-  <div class="project-tech">
-    <span class="tech-label">Tech Stack:</span>
-    <span class="tech-item">Vue.js 3</span>
-    <span class="tech-item">Node.js</span>
-    <span class="tech-item">Python AI</span>
-    <span class="tech-item">WhatsApp API</span>
-    <span class="tech-item">PostgreSQL</span>
-    <span class="tech-item">Redis</span>
-  </div>
-
-  <div class="project-stats">
-    <div class="stat">
-      <span class="stat-value">500+</span>
-      <span class="stat-label">Active Users</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">1M+</span>
-      <span class="stat-label">Messages/month</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">99.9%</span>
-      <span class="stat-label">Uptime</span>
-    </div>
-  </div>
 </div>
 
 ---
@@ -156,90 +132,32 @@ Coming soon...
   font-size: 0.8rem;
   font-weight: 600;
 }
-.project-tech {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color, #e5e7eb);
-}
-.tech-label {
-  font-size: 0.8rem;
-  color: #9ca3af;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-.tech-item {
-  background: var(--bg-secondary, #f9fafb);
-  color: #374151;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-.project-stats {
-  display: flex;
-  gap: 32px;
-  padding-top: 16px;
-  border-top: 1px solid var(--border-color, #e5e7eb);
-}
-.stat {
-  display: flex;
-  flex-direction: column;
-}
-.stat-value {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #2563EB;
-}
-.stat-label {
-  font-size: 0.75rem;
-  color: #9ca3af;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
 @media (max-width: 640px) {
-  .project-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .project-link-btn {
-    width: 100%;
-    justify-content: center;
-  }
-  .project-stats {
-    gap: 20px;
-  }
+ .project-header {
+   flex-direction: column;
+   align-items: flex-start;
+ }
+ .project-link-btn {
+   width: 100%;
+   justify-content: center;
+ }
 }
-
 /* Dark mode support */
 [data-theme="dark"] .project-card {
-  --card-bg: #1f2937;
-  --border-color: #374151;
-  --text-color: #f9fafb;
-  --bg-secondary: #111827;
+ --card-bg: #1f2937;
+ --border-color: #374151;
+ --text-color: #f9fafb;
+ --bg-secondary: #111827;
 }
 [data-theme="dark"] .project-title {
-  color: #f9fafb !important;
+ color: #f9fafb !important;
 }
 [data-theme="dark"] .project-description {
-  color: #d1d5db;
+ color: #d1d5db;
 }
 [data-theme="dark"] .feature-tag {
-  background: #1e3a5f;
-  color: #60a5fa;
-}
-[data-theme="dark"] .tech-item {
-  background: #111827;
-  color: #d1d5db;
-}
-[data-theme="dark"] .project-tech,
-[data-theme="dark"] .project-stats {
-  border-color: #374151;
+ background: #1e3a5f;
+ color: #60a5fa;
 }
 </style>
 
