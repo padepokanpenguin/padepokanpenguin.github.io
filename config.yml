@@ -45,11 +45,7 @@ params:
 
   # Chatbot Configuration
   chatbot:
-    enabled: true
-    apiKey: "" # Will be injected from GitHub secrets during build
-    model: "gemini-1.5-flash"
-    proxyMode: false # Set to true if using a proxy server
-    proxyUrl: "" # URL of your proxy server if using proxy mode
+    enabled: false
 
   homeInfoParams:
     Title: "Personal Blog"
