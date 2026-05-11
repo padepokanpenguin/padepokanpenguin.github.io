@@ -129,3 +129,18 @@
 <!-- Favicon & Apple Touch Icon (fallback if not in static/) -->
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+<!-- Swap logo and theme-toggle positions via flex order -->
+<style>
+.nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.logo-switches {
+    order: 1;
+}
+.logo {
+    order: 2;
+}
+</style>
