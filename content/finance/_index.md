@@ -24,6 +24,11 @@ markup: "html"
             <span class="submenu-title">Pension Calculator</span>
             <span class="submenu-desc">Plan your retirement savings</span>
         </a>
+        <a href="/finance/kpr-calculator/" class="submenu-card">
+            <span class="submenu-icon">🏦</span>
+            <span class="submenu-title">KPR Calculator</span>
+            <span class="submenu-desc">Simulasi cicilan KPR dan biaya pinjaman rumah</span>
+        </a>
         <a href="/finance/news/" class="submenu-card">
             <span class="submenu-icon">📰</span>
             <span class="submenu-title">Financial News</span>
