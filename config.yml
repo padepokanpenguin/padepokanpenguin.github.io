@@ -1,5 +1,5 @@
 baseURL: "https://padepokanpenguin.github.io/"
-title: arianurjamal
+title: "Aria Nur Jamal — Full Snack Developer | Blog & Portfolio"
 theme: ["PaperMod"]
 
 enableRobotsTXT: true
@@ -16,12 +16,11 @@ markup:
 
 params:
   env: production # to enable google analytics, opengraph, twitter-cards and schema.
-  title: arianurjamal
-  description: "Full Snack Developer"
-  keywords: [Blog, Portfolio, PaperMod]
-  author: Aria Nur Jamal
-  # author: ["Me", "You"] # multiple authors
-  images: ["<link or path of image for opengraph, twitter-cards>"]
+  title: "Aria Nur Jamal"
+  description: "Full Snack Developer — Blog & Portfolio. Tulisan tentang programming, finance tools (KPR calculator, investment calculator), dan lifehacks technology. based in Indonesia."
+  keywords: [blog, portfolio, full stack developer, programming, hugo, python, javascript, finance calculator, KPR calculator, investment, pension, Indonesia]
+  author: "Aria Nur Jamal"
+  images: ["/assets/img/avatar-placeholder.png"]
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
@@ -32,7 +31,28 @@ params:
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
   goatcounter: padepokanpenguin
-    #ShowWordCount: true
+
+  # SEO & Schema
+  SiteSchema: "Person"
+  SiteAuthor: "Aria Nur Jamal"
+
+  # OpenGraph/Twitter
+  profile:
+    enabled: true
+    image: "/assets/img/avatar-placeholder.png"
+
+  # Cover image untuk social sharing
+  cover:
+    image: "/assets/img/cover-default.png"
+    #ongan: bisa pakai images: untuk OG
+
+  # Twitter cards
+  twitterCards:
+    enabled: true
+    type: "summary_large_image"
+    site: "@aria_nur_jamal"
+    creator: "@aria_nur_jamal"
+
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
   disableSpecial1stPost: false
