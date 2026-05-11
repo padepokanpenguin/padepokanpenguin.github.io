@@ -10,19 +10,6 @@
 <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
 {{- end }}
 
-{{- /* Hide logo text in header — keep icon only, preserve theme toggle */}}
-<style>
-.header .logo > a {
-    font-size: 0 !important;
-    color: transparent;
-}
-.header .logo > a img,
-.header .logo > a svg {
-    font-size: initial;
-}
-</style>
-
-<!-- SEO: JSON-LD Structured Data -->
 {{- if eq .Type "page" }}
 <!-- WebSite Schema with SearchAction -->
 <script type="application/ld+json">
