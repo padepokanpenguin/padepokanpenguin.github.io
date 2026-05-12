@@ -7,6 +7,9 @@ buildDrafts: false
 buildFuture: false
 buildExpired: false
 
+paginate: 10
+paginatePath: page
+
 googleAnalytics: G-X60YCVVTT6
 
 markup:
@@ -24,11 +27,6 @@ params:
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
-  pagination:
-    disableAliases: false
-    pagerSize: 10
-    path: page
-
   ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true
