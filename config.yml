@@ -33,6 +33,7 @@ params:
   ShowPostNavLinks: true
   ShowBreadCrumbs: true
   ShowCodeCopyButtons: true
+  ShowPageNums: true
   goatcounter: padepokanpenguin
 
   # SEO & Schema
