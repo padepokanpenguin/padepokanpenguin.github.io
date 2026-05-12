@@ -49,6 +49,16 @@ markup: "html"
             <span class="submenu-title">Currency Converter</span>
             <span class="submenu-desc">Konversi mata uang real-time</span>
         </a>
+        <a href="/finance/budget-planner/" class="submenu-card">
+            <span class="submenu-icon">💸</span>
+            <span class="submenu-title">Budget Planner</span>
+            <span class="submenu-desc">Rencana anggaran bulanan metode 50/30/20</span>
+        </a>
+        <a href="/finance/inflation-calculator/" class="submenu-card">
+            <span class="submenu-icon">📉</span>
+            <span class="submenu-title">Inflation Calculator</span>
+            <span class="submenu-desc">Dampak inflasi terhadap daya beli</span>
+        </a>
         <a href="/finance/calendar/" class="submenu-card">
             <span class="submenu-icon">📅</span>
             <span class="submenu-title">Economic Calendar</span>
