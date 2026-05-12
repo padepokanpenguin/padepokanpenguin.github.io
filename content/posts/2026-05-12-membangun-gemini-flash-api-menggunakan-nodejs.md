@@ -7,7 +7,7 @@ categories: [Writing]
 draft: false
 ---
 
-Pernah nggak feeling mau bikin project yang butuh AI tapi bingung mulai dari mana? Atau mungkin selama ini你们 selalu rely on OpenAI dan pengen explore alternatif lain yang nggak kalah mumpuni?
+Pernah nggak feeling mau bikin project yang butuh AI tapi bingung mulai dari mana? Atau mungkin selama ini selalu rely on OpenAI dan pengen explore alternatif lain yang nggak kalah mumpuni?
 
 Kabar baiknya, **Gemini Flash 2.0** dari Google udah cukup powerful untuk mayoritas use case — dan yang lebih keren lagi, **GRATIS** dengan batasan tertentu. Dalam artikel ini, kita akan bangun REST API lengkap menggunakan Node.js dan Express untuk consume Gemini Flash. Vamos!
 
