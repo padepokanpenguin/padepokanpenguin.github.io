@@ -17,7 +17,7 @@ markup: html
             <h3>Input</h3>
 
             <div class="input-group">
-                <label>Dari Mata Uang</label>
+                <label for="fromCurrency">Dari Mata Uang</label>
                 <select id="fromCurrency">
                     <option value="USD">🇺🇸 USD - US Dollar</option>
                     <option value="EUR">🇪🇺 EUR - Euro</option>
@@ -39,7 +39,7 @@ markup: html
             <button class="swap-btn" onclick="swapCurrencies()">⇅ Tukar Posisi</button>
 
             <div class="input-group">
-                <label>Ke Mata Uang</label>
+                <label for="toCurrency">Ke Mata Uang</label>
                 <select id="toCurrency">
                     <option value="USD" selected>🇺🇸 USD - US Dollar</option>
                     <option value="EUR">🇪🇺 EUR - Euro</option>
@@ -59,30 +59,197 @@ markup: html
             </div>
 
             <div class="input-group">
-                <label>Jumlah</label>
-                <input type="text" id="amount" value="1.000.000" oninput="convert()">
+                <label for="amount">Jumlah</label>
+                <input type="number" id="amount" placeholder="1000000" min="0" step="1000" oninput="convert()">
             </div>
 
             <div id="errorMsg" class="error-msg" style="display:none;"></div>
         </div>
 
         <div class="calculator-results">
-            <h3>Hasil</h3>
-            <div class="result-box">
-                <div class="result-amount" id="resultAmount">Loading...</div>
-                <div class="result-rate" id="resultRate"></div>
+            <h3>Results</h3>
+            <div class="result-item">
+                <span class="result-label">Hasil Konversi</span>
+                <span class="result-value" id="resultAmount" style="color: #4a90e2; font-size: 1.3rem;">Loading...</span>
+            </div>
+            <div class="result-item highlight">
+                <span class="result-label">Kurs</span>
+                <span class="result-value" id="resultRate" style="color: #4a90e2;">-</span>
             </div>
         </div>
     </div>
 </div>
 
 <style>
-.swap-btn { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 10px; margin: 12px 0; background: var(--accent); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 0.95rem; }
-.swap-btn:hover { opacity: 0.9; }
-.result-box { background: var(--result-bg); border-radius: 8px; padding: 20px; text-align: center; margin-top: 16px; }
-.result-amount { font-size: 1.8rem; font-weight: 700; color: var(--accent); }
-.result-rate { font-size: 0.85rem; color: var(--secondary); margin-top: 6px; }
-.error-msg { color: #dc3545; padding: 10px; background: #f8d7da; border-radius: 6px; margin-top: 10px; font-size: 0.9rem; }
+.calculator-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.calculator-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.calculator-header h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.calculator-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 768px) {
+    .calculator-container {
+        grid-template-columns: 1fr;
+    }
+    .calculator-header h1 {
+        font-size: 1.5rem;
+    }
+    .calculator-header p {
+        font-size: 0.9rem;
+    }
+    .calculator-inputs,
+    .calculator-results {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .calculator-page {
+        padding: 15px;
+    }
+    .calculator-header h1 {
+        font-size: 1.3rem;
+    }
+    .input-group {
+        margin-bottom: 15px;
+    }
+    .input-group label {
+        font-size: 0.9rem;
+    }
+    .input-group input,
+    .input-group select {
+        padding: 10px 12px;
+        font-size: 0.95rem;
+    }
+    .swap-btn {
+        padding: 10px;
+        font-size: 0.9rem;
+    }
+}
+
+.calculator-inputs {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 12px;
+}
+
+.calculator-inputs h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    background: #fff;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.swap-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background: #6c757d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.swap-btn:hover {
+    background: #5a6268;
+}
+
+.error-msg {
+    color: #dc3545;
+    padding: 10px;
+    background: #f8d7da;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-top: 10px;
+}
+
+.calculator-results {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.calculator-results h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-item.highlight {
+    background: #e8f4fd;
+    margin: 15px -15px -15px;
+    padding: 15px;
+    border-radius: 0 0 12px 12px;
+    border-bottom: none;
+}
+
+.result-label {
+    color: #666;
+}
+
+.result-value {
+    font-weight: 700;
+    color: #333;
+}
 </style>
 
 <script>
@@ -126,6 +293,9 @@ function showError(msg) {
 }
 
 function formatCurrency(amount, currency) {
+  if (currency === 'IDR') {
+    return 'Rp ' + Math.round(amount).toLocaleString('id-ID');
+  }
   return new Intl.NumberFormat('en-US', {
     minimumFractionDigits: 2, maximumFractionDigits: 2
   }).format(amount) + ' ' + currency;
@@ -148,8 +318,8 @@ async function convert() {
   const amount = parseFloat(amountStr) || 0;
 
   if (amount <= 0) {
-    document.getElementById('resultAmount').textContent = '0.00';
-    document.getElementById('resultRate').textContent = '';
+    document.getElementById('resultAmount').textContent = '-';
+    document.getElementById('resultRate').textContent = '-';
     return;
   }
 
