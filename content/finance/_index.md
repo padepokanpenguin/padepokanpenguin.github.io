@@ -29,6 +29,26 @@ markup: "html"
             <span class="submenu-title">KPR Calculator</span>
             <span class="submenu-desc">Simulasi cicilan KPR dan biaya pinjaman rumah</span>
         </a>
+        <a href="/finance/sip-calculator/" class="submenu-card">
+            <span class="submenu-icon">📈</span>
+            <span class="submenu-title">SIP Calculator</span>
+            <span class="submenu-desc">Systematic Investment Plan simulator</span>
+        </a>
+        <a href="/finance/fire-calculator/" class="submenu-card">
+            <span class="submenu-icon">🔥</span>
+            <span class="submenu-title">FIRE Calculator</span>
+            <span class="submenu-desc">Financial Independence Retire Early</span>
+        </a>
+        <a href="/finance/tax-calculator/" class="submenu-card">
+            <span class="submenu-icon">🧾</span>
+            <span class="submenu-title">Tax Calculator</span>
+            <span class="submenu-desc">PPh Pasal 21 Indonesia</span>
+        </a>
+        <a href="/finance/currency-converter/" class="submenu-card">
+            <span class="submenu-icon">💱</span>
+            <span class="submenu-title">Currency Converter</span>
+            <span class="submenu-desc">Konversi mata uang real-time</span>
+        </a>
         <a href="/finance/news/" class="submenu-card">
             <span class="submenu-icon">📰</span>
             <span class="submenu-title">Financial News</span>
