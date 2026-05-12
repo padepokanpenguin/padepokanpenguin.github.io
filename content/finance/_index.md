@@ -49,6 +49,11 @@ markup: "html"
             <span class="submenu-title">Currency Converter</span>
             <span class="submenu-desc">Konversi mata uang real-time</span>
         </a>
+        <a href="/finance/calendar/" class="submenu-card">
+            <span class="submenu-icon">📅</span>
+            <span class="submenu-title">Economic Calendar</span>
+            <span class="submenu-desc">Fed, BI Rate, NFP, CPI, PMI dan event penting lainnya</span>
+        </a>
         <a href="/finance/news/" class="submenu-card">
             <span class="submenu-icon">📰</span>
             <span class="submenu-title">Financial News</span>

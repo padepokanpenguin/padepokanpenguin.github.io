@@ -1,0 +1,449 @@
+{
+  "lastUpdated": "2026-05-12T00:00:00+07:00",
+  "events": [
+    {
+      "id": 1,
+      "name": "Indonesia CPI (Year-over-Year)",
+      "date": "2026-05-12",
+      "country": "ID",
+      "impact": "high",
+      "previous": "2.25%",
+      "forecast": "2.5%",
+      "actual": "2.31%"
+    },
+    {
+      "id": 2,
+      "name": "US Consumer Price Index (CPI) YoY",
+      "date": "2026-05-12",
+      "country": "US",
+      "impact": "high",
+      "previous": "2.8%",
+      "forecast": "2.7%",
+      "actual": "2.71%"
+    },
+    {
+      "id": 3,
+      "name": "Federal Reserve FOMC Meeting",
+      "date": "2026-05-13",
+      "country": "US",
+      "impact": "high",
+      "bank": "Federal Reserve"
+    },
+    {
+      "id": 4,
+      "name": "Bank Indonesia Rate Decision",
+      "date": "2026-05-14",
+      "country": "ID",
+      "impact": "high",
+      "previous": "5.75%",
+      "forecast": "5.75%",
+      "bank": "Bank Indonesia"
+    },
+    {
+      "id": 5,
+      "name": "US Non-Farm Payrolls (NFP)",
+      "date": "2026-05-14",
+      "country": "US",
+      "impact": "high",
+      "previous": "185K",
+      "forecast": "195K"
+    },
+    {
+      "id": 6,
+      "name": "US Unemployment Rate",
+      "date": "2026-05-14",
+      "country": "US",
+      "impact": "high",
+      "previous": "4.2%",
+      "forecast": "4.1%"
+    },
+    {
+      "id": 7,
+      "name": "China Producer Price Index (PPI) YoY",
+      "date": "2026-05-14",
+      "country": "CN",
+      "impact": "medium",
+      "previous": "-2.5%",
+      "forecast": "-2.3%"
+    },
+    {
+      "id": 8,
+      "name": "Indonesia Trade Balance",
+      "date": "2026-05-15",
+      "country": "ID",
+      "impact": "medium",
+      "previous": "$3.5B surplus",
+      "forecast": "$3.2B surplus"
+    },
+    {
+      "id": 9,
+      "name": "US Retail Sales MoM",
+      "date": "2026-05-15",
+      "country": "US",
+      "impact": "medium",
+      "previous": "0.3%",
+      "forecast": "0.4%"
+    },
+    {
+      "id": 10,
+      "name": "US Michigan Consumer Sentiment",
+      "date": "2026-05-15",
+      "country": "US",
+      "impact": "medium",
+      "previous": "68.3",
+      "forecast": "69.0"
+    },
+    {
+      "id": 11,
+      "name": "Euro Zone GDP YoY (Preliminary)",
+      "date": "2026-05-16",
+      "country": "EU",
+      "impact": "high",
+      "previous": "0.9%",
+      "forecast": "0.8%"
+    },
+    {
+      "id": 12,
+      "name": "European Central Bank Rate Decision",
+      "date": "2026-05-17",
+      "country": "EU",
+      "impact": "high",
+      "previous": "3.25%",
+      "forecast": "3.25%",
+      "bank": "ECB"
+    },
+    {
+      "id": 13,
+      "name": "US Building Permits",
+      "date": "2026-05-17",
+      "country": "US",
+      "impact": "low",
+      "previous": "1.47M",
+      "forecast": "1.50M"
+    },
+    {
+      "id": 14,
+      "name": "Indonesia Manufacturing PMI",
+      "date": "2026-05-18",
+      "country": "ID",
+      "impact": "medium",
+      "previous": "51.2",
+      "forecast": "51.0"
+    },
+    {
+      "id": 15,
+      "name": "US S&P Global Manufacturing PMI",
+      "date": "2026-05-18",
+      "country": "US",
+      "impact": "medium",
+      "previous": "50.0",
+      "forecast": "50.2"
+    },
+    {
+      "id": 16,
+      "name": "China Retail Sales YoY",
+      "date": "2026-05-19",
+      "country": "CN",
+      "impact": "medium",
+      "previous": "5.0%",
+      "forecast": "4.8%"
+    },
+    {
+      "id": 17,
+      "name": "China Fixed Asset Investment YoY",
+      "date": "2026-05-19",
+      "country": "CN",
+      "impact": "medium",
+      "previous": "4.0%",
+      "forecast": "3.8%"
+    },
+    {
+      "id": 18,
+      "name": "US Initial Jobless Claims",
+      "date": "2026-05-20",
+      "country": "US",
+      "impact": "low",
+      "previous": "215K",
+      "forecast": "210K"
+    },
+    {
+      "id": 19,
+      "name": "US Existing Home Sales",
+      "date": "2026-05-21",
+      "country": "US",
+      "impact": "medium",
+      "previous": "5.02M",
+      "forecast": "5.10M"
+    },
+    {
+      "id": 20,
+      "name": "Indonesia BI Board Meeting Minutes",
+      "date": "2026-05-22",
+      "country": "ID",
+      "impact": "medium",
+      "bank": "Bank Indonesia"
+    },
+    {
+      "id": 21,
+      "name": "US Federal Budget Balance",
+      "date": "2026-05-22",
+      "country": "US",
+      "impact": "low",
+      "previous": "$-308B"
+    },
+    {
+      "id": 22,
+      "name": "US S&P Global Services PMI",
+      "date": "2026-05-23",
+      "country": "US",
+      "impact": "medium",
+      "previous": "51.6",
+      "forecast": "51.4"
+    },
+    {
+      "id": 23,
+      "name": "US New Home Sales",
+      "date": "2026-05-24",
+      "country": "US",
+      "impact": "medium",
+      "previous": "693K",
+      "forecast": "700K"
+    },
+    {
+      "id": 24,
+      "name": "US Durable Goods Orders MoM",
+      "date": "2026-05-25",
+      "country": "US",
+      "impact": "medium",
+      "previous": "6.5%",
+      "forecast": "-1.5%"
+    },
+    {
+      "id": 25,
+      "name": "G7 Leaders Summit",
+      "date": "2026-05-26",
+      "country": "GL",
+      "impact": "high"
+    },
+    {
+      "id": 26,
+      "name": "Indonesia GDP YoY (Q1 2026)",
+      "date": "2026-05-27",
+      "country": "ID",
+      "impact": "high",
+      "previous": "5.03%",
+      "forecast": "5.11%"
+    },
+    {
+      "id": 27,
+      "name": "US GDP QoQ (Advance Estimate Q1)",
+      "date": "2026-05-28",
+      "country": "US",
+      "impact": "high",
+      "previous": "2.4%",
+      "forecast": "2.2%"
+    },
+    {
+      "id": 28,
+      "name": "US Initial Jobless Claims",
+      "date": "2026-05-28",
+      "country": "US",
+      "impact": "low",
+      "previous": "215K",
+      "forecast": "210K"
+    },
+    {
+      "id": 29,
+      "name": "China Caixin Manufacturing PMI",
+      "date": "2026-05-29",
+      "country": "CN",
+      "impact": "medium",
+      "previous": "50.4",
+      "forecast": "50.2"
+    },
+    {
+      "id": 30,
+      "name": "Indonesia Inflation Rate MoM",
+      "date": "2026-05-30",
+      "country": "ID",
+      "impact": "medium",
+      "previous": "0.21%",
+      "forecast": "0.25%"
+    },
+    {
+      "id": 31,
+      "name": "Euro Zone CPI Flash Estimate YoY",
+      "date": "2026-05-30",
+      "country": "EU",
+      "impact": "high",
+      "previous": "2.1%",
+      "forecast": "2.2%"
+    },
+    {
+      "id": 32,
+      "name": "US PCE Price Index YoY",
+      "date": "2026-05-30",
+      "country": "US",
+      "impact": "high",
+      "previous": "2.6%",
+      "forecast": "2.5%"
+    },
+    {
+      "id": 33,
+      "name": "US University of Michigan Sentiment (Final)",
+      "date": "2026-05-30",
+      "country": "US",
+      "impact": "medium",
+      "previous": "68.3",
+      "forecast": "69.0"
+    },
+    {
+      "id": 34,
+      "name": "OPEC+ Monthly Meeting",
+      "date": "2026-06-01",
+      "country": "GL",
+      "impact": "high"
+    },
+    {
+      "id": 35,
+      "name": "China Caixin Services PMI",
+      "date": "2026-06-03",
+      "country": "CN",
+      "impact": "medium",
+      "previous": "52.1",
+      "forecast": "51.8"
+    },
+    {
+      "id": 36,
+      "name": "Indonesia Consumer Confidence Index",
+      "date": "2026-06-04",
+      "country": "ID",
+      "impact": "medium",
+      "previous": "123.5",
+      "forecast": "124.0"
+    },
+    {
+      "id": 37,
+      "name": "US ADP Non-Farm Employment",
+      "date": "2026-06-05",
+      "country": "US",
+      "impact": "high",
+      "previous": "165K",
+      "forecast": "170K"
+    },
+    {
+      "id": 38,
+      "name": "US ISM Manufacturing PMI",
+      "date": "2026-06-06",
+      "country": "US",
+      "impact": "high",
+      "previous": "48.7",
+      "forecast": "49.5"
+    },
+    {
+      "id": 39,
+      "name": "European Central Bank Monetary Policy Statement",
+      "date": "2026-06-06",
+      "country": "EU",
+      "impact": "high",
+      "bank": "ECB"
+    },
+    {
+      "id": 40,
+      "name": "US Initial Jobless Claims",
+      "date": "2026-06-07",
+      "country": "US",
+      "impact": "low",
+      "previous": "215K",
+      "forecast": "210K"
+    },
+    {
+      "id": 41,
+      "name": "US Non-Farm Payrolls (NFP)",
+      "date": "2026-06-08",
+      "country": "US",
+      "impact": "high",
+      "previous": "185K",
+      "forecast": "190K"
+    },
+    {
+      "id": 42,
+      "name": "US Unemployment Rate",
+      "date": "2026-06-08",
+      "country": "US",
+      "impact": "high",
+      "previous": "4.2%",
+      "forecast": "4.1%"
+    },
+    {
+      "id": 43,
+      "name": "G20 Finance Ministers Meeting",
+      "date": "2026-06-09",
+      "country": "GL",
+      "impact": "high"
+    },
+    {
+      "id": 44,
+      "name": "Indonesia Trade Balance",
+      "date": "2026-06-10",
+      "country": "ID",
+      "impact": "medium",
+      "previous": "$3.5B surplus",
+      "forecast": "$3.4B surplus"
+    },
+    {
+      "id": 45,
+      "name": "US CPI YoY",
+      "date": "2026-06-11",
+      "country": "US",
+      "impact": "high",
+      "previous": "2.7%",
+      "forecast": "2.6%"
+    },
+    {
+      "id": 46,
+      "name": "US Core CPI YoY",
+      "date": "2026-06-11",
+      "country": "US",
+      "impact": "high",
+      "previous": "3.2%",
+      "forecast": "3.1%"
+    },
+    {
+      "id": 47,
+      "name": "Bank Indonesia Rate Decision",
+      "date": "2026-06-12",
+      "country": "ID",
+      "impact": "high",
+      "previous": "5.75%",
+      "forecast": "5.75%",
+      "bank": "Bank Indonesia"
+    },
+    {
+      "id": 48,
+      "name": "US Retail Sales MoM",
+      "date": "2026-06-14",
+      "country": "US",
+      "impact": "high",
+      "previous": "0.3%",
+      "forecast": "0.4%"
+    },
+    {
+      "id": 49,
+      "name": "US PPI MoM",
+      "date": "2026-06-15",
+      "country": "US",
+      "impact": "medium",
+      "previous": "0.4%",
+      "forecast": "0.3%"
+    },
+    {
+      "id": 50,
+      "name": "US Federal Reserve FOMC Meeting",
+      "date": "2026-06-17",
+      "country": "US",
+      "impact": "high",
+      "bank": "Federal Reserve"
+    }
+  ]
+}
