@@ -7,7 +7,7 @@ categories: ["tutorial", "story"]
 description: "Cerita pengalaman debugging deployment situs Hugo di GitHub Pages yang tiba-tiba kena error 404 — padahal GitHub Actions-nya sendiri berjalan tanpa error."
 ---
 
-Sore itu, seperti biasa, saya push kode blog saya ke GitHub. Semuanya看起来 normal — GitHub Actions jalan, build successful, deployment complete. Tapi begitu saya buka blog saya...
+Sore itu, seperti biasa, saya push kode blog saya ke GitHub. Semuanya normal — GitHub Actions jalan, build successful, deployment complete. Tapi begitu saya buka blog saya...
 
 **404.**
 
