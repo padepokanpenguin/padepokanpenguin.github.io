@@ -94,6 +94,9 @@ params:
       title: Hire me on Upwork
       url: "https://www.upwork.com/freelancers/~0105435c3fdb88df7c?mp_source=share"
 
+pagination:
+  pagerSize: 5
+
 menu:
   main:
     - identifier: home
