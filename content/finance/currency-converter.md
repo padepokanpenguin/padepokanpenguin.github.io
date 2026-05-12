@@ -257,32 +257,45 @@ let exchangeRates = {};
 let lastFetch = 0;
 const CACHE_TTL = 10 * 60 * 1000;
 
+// Fallback rates: 1 IDR = X currency (set only when API fails)
+const FALLBACK_RATES = {
+    'USD': 0.000062,  // 1 IDR = 0.000062 USD  →  1 USD ≈ Rp 16.000
+    'EUR': 0.000057,
+    'GBP': 0.000049,
+    'JPY': 0.0092,
+    'AUD': 0.000095,
+    'SGD': 0.000084,
+    'MYR': 0.00028,
+    'THB': 0.0022,
+    'KRW': 0.083,
+    'CNY': 0.00045,
+    'IDR': 1,
+    'INR': 0.0052,
+    'SAR': 0.00023,
+    'AED': 0.00023
+};
+
 async function fetchRates() {
   const now = Date.now();
-  if (Object.keys(exchangeRates).length > 0 && (now - lastFetch) < CACHE_TTL) return;
+  if (now - lastFetch < CACHE_TTL) return;
 
   try {
     const res = await fetch('https://api.exchangerate-api.com/v4/latest/IDR');
-    if (!res.ok) throw new Error('Failed to fetch');
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    const idrToUsd = data.rates['USD'];
+    // data.rates[curr] = X currency per 1 IDR
+    // e.g. data.rates['USD'] ≈ 0.000062  →  1 IDR = 0.000062 USD
     const currencies = ['USD','EUR','GBP','JPY','AUD','SGD','MYR','THB','KRW','CNY','IDR','INR','SAR','AED'];
     currencies.forEach(curr => {
-      if (curr !== 'IDR') exchangeRates[curr] = data.rates[curr] / idrToUsd;
+      exchangeRates[curr] = data.rates[curr];
     });
-    exchangeRates['IDR'] = 1 / idrToUsd;
     lastFetch = now;
     document.getElementById('errorMsg').style.display = 'none';
   } catch (e) {
-    if (Object.keys(exchangeRates).length === 0) {
-      exchangeRates = {
-        'USD': 0.000062, 'EUR': 0.000057, 'GBP': 0.000049, 'JPY': 0.0092,
-        'AUD': 0.000095, 'SGD': 0.000084, 'MYR': 0.00028, 'THB': 0.0022,
-        'KRW': 0.083, 'CNY': 0.00045, 'IDR': 1, 'INR': 0.0052,
-        'SAR': 0.00023, 'AED': 0.00023
-      };
-    }
-    showError('Gagal fetch kurs real-time. Menggunakan estimasi.');
+    // Use fallback — these are rates PER 1 IDR
+    exchangeRates = { ...FALLBACK_RATES };
+    lastFetch = now; // Don't spam API on failure
+    showError('Gagal fetch kurs real-time. Menggunakan estimasi fallback.');
   }
 }
 
@@ -293,6 +306,7 @@ function showError(msg) {
 }
 
 function formatCurrency(amount, currency) {
+  if (!isFinite(amount) || isNaN(amount)) return '-';
   if (currency === 'IDR') {
     return 'Rp ' + Math.round(amount).toLocaleString('id-ID');
   }
@@ -312,6 +326,7 @@ function swapCurrencies() {
 
 async function convert() {
   await fetchRates();
+
   const from = document.getElementById('fromCurrency').value;
   const to = document.getElementById('toCurrency').value;
   const amountStr = document.getElementById('amount').value.replace(/[^0-9]/g, '');
@@ -319,17 +334,32 @@ async function convert() {
 
   if (amount <= 0) {
     document.getElementById('resultAmount').textContent = '-';
-    document.getElementById('resultRate').textContent = '-';
+    document.getElementById('resultRate').textContent = 'Masukkan jumlah untuk konversi';
     return;
   }
 
+  if (!exchangeRates[from] || !exchangeRates[to]) {
+    document.getElementById('resultAmount').textContent = '-';
+    document.getElementById('resultRate').textContent = 'Kurs belum tersedia';
+    return;
+  }
+
+  // Convert to IDR first, then to target currency
+  // exchangeRates[curr] = X currency per 1 IDR
   const inIdr = from === 'IDR' ? amount : amount / exchangeRates[from];
   const result = to === 'IDR' ? inIdr : inIdr * exchangeRates[to];
+
+  // Display rate: 1 FROM = X TO
   const rate = exchangeRates[to] / (from === 'IDR' ? 1 : exchangeRates[from]);
 
   document.getElementById('resultAmount').textContent = formatCurrency(result, to);
   document.getElementById('resultRate').textContent = `1 ${from} = ${formatCurrency(rate, to)}`;
 }
 
-document.addEventListener('DOMContentLoaded', convert);
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('amount').addEventListener('input', convert);
+    document.getElementById('fromCurrency').addEventListener('change', convert);
+    document.getElementById('toCurrency').addEventListener('change', convert);
+    convert();
+});
 </script>
