@@ -24,6 +24,10 @@ params:
   DateFormat: "January 2, 2006"
   defaultTheme: auto # dark, light
   disableThemeToggle: false
+  pagination:
+    disableAliases: false
+    pagerSize: 10
+    path: page
 
   ShowReadingTime: true
   ShowShareButtons: true
@@ -93,11 +97,6 @@ params:
     - name: upwork
       title: Hire me on Upwork
       url: "https://www.upwork.com/freelancers/~0105435c3fdb88df7c?mp_source=share"
-
-pagination:
-  disableAliases: false
-  pagerSize: 10
-  path: page
 
 menu:
   main:
