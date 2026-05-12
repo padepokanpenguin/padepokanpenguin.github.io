@@ -95,7 +95,9 @@ params:
       url: "https://www.upwork.com/freelancers/~0105435c3fdb88df7c?mp_source=share"
 
 pagination:
-  pagerSize: 5
+  disableAliases: false
+  pagerSize: 10
+  path: page
 
 menu:
   main:
