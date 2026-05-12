@@ -4,53 +4,67 @@ date: 2025-09-07T15:00:00+07:00
 draft: false
 tags: ["debugging", "github-pages", "hugo", "devops", "troubleshooting"]
 categories: ["tutorial", "story"]
-description: "debugging deployment situs Hugo di GitHub Pages dengan error 404."
+description: "Cerita pengalaman debugging deployment situs Hugo di GitHub Pages yang tiba-tiba kena error 404 — padahal GitHub Actions-nya sendiri berjalan tanpa error."
 ---
 
-Pada suatu sore saya mencoba melakukan update pada blog yang saya buat tapi setelah proses github action selesai, sesuatu yang tidak terduga terjadi, blog saya terkena error 404 tapi tidak terdapat error pada proses github action.
+Sore itu, seperti biasa, saya push kode blog saya ke GitHub. Semuanya看起来 normal — GitHub Actions jalan, build successful, deployment complete. Tapi begitu saya buka blog saya...
 
-## Langkah 1: Pembukaan
+**404.**
 
-Saya memulai investigasi dengan memeriksa perubahan terbaru. Perubahan ayng saya buat tidak menyentuh proses github action sama sekali, karena bingung pada error yang terjadi. Saya mencoba untuk mengembalikan perubahan terakhir yang saya buat, untuk melihat apakah jika mengggunakan kode sebelum diubah akan terjadi hal yang sama atau tidak. Tapi takdir berkata lain, walaupaun saya mengembalikan kode kepada keadaan sebelum ada perubahan, hasilnya sama terdapat error 404 ketika membuka blog.
+Tidak ada error di GitHub Actions. Tidak ada warning di logs. Blog просто tidak mau muncul.
 
-Setelah itu saya mencoba untuk melakukan investigasi lebih lanjut:
+Mari saya ceritakan perjalanan debugging-nya.
+
+## Langkah 1: Revert, Tapi Masalah Tetap Ada
+
+第一步, saya cek perubahan terbaru. Apakah saya touching anything yang terkait dengan deployment? Tidak. Semua perubahan hanya soal konten.
+
+Saya coba revert ke commit sebelumnya — biar lihat apakah masalahnya memang dari perubahan terakhir atau tidak.
+
+Hasilnya? Tetap 404.
+
+Saya mulai curiga ini bukan soal kode yang saya ubah.
+
+Coba cek GitHub Actions:
 
 ```bash
 gh run list --limit 10
 ```
 
-Terdapat error update hugo di proses deployment sebelumnya:
-- ✅ Deployment terbaru: "Use Hugo 0.123.0..." - Berhasil
-- ❌ Percobaan sebelumnya: "Update Hugo version..." - Gagal  
-- ✅ Lebih awal lagi: "Revert Hugo version..." - Berhasil
+Keliatan ada pattern:
+- ✅ Deployment terbaru: "Use Hugo 0.123.0..." — Berhasil
+- ❌ Percobaan sebelumnya: "Update Hugo version..." — Gagal
+- ✅ Lebih awal lagi: "Revert Hugo version..." — Berhasil
+
+Jadi masalahnya bermula dari percobaan update Hugo.
 
 ```bash
 gh run view 16703525626 --log-failed
 ```
 
-## Langkah 2: Investigasi Error
+## Langkah 2: Error yang Tidak Terduga
 
-Log error menggambarkan masalah dengan jelas:
+Dari log, error-nya ternyata:
 
 ```
 ERROR render of "/" failed: partial "partials/templates/_funcs/get-page-images" not found
 ```
 
-Saya cukup terkejut. Karena setelah telah menggunakan theme ini selama berbulan-bulan tanpa masalah.
+Wait, seriously? Saya sudah pakai theme ini berbulan-bulan dan tiba-tiba missing partial?
 
-Saya memeriksa status submodule:
+Saya cek submodule status:
 
 ```bash
 git submodule status
 ```
 
-Output menunjukkan: `-dad94ab4b7c55eea0b63f7b81419d027fe9a8d81 themes/PaperMod`
+Output: `-dad94ab4b7c55eea0b63f7b81419d027fe9a8d81 themes/PaperMod`
 
-Tanda negatif itu menunjukkan submodule yang tidak diinisialisasi. Dan saya masih menelusuri kenapa direktori themes benar-benar kosong.
+**Tanda negatif** di depan commit hash. Itu artinya submodule belum diinisialisasi. Direktori `themes/PaperMod` basically kosong.
 
-Ternyata Git submodule tidak diinisialisasi dengan benar. Ini adalah kesalahan yang cukup sepele.
+Ironis.
 
-Saya mencoba memperbaiki ini segera:
+Solusinya straightforward:
 
 ```bash
 git submodule update --init --recursive
@@ -62,9 +76,11 @@ Cloning into 'themes/PaperMod'...
 Submodule path 'themes/PaperMod': checked out 'dad94ab4b7c55eea0b63f7b81419d027fe9a8d81'
 ```
 
-## Langkah 3: PaperMod Error
+Selesai. Tapi tunggu, ada lagi.
 
-Saya menemukan masalah lain di file `.gitmodules`, entri submodule duplikat:
+## Langkah 3: Duplikat Submodule
+
+Saya cek `.gitmodules` dan menemukan ini:
 
 ```ini
 [submodule "PaperMod"]
@@ -75,41 +91,45 @@ Saya menemukan masalah lain di file `.gitmodules`, entri submodule duplikat:
     url = https://github.com/adityatelange/hugo-PaperMod.git
 ```
 
-Untuk masalah ini saya hapus salah satu submodule tersebut dan menyisakan `themes/PaperMod`.
+Two entries untuk submodule yang sama — tapi dengan path berbeda. Saya hapus yang `PaperMod` (tanpa `themes/`) dan сохраняю yang `themes/PaperMod`.
 
-Kemudian saya menginvestigasi apakah ada masalah kompatibilitas versi Hugo. Pada proses deployment yang gagal menggunakan Hugo 0.148.0, tetapi versi ini terdapat breaking changes yang menghapus `.Site.Social` - sesuatu yang masih digunakan theme PaperMod.
+Next, kompatibilitas versi. GitHub Actions yang gagal tadi pakai Hugo 0.148.0. Tapi versi tersebut punya breaking changes yang hapus `.Site.Social` — sesuatu yang masih digunakan PaperMod versi lama.
 
-Dan berikut adalah langkah yang saya lakukan untuk memperbaiki ini:
-1. Update PaperMod ke versi terbaru (v8.0)
-2. Menggunakan versi Hugo yang stabil (0.123.0) yang bekerja dengan theme
+Action yang saya ambil:
+1. Update PaperMod ke v8.0
+2. Kunci Hugo ke versi stabil 0.123.0
 
 ```bash
 cd themes/PaperMod
 git checkout v8.0
 ```
 
-## Langkah 4: Git Action Config Error
+## Langkah 4: GitHub Actions Berhasil, Tapi Tetap 404
 
-Setelah memastikan tidak ada error saya melakukan commit dan push commit tersebut ke github agar melakukan triggger dan memperbaru proses gagal deploy sebelumnya:
+Oke, semua masalah di atas sudah diperbaiki. Saya commit, push, dan GitHub Actions jalan dengan smooth:
 
 - ✅ Install Hugo CLI
-- ✅ Checkout (dengan submodules)
-- ✅ Setup Pages  
+- ✅ Checkout (with submodules)
+- ✅ Setup Pages
 - ✅ Build with Hugo
 - ✅ Upload artifact
 - ✅ Deploy
 
-Dari proses github action tidak terdapat error apapun. Namun, ketika saya mengunjungi situs saya... error 404 lagi.
+Tidak ada error. Semuanya hijau.
 
-Deployment berhasil, proses build tidak error, tetapi situs tidak muncul. Saya curiga ada masalah konfigurasi.
+Tapi begitu buka blog...
 
-Saya memeriksa GitHub Pages API:
+**404 lagi.**
+
+Ini yang paling frustrating. Kode sudah benar, build sudah berhasil, tapi hasilnya 404. Where is the problem?
+
+Saya coba cek GitHub Pages API:
 
 ```bash
 gh api repos/padepokanpenguin/padepokanpenguin.github.io/pages
 ```
 
-Responnya mengungkapkan smoking gun:
+Response-nya reveal everything:
 
 ```json
 {
@@ -121,44 +141,55 @@ Responnya mengungkapkan smoking gun:
 }
 ```
 
-**Build type "Legacy"!** 
+**Build type "Legacy"**.
 
-Saya telah menjalankan custom Hugo GitHub Actions workflow dengan sempurna, tetapi GitHub Pages sepenuhnya mengabaikannya. Sebaliknya, ia mencoba menggunakan sistem berbasis Jekyll lama untuk membangun situs saya. Karena saya tidak memiliki file Jekyll, ini menghasilkan... ya, error 404.
+WHOA. Di sini masalahnya.
 
-Perbaikannya ternyata sangat sederhana tetapi tersembunyi di pengaturan repository (repositoy setting). Saya perlu mengubah sumber GitHub Pages dari "Deploy from a branch" menjadi "GitHub Actions" di pengaturan repository.
+Walaupun saya sudah punya custom Hugo GitHub Actions workflow yang berjalan sempurna, GitHub Pages mengabaikannya sepenuhnya. Instead, dia mencoba build dengan Jekyll — sistem lama. Karena tidak ada Jekyll config di repo ini, yang muncul ya 404.
 
-Ini memberitahu GitHub: "Hei, jangan coba bangun situs ini sendiri. Gunakan workflow kustom yang sudah saya buat."
+## Langkah 5: Pengaturan yang Tersembunyi
+
+Solusinya ternyata simple — tapi lokasinya tidak obvious.
+
+Saya harus ubah GitHub Pages source dari "Deploy from a branch" ke **"GitHub Actions"** langsung dari repository settings.
+
+Sekarang GitHub paham: "Oke, saya tidak akan coba build sendiri. Gunakan workflow custom yang sudah provided."
+
+Setelah itu, blog langsung bisa diakses normal.
 
 ## Pelajaran yang Dipetik
 
-Perjalanan debugging ini mengajarkan saya beberapa pelajaran berharga:
+Dari pengalaman ini, ada beberapa hal yang saya realise:
 
-1. **Selalu periksa inisialisasi submodule** - Direktori kosong bisa menyesatkan
-2. **Kompatibilitas versi itu penting** - Yang lebih baru tidak selalu lebih baik
-3. **Konfigurasi bisa override kode** - Bahkan workflow sempurna bisa diabaikan oleh pengaturan yang salah
-4. **Masalah sebenarnya mungkin bukan di tempat yang Anda pikirkan** - Kadang bukan kode Anda, tapi konfigurasi platform
+1. **Submodule perlu di-init** — Tanda `-` di `git submodule status` artinya submodule belum checkout. Jangan assume karena ada di repo, berarti sudah ready.
 
-## Praktik Debugging Terbaik yang Saya Terapkan
+2. **Versi yang lebih baru tidak selalu lebih baik** — Hugo 0.148.0 punya breaking changes. Kadang locked ke versi stabil itu pilihan yang lebih bijak.
 
-### 1. Mulai dengan Perubahan Terbaru
-Saya mulai dengan memeriksa apa yang berubah baru-baru ini, menggunakan git logs dan riwayat GitHub Actions.
+3. **Settings bisa override kode** — Sekecil apapun repository settings bisa membuat workflow yang sudah perfect jadi tidak digunakan.
 
-### 2. Ikuti Jejak Error
-Setiap pesan error mengarah ke petunjuk berikutnya - dari error template ke masalah submodule hingga konflik versi.
+4. **Error message tidak selalu menunjukkan letak masalah** — Dari luar看起来 semua normal. Masalah sebenarnya ada di pengaturan platform, bukan di kode.
 
-### 3. Verifikasi Asumsi
-Saya mengasumsikan GitHub Actions workflow saya sedang digunakan, tetapi API mengungkapkan sebaliknya.
+## Best Practices Debugging yang Saya Terapkan
 
-### 4. Test Secara Bertahap
-Saya memperbaiki masalah satu per satu: submodule dulu, kemudian versi, lalu konfigurasi.
+### 1. Cek Perubahan Terbaru Dulu
+Gunakan `git log` dan riwayat GitHub Actions untuk lihat apa yang berubah. Biasanya jawabannya ada di situ.
 
-### 5. Dokumentasikan Perjalanan
-Menulis post ini membantu saya mengingat solusi untuk masalah serupa di masa depan.
+### 2. Follow the Error Trail
+Setiap error message itu petunjuk. Dari missing partial → submodule issue → versi conflict → settings problem. errors lead to next clue.
+
+### 3. Verify Asumsi
+Saya assume GitHub Actions workflow saya yang dijalankan. Fakta di lapangan bilang lain. Selalu verify, jangan assume.
+
+### 4. Fix Satu Per Satu
+Jangan coba fix semua sekaligus. Saya pisahkan: submodule dulu, then versi, then settings. Lebih mudah track apa yang solve apa.
+
+### 5. Document the Journey
+Menulis pengalaman ini bukan cuma buat kalian — tapi juga buat diri saya sendiri di masa depan ketika hal yang sama terjadi lagi.
 
 ## Penutup
 
-Setelah mengubah pengaturan GitHub Pages untuk menggunakan GitHub Actions, akhirnya blog saya dapat diakses kembali.
+Setelah setting GitHub Pages diubah ke GitHub Actions workflow, blog finally bisa diakses lagi.
 
-Kadang bug yang paling frustasi mengajarkan kita yang paling banyak. Sesi debugging khusus ini mengingatkan saya bahwa dalam ekosistem pengembangan yang kompleks, masalah tidak selalu ada di kode kita - kadang ada di konfigurasi platform yang kita andalkan. Jadi jangan malas untuk membaca dokumentasi, jangan malas untuk melakukan debugging ketika system error😆.
+Kadang bug yang paling bikin frustrasi justru yang teach kita paling banyak. Pengalaman ini mengingatkan saya bahwa dalam development, masalah tidak selalu ada di kode yang kita tulis — kadang ada di configuration platform yang kita assume sudah benar.
 
----
+Jadi, jangan malas baca dokumentasi. Jangan malas debug. Dan kalau sudah menyerah... coba cek settings-nya. 😆
