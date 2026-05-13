@@ -48,13 +48,84 @@ outputs: ["html"]
     <div class="feature-tag">Dashboard Analytics</div>
   </div>
 
+  <div class="project-tech">
+    <span class="tech-label">Tech Stack:</span>
+    <span class="tech-item">Vue.js 3</span>
+    <span class="tech-item">Node.js</span>
+    <span class="tech-item">Python AI</span>
+    <span class="tech-item">WhatsApp API</span>
+    <span class="tech-item">PostgreSQL</span>
+    <span class="tech-item">Redis</span>
+  </div>
+
+  <div class="project-stats">
+    <div class="stat">
+      <span class="stat-value">500+</span>
+      <span class="stat-label">Active Users</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">1M+</span>
+      <span class="stat-label">Messages/month</span>
+    </div>
+    <div class="stat">
+      <span class="stat-value">99.9%</span>
+      <span class="stat-label">Uptime</span>
+    </div>
+  </div>
 </div>
 
 ---
 
-## Other Projects
+## Other Project
 
-Coming soon...
+<div class="project-card">
+  <div class="project-header">
+    <div class="project-icon">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="48" height="48" rx="12" fill="#059669"/>
+        <path d="M14 16h20v4H14v-4zm0 8h20v4H14v-4zm0 8h12v4H14v-4z" fill="white"/>
+      </svg>
+    </div>
+    <div class="project-title-area">
+      <h2 class="project-title">TOEFL & TOEIC Prediction Test System</h2>
+      <p class="project-subtitle">Global Media Cendekia</p>
+    </div>
+    <a href="https://exam.gmcendekia.com" target="_blank" class="project-link-btn-green">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+      exam.gmcendekia.com
+    </a>
+  </div>
+
+  <div class="project-description">
+    <p>A full-stack score prediction platform that helps students assess their English proficiency readiness for TOEFL and TOEIC exams.</p>
+  </div>
+
+  <div class="project-features">
+    <div class="feature-tag-green">Test Taking Interface</div>
+    <div class="feature-tag-green">Scoring Logic</div>
+    <div class="feature-tag-green">Result Tracking</div>
+    <div class="feature-tag-green">File Uploads</div>
+    <div class="feature-tag-green">VPS Deployment</div>
+  </div>
+
+  <div class="project-tech">
+    <span class="tech-label">Tech Stack:</span>
+    <span class="tech-item">Next.js</span>
+    <span class="tech-item">React.js</span>
+    <span class="tech-item">Shadcn UI</span>
+    <span class="tech-item">Radix UI</span>
+    <span class="tech-item">AdonisJS</span>
+    <span class="tech-item">PostgreSQL</span>
+    <span class="tech-item">Cloudflare R2</span>
+    <span class="tech-item">Linux VPS</span>
+  </div>
+</div>
+
+---
 
 <style>
 .project-card {
@@ -75,7 +146,7 @@ Coming soon...
   margin-bottom: 20px;
   flex-wrap: wrap;
 }
-.project-logo {
+.project-logo, .project-icon {
   flex-shrink: 0;
 }
 .project-title-area {
@@ -110,6 +181,23 @@ Coming soon...
 .project-link-btn:hover {
   background: #1d4ed8;
 }
+.project-link-btn-green {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 20px;
+  background: #059669;
+  color: white !important;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none !important;
+  transition: background 0.2s ease;
+  flex-shrink: 0;
+}
+.project-link-btn-green:hover {
+  background: #047857;
+}
 .project-description {
   color: #374151;
   line-height: 1.7;
@@ -132,32 +220,101 @@ Coming soon...
   font-size: 0.8rem;
   font-weight: 600;
 }
-@media (max-width: 640px) {
- .project-header {
-   flex-direction: column;
-   align-items: flex-start;
- }
- .project-link-btn {
-   width: 100%;
-   justify-content: center;
- }
+.feature-tag-green {
+  background: #ecfdf5;
+  color: #059669;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
 }
+.project-tech {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+.tech-label {
+  font-size: 0.8rem;
+  color: #9ca3af;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.tech-item {
+  background: var(--bg-secondary, #f9fafb);
+  color: #374151;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+.project-stats {
+  display: flex;
+  gap: 32px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+.stat {
+  display: flex;
+  flex-direction: column;
+}
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #2563EB;
+}
+.stat-label {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 640px) {
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .project-link-btn, .project-link-btn-green {
+    width: 100%;
+    justify-content: center;
+  }
+  .project-stats {
+    gap: 20px;
+  }
+}
+
 /* Dark mode support */
 [data-theme="dark"] .project-card {
- --card-bg: #1f2937;
- --border-color: #374151;
- --text-color: #f9fafb;
- --bg-secondary: #111827;
+  --card-bg: #1f2937;
+  --border-color: #374151;
+  --text-color: #f9fafb;
+  --bg-secondary: #111827;
 }
 [data-theme="dark"] .project-title {
- color: #f9fafb !important;
+  color: #f9fafb !important;
 }
 [data-theme="dark"] .project-description {
- color: #d1d5db;
+  color: #d1d5db;
 }
 [data-theme="dark"] .feature-tag {
- background: #1e3a5f;
- color: #60a5fa;
+  background: #1e3a5f;
+  color: #60a5fa;
+}
+[data-theme="dark"] .feature-tag-green {
+  background: #064e3b;
+  color: #34d399;
+}
+[data-theme="dark"] .tech-item {
+  background: #111827;
+  color: #d1d5db;
+}
+[data-theme="dark"] .project-tech,
+[data-theme="dark"] .project-stats {
+  border-color: #374151;
 }
 </style>
-
