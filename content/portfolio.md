@@ -48,30 +48,7 @@ outputs: ["html"]
     <div class="feature-tag">Dashboard Analytics</div>
   </div>
 
-  <div class="project-tech">
-    <span class="tech-label">Tech Stack:</span>
-    <span class="tech-item">Vue.js 3</span>
-    <span class="tech-item">Node.js</span>
-    <span class="tech-item">Python AI</span>
-    <span class="tech-item">WhatsApp API</span>
-    <span class="tech-item">PostgreSQL</span>
-    <span class="tech-item">Redis</span>
-  </div>
-
-  <div class="project-stats">
-    <div class="stat">
-      <span class="stat-value">500+</span>
-      <span class="stat-label">Active Users</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">1M+</span>
-      <span class="stat-label">Messages/month</span>
-    </div>
-    <div class="stat">
-      <span class="stat-value">99.9%</span>
-      <span class="stat-label">Uptime</span>
-    </div>
-  </div>
+  <div style="padding-top: 16px; border-top: 1px solid var(--border-color, #e5e7eb);"></div>
 </div>
 
 ---
