@@ -1,34 +1,34 @@
 {
-  "timestamp": "2026-05-14T08:30:20.395661+00:00",
+  "timestamp": "2026-05-14T08:35:46.126997+00:00",
   "indices": {
     "SP500": {
       "symbol": "SPY",
-      "price": 744.52,
-      "change_percent": 0.3
+      "price": 744.46,
+      "change_percent": 0.29
     },
     "NASDAQ": {
       "symbol": "QQQ",
-      "price": 717.48,
+      "price": 717.52,
       "change_percent": 0.39
     },
     "GOLD": {
       "symbol": "GLD",
-      "price": 431.71,
-      "change_percent": 0.28
+      "price": 431.8,
+      "change_percent": 0.3
     }
   },
   "crypto": {
     "BITCOIN": {
-      "price": 79760,
-      "change_pct": -1.5626147826148045
+      "price": 79811,
+      "change_pct": -1.4100669005962956
     },
     "ETHEREUM": {
-      "price": 2265.56,
-      "change_pct": -1.6345852544440467
+      "price": 2268.06,
+      "change_pct": -1.4285883754605992
     },
     "SOLANA": {
-      "price": 90.93,
-      "change_pct": -4.451319629113714
+      "price": 91.06,
+      "change_pct": -4.312062749770065
     }
   },
   "status": "ok",
