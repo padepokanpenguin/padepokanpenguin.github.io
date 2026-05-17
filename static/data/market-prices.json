@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-05-17T23:30:36.601947+00:00",
+  "timestamp": "2026-05-17T23:36:04.075744+00:00",
   "indices": {
     "SP500": {
       "symbol": "SPY",
@@ -19,16 +19,16 @@
   },
   "crypto": {
     "BITCOIN": {
-      "price": 77801,
-      "change_pct": -0.5217936194296646
+      "price": 77816,
+      "change_pct": -0.48293585782077436
     },
     "ETHEREUM": {
-      "price": 2170.66,
-      "change_pct": -0.4787784785637859
+      "price": 2171.02,
+      "change_pct": -0.4539466655474506
     },
     "SOLANA": {
-      "price": 85.9,
-      "change_pct": -0.8080997314610208
+      "price": 85.74,
+      "change_pct": -0.9932541675301678
     }
   },
   "status": "ok",
