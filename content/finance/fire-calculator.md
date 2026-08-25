@@ -1,4 +1,4 @@
-﻿---
+---
 title: "FIRE Calculator"
 date: 2025-10-12T10:00:00+07:00
 draft: false
@@ -9,7 +9,7 @@ markup: html
 <div class="calculator-page">
     <header class="calculator-header">
         <h1>🔥 FIRE Calculator</h1>
-        <p>Financial Independence, Retire Early — kapan kamu bisa bebas finansial?</p>
+        <p>Financial Independence, Retire Early — simulasi kapan kamu bisa bebas finansial</p>
     </header>
 
     <div class="calculator-container">
@@ -54,7 +54,7 @@ markup: html
         </div>
 
         <div class="calculator-results">
-            <h3>Hasil</h3>
+            <h3>Results</h3>
 
             <div id="firePlaceholder" class="calc-placeholder">
                 <span class="ph-icon">🔥</span>

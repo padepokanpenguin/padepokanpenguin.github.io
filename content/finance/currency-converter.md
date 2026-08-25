@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Currency Converter"
 date: 2025-10-12T10:00:00+07:00
 draft: false
@@ -201,5 +201,10 @@ async function convert() {
     document.getElementById('ccQuickConvert').style.display = '';
 }
 
-document.addEventListener('DOMContentLoaded', convert);
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('amount').addEventListener('input', convert);
+    document.getElementById('fromCurrency').addEventListener('change', convert);
+    document.getElementById('toCurrency').addEventListener('change', convert);
+    convert();
+});
 </script>

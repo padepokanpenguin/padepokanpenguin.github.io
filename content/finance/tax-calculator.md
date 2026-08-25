@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Tax Calculator"
 date: 2025-10-12T10:00:00+07:00
 draft: false
@@ -51,7 +51,7 @@ markup: html
         </div>
 
         <div class="calculator-results">
-            <h3>Hasil</h3>
+            <h3>Results</h3>
 
             <div id="taxPlaceholder" class="calc-placeholder">
                 <span class="ph-icon">🧾</span>
@@ -181,4 +181,8 @@ function calculateTax() {
     placeholder.style.display = 'none';
     resultSection.style.display = '';
 }
+
+document.addEventListener('DOMContentLoaded', function() {
+    document.getElementById('calculate-tax').addEventListener('click', calculateTax);
+});
 </script>
