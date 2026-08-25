@@ -64,6 +64,7 @@ markup: "html"
             <h2>Tanggal gajianmu tiap bulan</h2>
             <div class="chips" id="ahg-chips" role="group" aria-label="Pilih tanggal gajian">
                 <button type="button" class="chip" data-cfg="1">1</button>
+                <button type="button" class="chip" data-cfg="5">5</button>
                 <button type="button" class="chip" data-cfg="15">15</button>
                 <button type="button" class="chip" data-cfg="25">25</button>
                 <button type="button" class="chip" data-cfg="akhir">Akhir bulan</button>
@@ -460,23 +461,13 @@ markup: "html"
 </script>
 
 <style>
-/* apakahhariini-gajian.com — ported from Svelte, scoped under .ahg-app */
+/* apakahhariini-gajian.com — diporting ke gaya PaperMod: warna memakai
+   variabel tema (--theme/--entry/--primary/--secondary/--border) sehingga
+   ikut mode terang/gelap dan tombol toggle tema seperti halaman lain. */
 .ahg-app {
-    --bg: #0b0e09;
-    --surface: #131710;
-    --line: #27301f;
-    --text: #f1f5ea;
-    --muted: #96a189;
-    --lime: #a3e635;
-    --green: #4ade80;
-    --red: #fb7185;
-    --amber: #fbbf24;
-    --radius: 16px;
-
-    background: var(--bg);
-    color: var(--text);
-    border-radius: var(--radius);
-    overflow: hidden;
+    --accent: #4a90e2; /* aksen sama dengan kalkulator lain di finance.css */
+    --yes: #22c55e;
+    --no: #ef4444;
 }
 
 .ahg-app * {
@@ -499,7 +490,7 @@ markup: "html"
     letter-spacing: 0.42em;
     padding-left: 0.42em; /* optically recenters tracked-out caps */
     font-weight: 600;
-    color: var(--muted);
+    color: var(--secondary);
     font-size: clamp(0.78rem, 2.6vw, 1rem);
     margin-bottom: 0.4em;
 }
@@ -514,17 +505,14 @@ markup: "html"
 }
 
 .ahg-app .answer.yes {
-    background: linear-gradient(100deg, var(--lime), var(--green) 45%, var(--amber));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    filter: drop-shadow(0 0 28px rgba(163, 230, 53, 0.28));
+    color: var(--yes);
+    filter: drop-shadow(0 0 28px rgba(34, 197, 94, 0.25));
 }
 
-.ahg-app .answer.no { color: var(--red); }
+.ahg-app .answer.no { color: var(--no); }
 
 .ahg-app .status {
-    color: var(--muted);
+    color: var(--secondary);
     font-size: clamp(1rem, 3vw, 1.2rem);
     min-height: 1.6em;
     margin-top: 0.6em;
@@ -538,7 +526,7 @@ markup: "html"
     text-transform: uppercase;
     letter-spacing: 0.18em;
     font-size: 0.8rem;
-    color: var(--muted);
+    color: var(--secondary);
 }
 
 .ahg-app .cd-grid {
@@ -549,9 +537,9 @@ markup: "html"
 }
 
 .ahg-app .cd-cell {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 16px;
     padding: 12px 6px;
     width: clamp(66px, 17vw, 92px);
 }
@@ -569,14 +557,14 @@ markup: "html"
     font-size: 0.68rem;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--muted);
+    color: var(--secondary);
     margin-top: 2px;
 }
 
 .ahg-app .progress {
     height: 10px;
-    background: var(--surface);
-    border: 1px solid var(--line);
+    background: var(--entry);
+    border: 1px solid var(--border);
     border-radius: 999px;
     overflow: hidden;
 }
@@ -584,12 +572,12 @@ markup: "html"
 .ahg-app .progress .fill {
     height: 100%;
     width: 0;
-    background: linear-gradient(90deg, var(--green), var(--lime));
+    background: var(--yes);
     border-radius: inherit;
     transition: width 0.8s ease;
 }
 
-.ahg-app .prog-text { font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+.ahg-app .prog-text { font-size: 0.82rem; color: var(--secondary); margin-top: 8px; }
 
 /* ---------- sections ---------- */
 
@@ -607,14 +595,17 @@ markup: "html"
     cursor: pointer;
     font: inherit;
     font-weight: 700;
-    color: var(--text);
-    background: var(--surface);
-    border: 1px solid var(--line);
+    color: var(--primary);
+    background: var(--entry);
+    border: 1px solid var(--border);
     border-radius: 999px;
     padding: 10px 20px;
     min-width: 44px;
-    transition: border-color 0.15s, background 0.15s, transform 0.15s;
+    transition: border-color 0.15s, color 0.15s, transform 0.15s;
 }
+
+.ahg-app .chip:hover { border-color: var(--tertiary); }
+.ahg-app .chip.active { border-color: var(--accent); color: var(--accent); }
 
 .ahg-app .custom {
     display: flex;
@@ -625,16 +616,16 @@ markup: "html"
     margin-top: 14px;
 }
 
-.ahg-app .custom label { color: var(--muted); font-size: 0.95rem; }
+.ahg-app .custom label { color: var(--secondary); font-size: 0.95rem; }
 
 .ahg-app .custom input {
     font: inherit;
     font-weight: 700;
-    color: var(--text);
+    color: var(--primary);
     text-align: center;
     width: 110px;
-    background: var(--bg);
-    border: 1px solid var(--line);
+    background: var(--entry);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 10px 12px;
 }
@@ -642,9 +633,9 @@ markup: "html"
 .ahg-app .custom input:focus-visible,
 .ahg-app .chip:focus-visible,
 .ahg-app .btn:focus-visible,
-.ahg-app summary:focus-visible { outline: 2px solid var(--lime); outline-offset: 2px; }
+.ahg-app summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-.ahg-app .hint { font-size: 0.8rem; color: var(--muted); margin-top: 12px; }
+.ahg-app .hint { font-size: 0.8rem; color: var(--secondary); margin-top: 12px; }
 
 /* ---------- share ---------- */
 
@@ -658,23 +649,23 @@ markup: "html"
     padding: 11px 20px;
     min-height: 44px;
     white-space: nowrap;
-    transition: transform 0.15s, filter 0.15s;
+    transition: transform 0.15s, filter 0.15s, border-color 0.15s;
 }
 
 .ahg-app .btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
 .ahg-app .btn:disabled { opacity: 0.65; cursor: default; transform: none; }
-.ahg-app .btn-primary { background: var(--lime); color: #101505; border: 1px solid var(--lime); }
-.ahg-app .btn-ghost { background: transparent; color: var(--text); border: 1px solid var(--line); }
-.ahg-app .btn-ghost:hover { border-color: var(--muted); }
+.ahg-app .btn-primary { background: var(--accent); color: #fff; border: 1px solid var(--accent); }
+.ahg-app .btn-ghost { background: transparent; color: var(--primary); border: 1px solid var(--border); }
+.ahg-app .btn-ghost:hover { border-color: var(--tertiary); }
 
 .ahg-app .share-url {
     display: block;
     margin-top: 14px;
-    color: var(--muted);
+    color: var(--secondary);
     font-size: 0.8rem;
     word-break: break-all;
-    background: var(--surface);
-    border: 1px solid var(--line);
+    background: var(--entry);
+    border: 1px solid var(--border);
     border-radius: 12px;
     padding: 10px 12px;
 }
@@ -685,10 +676,10 @@ markup: "html"
     /* Disembunyikan sementara — hapus baris ini saat unit AdSense dipasang. */
     display: none;
     margin-top: clamp(36px, 7vh, 64px);
-    border: 1px dashed var(--line);
-    border-radius: var(--radius);
+    border: 1px dashed var(--border);
+    border-radius: 16px;
     padding: 28px 12px;
-    color: var(--muted);
+    color: var(--secondary);
     font-size: 0.85rem;
 }
 
@@ -700,9 +691,9 @@ markup: "html"
 }
 
 .ahg-app .card {
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: 16px;
     padding: 20px;
 }
 
@@ -715,8 +706,8 @@ markup: "html"
     font-weight: 700;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--amber);
-    border: 1px solid var(--line);
+    color: var(--secondary);
+    border: 1px solid var(--tertiary);
     border-radius: 999px;
     padding: 3px 10px;
 }
@@ -726,24 +717,24 @@ markup: "html"
 .ahg-app .faq {
     margin-top: clamp(36px, 7vh, 64px);
     text-align: left;
-    border: 1px solid var(--line);
-    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    border-radius: 16px;
     padding: 16px 20px;
-    background: var(--surface);
+    background: var(--entry);
 }
 
 .ahg-app .faq summary { cursor: pointer; font-weight: 800; list-style: none; }
 .ahg-app .faq summary::-webkit-details-marker { display: none; }
-.ahg-app .faq summary::before { content: "+ "; color: var(--lime); }
+.ahg-app .faq summary::before { content: "+ "; color: var(--accent); }
 .ahg-app .faq[open] summary::before { content: "− "; }
 .ahg-app .faq h3 { font-size: 0.98rem; margin: 14px 0 4px; }
-.ahg-app .faq p { color: var(--muted); font-size: 0.92rem; }
-.ahg-app .faq code { color: var(--lime); }
+.ahg-app .faq p { color: var(--secondary); font-size: 0.92rem; }
+.ahg-app .faq code { color: var(--accent); }
 
 .ahg-app .ahg-footer {
     text-align: center;
     padding: 28px 16px 40px;
-    color: var(--muted);
+    color: var(--secondary);
     font-size: 0.85rem;
 }
 
@@ -752,7 +743,7 @@ markup: "html"
 .ahg-noscript {
     position: fixed;
     inset: auto 12px 12px;
-    background: var(--amber, #fbbf24);
+    background: #fbbf24;
     color: #201500;
     font-weight: 700;
     padding: 12px 16px;
