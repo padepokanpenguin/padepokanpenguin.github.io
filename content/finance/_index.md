@@ -49,6 +49,11 @@ markup: "html"
             <span class="submenu-title">Currency Converter</span>
             <span class="submenu-desc">Konversi mata uang real-time</span>
         </a>
+        <a href="/finance/apakah-hari-ini-gajian/" class="submenu-card">
+            <span class="submenu-icon">💸</span>
+            <span class="submenu-title">Apakah Hari Ini Gajian?</span>
+            <span class="submenu-desc">Cek apakah hari ini gajian + hitung mundur ke gajian berikutnya</span>
+        </a>
         <a href="/finance/news/" class="submenu-card">
             <span class="submenu-icon">📰</span>
             <span class="submenu-title">Financial News</span>
