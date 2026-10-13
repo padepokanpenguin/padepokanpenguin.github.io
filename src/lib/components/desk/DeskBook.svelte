@@ -15,7 +15,7 @@
 	const tabs = [
 		{ id: 'bio', label: '🥋 Padepokan', title: 'Tentang & Filosofi' },
 		{ id: 'projects', label: '📦 Karya', title: 'Koleksi Proyek' },
-		{ id: 'blog', label: '📝 Tulisan', title: 'Catatan & Artikel' },
+		{ id: 'blog', label: '📝 Coretan', title: 'Catatan & Coretan' },
 		{ id: 'lab', label: '🧪 Lab Fisika', title: 'Eksperimen Interaktif' },
 		{ id: 'contact', label: '📡 Markas', title: 'Kanal & Kontak' }
 	] as const;
@@ -245,7 +245,7 @@
 							}}
 						>
 							<span class="group-hover:-translate-x-1 transition-transform">←</span>
-							<span>Kembali ke Semua Tulisan</span>
+							<span>Kembali ke Semua Coretan</span>
 						</button>
 
 						<div class="border-b border-stone-200 dark:border-stone-800 pb-5">
@@ -280,7 +280,7 @@
 									sound.playPaperTurn();
 								}}
 							>
-								<span>← Kembali ke Semua Tulisan</span>
+								<span>← Kembali ke Semua Coretan</span>
 							</button>
 						</div>
 					</div>
@@ -290,14 +290,14 @@
 						<div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-3">
 							<div>
 								<h2 class="text-2xl font-fraunces font-bold text-stone-900 dark:text-stone-50">
-									Catatan & Tulisan
+									Catatan & Coretan
 								</h2>
 								<p class="text-xs font-mono text-stone-500 dark:text-stone-400 mt-1">
 									Koleksi artikel teknis, rekayasa software, dan pemikiran seputar teknologi
 								</p>
 							</div>
 							<span class="font-caveat text-lg text-amber-600 dark:text-amber-400">
-								{blogPosts.length} Tulisan
+								{blogPosts.length} Coretan
 							</span>
 						</div>
 
