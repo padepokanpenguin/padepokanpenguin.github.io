@@ -23,6 +23,16 @@ export interface Profile {
 		icon: string;
 	}[];
 }
+/**
+ * Menghitung durasi pengalaman secara dinamis dari Oktober 2022 hingga waktu saat ini.
+ */
+export function calculateExperienceYears(): string {
+	const start = new Date(2022, 9, 1); // 1 Oktober 2022 (bulan 9 di JavaScript Date = Oktober)
+	const now = new Date();
+	const months = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+	const years = Math.floor(months / 12);
+	return `${years}+ Tahun`;
+}
 
 export const profile: Profile = {
 	name: 'Padepokan Penguin',
@@ -58,7 +68,12 @@ export const profile: Profile = {
 		}
 	],
 	stats: [
-		{ label: 'Pengalaman', value: '3+ Tahun' },
+		{
+			label: 'Pengalaman',
+			get value() {
+				return calculateExperienceYears();
+			}
+		},
 		{ label: 'Fokus', value: 'Full-stack & UI Craft' },
 		{ label: 'Framework Utama', value: 'Svelte 5 & Node.js' },
 		{ label: 'Hosting', value: 'GitHub Pages' }
