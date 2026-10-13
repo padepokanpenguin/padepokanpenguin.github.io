@@ -1,5 +1,5 @@
 # 🐧 Padepokan Penguin Portfolio
-> Portfolio & Creative Lab untuk **padepokanpenguin.github.io**, terinspirasi oleh interaksi fisika dan estetika taktil [FeralUI](https://feralui.dev/) & [DeskFolio](https://github.com/mortspace/Deskfolio).
+> Portfolio & Creative Lab untuk **padepokanpenguin.github.io** — Padepokan Archive.
 
 Built with **Svelte 5 (Runes)**, **Tailwind CSS v4**, dan **Web Audio API** untuk performa static 60 FPS pada GitHub Pages.
 
@@ -7,13 +7,12 @@ Built with **Svelte 5 (Runes)**, **Tailwind CSS v4**, dan **Web Audio API** untu
 
 ## ✨ Fitur Kunci
 
-- **Verlet Pull-Cord Light Switch (`PullCord.svelte`)**: Saklar lampu tali dengan simulasi Verlet Integration 8-node. Tarik tali ke bawah untuk berganti mode tema gelap/terang dengan suara saklar klik mekanik.
+- **Lentera Taktil Padepokan (`LanternToggle.svelte`)**: Lentera minyak padepokan dengan nyala api hidup, kedipan dinamis, asap saat padam, dan saklar pergantian tema taktil dengan efek audio korek api dan hembusan angin.
 - **Interactive Companion Mascot (`PenguinMascot.svelte`)**: Maskot penguin reaktif dengan mata yang melacak kursor secara elastis via Svelte 5 `Spring`. Klik maskot untuk reaksi squash-and-stretch dan dialog dinamis.
-- **DeskFolio Book (`DeskBook.svelte`)**: Buku catatan meja kerja interaktif dengan tab navigasi, animasi coretan spidol (`in:draw`), dan dukungan navigasi keyboard panah kiri/kanan (`[← / →]`).
+- **Padepokan Archive (`DeskBook.svelte`)**: Buku catatan meja kerja interaktif dengan tab navigasi (*Padepokan*, *Karya*, *Coretan*, *Lab Fisika*, *Markas*), pembaca artikel Markdown instan, animasi coretan spidol (`in:draw`), dan dukungan navigasi keyboard panah kiri/kanan (`[← / →]`).
 - **Draggable Desk Stickers (`DeskSticker.svelte`)**: Stiker, stempel, dan selotip yang dapat digeser bebas di atas meja kerja dengan inersia dan audio thud saat dijatuhkan.
 - **Zero-Asset Procedural Audio Synthesizer (`audio.ts`)**: Efek suara taktil murni disintesis via Web Audio API tanpa beban aset MP3 eksternal.
 - **Static Prerender Ready**: Dikonfigurasi penuh dengan `@sveltejs/adapter-static` untuk hosting gratis di GitHub Pages.
-
 ---
 
 ## 🛠️ Tech Stack

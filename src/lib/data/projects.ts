@@ -44,8 +44,8 @@ export const projects: Project[] = [
 		highlight: 'Antarmuka tes responsif dengan scoring logic dan manajemen berkas audio listening'
 	},
 	{
-		id: 'deskfolio-svelte',
-		title: 'DeskFolio Svelte 5 Edition',
+		id: 'padepokan-archive',
+		title: 'Padepokan Archive',
 		category: 'Creative Frontend & Physics',
 		year: '2026',
 		description: 'Portofolio meja kerja interaktif berbasis Web Physics menggunakan Svelte 5 Runes dan spring bawaan tanpa library pihak ketiga yang membengkak.',

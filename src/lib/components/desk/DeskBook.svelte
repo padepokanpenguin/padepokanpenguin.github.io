@@ -62,7 +62,7 @@
 					<span class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-stone-300 dark:bg-stone-700 border border-stone-400 dark:border-stone-600"></span>
 				</div>
 				<span class="font-mono text-[11px] sm:text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-widest">
-					DeskFolio · Padepokan Book
+					Padepokan Archive
 				</span>
 			</div>
 			<span class="sm:hidden font-mono text-[10px] text-stone-400">Geser tab ↔</span>
