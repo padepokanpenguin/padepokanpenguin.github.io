@@ -12,6 +12,16 @@ export interface Project {
 
 export const projects: Project[] = [
 	{
+		id: 'mitrachat-ai-app',
+		title: 'MitraChat AI Platform',
+		category: 'Full-stack AI & Agentic System',
+		year: '2026',
+		description: 'Aplikasi full-stack enterprise berbasis Turborepo monorepo untuk mengelola AI agents, workflow automation, intelligent routing, multi-channel customer engagement, dan type-safe RPC.',
+		tech: ['Turborepo', 'React', 'Hono', 'Mastra.ai', 'oRPC', 'PostgreSQL', 'Drizzle ORM', 'BullMQ', 'Redis'],
+		github: 'https://github.com/mitrachat/mitrachat-ai-app',
+		highlight: 'Multi-agent orchestration, distributed message queues via BullMQ, dan embeddable webchat widget'
+	},
+	{
 		id: 'gemini-flash-api',
 		title: 'Gemini Flash API Gateway',
 		category: 'Backend & AI Integration',

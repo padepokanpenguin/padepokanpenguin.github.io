@@ -194,17 +194,30 @@
 									{/each}
 								</div>
 
-								{#if proj.github}
-									<a
-										href={proj.github}
-										target="_blank"
-										rel="noreferrer"
-										class="inline-flex items-center gap-1 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 underline underline-offset-2"
-									>
-										<span>Buka Kode</span>
-										<span>↗</span>
-									</a>
-								{/if}
+								<div class="flex items-center gap-3">
+									{#if proj.demo}
+										<a
+											href={proj.demo}
+											target="_blank"
+											rel="noreferrer"
+											class="inline-flex items-center gap-1 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 underline underline-offset-2"
+										>
+											<span>Live Demo</span>
+											<span>↗</span>
+										</a>
+									{/if}
+									{#if proj.github}
+										<a
+											href={proj.github}
+											target="_blank"
+											rel="noreferrer"
+											class="inline-flex items-center gap-1 text-xs font-mono font-bold text-stone-700 dark:text-stone-300 hover:text-amber-600 dark:hover:text-amber-400 underline underline-offset-2"
+										>
+											<span>Buka Kode</span>
+											<span>↗</span>
+										</a>
+									{/if}
+								</div>
 							</div>
 						</div>
 					{/each}
