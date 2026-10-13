@@ -46,7 +46,7 @@ export const projects: Project[] = [
 	{
 		id: 'padepokan-archive',
 		title: 'Padepokan Archive',
-		category: 'Creative Frontend & Physics',
+		category: 'Designing with Logic',
 		year: '2026',
 		description: 'Portofolio meja kerja interaktif berbasis Web Physics menggunakan Svelte 5 Runes dan spring bawaan tanpa library pihak ketiga yang membengkak.',
 		tech: ['Svelte 5', 'TypeScript', 'svelte/motion', 'Tailwind v4'],
