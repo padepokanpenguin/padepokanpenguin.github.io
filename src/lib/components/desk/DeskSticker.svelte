@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import { sound } from '#lib/sound/audio';
 
 	interface Props {
@@ -24,21 +25,33 @@
 	let posX = $state(40);
 	let posY = $state(40);
 	let rotation = $state(0);
-
-	$effect.pre(() => {
-		posX = initialX;
-		posY = initialY;
-		rotation = initialRot;
-	});
 	let isDragging = $state(false);
+	let currentZ = $state(25);
 	let startPointer = { x: 0, y: 0 };
 	let startPos = { x: 0, y: 0 };
 
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			// Clamp initial position so stickers never start off-screen on mobile
+			const maxSafeX = Math.max(16, window.innerWidth - 180);
+			if (initialX > maxSafeX) {
+				posX = Math.max(16, maxSafeX - 10);
+			} else {
+				posX = initialX;
+			}
+			posY = initialY;
+			rotation = initialRot;
+		}
+	});
+
 	function onPointerDown(e: PointerEvent) {
 		isDragging = true;
+		currentZ = 60; // Lift above all content when grabbed
 		startPointer = { x: e.clientX, y: e.clientY };
 		startPos = { x: posX, y: posY };
-		(e.target as HTMLElement)?.setPointerCapture?.(e.pointerId);
+		try {
+			(e.currentTarget as HTMLElement)?.setPointerCapture?.(e.pointerId);
+		} catch {}
 	}
 
 	function onPointerMove(e: PointerEvent) {
@@ -49,9 +62,13 @@
 		posY = startPos.y + dy;
 	}
 
-	function onPointerUp() {
+	function onPointerUp(e: PointerEvent) {
 		if (!isDragging) return;
 		isDragging = false;
+		currentZ = 30;
+		try {
+			(e.currentTarget as HTMLElement)?.releasePointerCapture?.(e.pointerId);
+		} catch {}
 		sound.playThud();
 	}
 </script>
@@ -60,34 +77,34 @@
 	role="button"
 	tabindex="0"
 	aria-label="Stiker meja draggable: {label}"
-	class="absolute z-10 touch-none select-none cursor-grab active:cursor-grabbing transition-shadow duration-150"
-	style="transform: translate3d({posX}px, {posY}px, 0) rotate({rotation}deg);"
+	class="absolute touch-none select-none cursor-grab active:cursor-grabbing transition-transform duration-75 {isDragging ? 'scale-110 shadow-2xl' : 'hover:scale-105'}"
+	style="transform: translate3d({posX}px, {posY}px, 0) rotate({isDragging ? 0 : rotation}deg); z-index: {currentZ};"
 	onpointerdown={onPointerDown}
 	onpointermove={onPointerMove}
 	onpointerup={onPointerUp}
 	onpointercancel={onPointerUp}
 	onkeydown={(e) => {
-		if (e.key === 'ArrowRight') posX += 10;
-		if (e.key === 'ArrowLeft') posX -= 10;
-		if (e.key === 'ArrowDown') posY += 10;
-		if (e.key === 'ArrowUp') posY -= 10;
+		if (e.key === 'ArrowRight') posX += 12;
+		if (e.key === 'ArrowLeft') posX -= 12;
+		if (e.key === 'ArrowDown') posY += 12;
+		if (e.key === 'ArrowUp') posY -= 12;
 	}}
 >
 	{#if variant === 'stamp'}
 		<div
-			class="px-4 py-3 border-2 border-dashed rounded-xl font-mono text-xs uppercase tracking-wider font-bold shadow-md hover:shadow-lg transition-transform hover:scale-105 {colorClass}"
+			class="px-3.5 py-2.5 sm:px-4 sm:py-3 border-2 border-dashed rounded-xl font-mono text-[11px] sm:text-xs uppercase tracking-wider font-bold shadow-md hover:shadow-lg transition-transform {colorClass}"
 		>
 			<div class="flex items-center gap-1.5 justify-center">
 				<span class="w-2 h-2 rounded-full bg-current"></span>
 				<span>{label}</span>
 			</div>
 			{#if subtext}
-				<div class="text-[10px] opacity-75 text-center mt-0.5">{subtext}</div>
+				<div class="text-[9px] sm:text-[10px] opacity-75 text-center mt-0.5">{subtext}</div>
 			{/if}
 		</div>
 	{:else if variant === 'tape'}
 		<div
-			class="px-3 py-1 bg-amber-200/80 dark:bg-amber-900/40 text-stone-800 dark:text-stone-200 border-t border-b border-amber-300/60 font-caveat text-sm font-semibold shadow-sm backdrop-blur-[1px]"
+			class="px-3 py-1 bg-amber-200/80 dark:bg-amber-900/50 text-stone-800 dark:text-stone-200 border-t border-b border-amber-300/60 font-caveat text-sm font-semibold shadow-sm backdrop-blur-[1px]"
 		>
 			📌 {label}
 		</div>

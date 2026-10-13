@@ -79,11 +79,11 @@
 
 	<!-- Desk Workbench Main Canvas Area -->
 	<main class="relative max-w-6xl w-full mx-auto px-3 sm:px-8 py-4 sm:py-6 my-auto">
-		<!-- Desktop Draggable Stickers (Free-floating on workbench) -->
-		<div class="hidden lg:block pointer-events-auto">
+		<!-- Draggable Stickers (Free-floating on workbench) -->
+		<div class="block pointer-events-auto">
 			<DeskSticker
-				initialX={-40}
-				initialY={30}
+				initialX={-20}
+				initialY={20}
 				initialRot={-6}
 				label="LINUX INSIDE"
 				subtext="Kekuatan Open Source"
@@ -92,9 +92,9 @@
 			/>
 
 			<DeskSticker
-				initialX={920}
-				initialY={140}
-				initialRot={8}
+				initialX={840}
+				initialY={40}
+				initialRot={6}
 				label="SVELTE 5"
 				subtext="Zero Virtual DOM"
 				variant="stamp"
@@ -102,8 +102,8 @@
 			/>
 
 			<DeskSticker
-				initialX={960}
-				initialY={320}
+				initialX={860}
+				initialY={240}
 				initialRot={-4}
 				label="CRAFT OVER SLOP"
 				variant="tape"
