@@ -48,7 +48,7 @@ export const projects: Project[] = [
 		title: 'DeskFolio Svelte 5 Edition',
 		category: 'Creative Frontend & Physics',
 		year: '2026',
-		description: 'Rekonstruksi portofolio meja kerja interaktif bergaya FeralUI menggunakan Svelte 5 Runes dan spring bawaan tanpa library pihak ketiga yang membengkak.',
+		description: 'Portofolio meja kerja interaktif berbasis Web Physics menggunakan Svelte 5 Runes dan spring bawaan tanpa library pihak ketiga yang membengkak.',
 		tech: ['Svelte 5', 'TypeScript', 'svelte/motion', 'Tailwind v4'],
 		github: 'https://github.com/padepokanpenguin/padepokanpenguin.github.io',
 		demo: '#',

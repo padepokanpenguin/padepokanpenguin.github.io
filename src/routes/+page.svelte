@@ -136,15 +136,6 @@
 			<span>dibuat dengan Svelte 5 + motion</span>
 			<span>·</span>
 			<a
-				href="https://feralui.dev"
-				target="_blank"
-				rel="noreferrer"
-				class="hover:text-amber-600 dark:hover:text-amber-400 underline underline-offset-2"
-			>
-				Inspirasi FeralUI
-			</a>
-			<span>·</span>
-			<a
 				href="https://github.com/padepokanpenguin/padepokanpenguin.github.io"
 				target="_blank"
 				rel="noreferrer"
