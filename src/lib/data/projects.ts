@@ -7,6 +7,7 @@ export interface Project {
 	tech: string[];
 	github?: string;
 	demo?: string;
+	demoLabel?: string;
 	highlight: string;
 }
 
@@ -18,7 +19,8 @@ export const projects: Project[] = [
 		year: '2026',
 		description: 'Aplikasi full-stack enterprise berbasis Turborepo monorepo untuk mengelola AI agents, workflow automation, intelligent routing, multi-channel customer engagement, dan type-safe RPC.',
 		tech: ['Turborepo', 'React', 'Hono', 'Mastra.ai', 'oRPC', 'PostgreSQL', 'Drizzle ORM', 'BullMQ', 'Redis'],
-		github: 'https://github.com/mitrachat/mitrachat-ai-app',
+		demo: 'https://mitrachat.id',
+		demoLabel: 'Kunjungi mitrachat.id',
 		highlight: 'Multi-agent orchestration, distributed message queues via BullMQ, dan embeddable webchat widget'
 	},
 	{

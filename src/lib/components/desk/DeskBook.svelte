@@ -202,7 +202,7 @@
 											rel="noreferrer"
 											class="inline-flex items-center gap-1 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 underline underline-offset-2"
 										>
-											<span>Live Demo</span>
+											<span>{proj.demoLabel ?? 'Live Demo'}</span>
 											<span>↗</span>
 										</a>
 									{/if}
