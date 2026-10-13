@@ -30,7 +30,7 @@ export const profile: Profile = {
 	title: 'Full-stack Engineer & Creative Web Craftsman',
 	handle: 'padepokanpenguin',
 	domain: 'padepokanpenguin.github.io',
-	bio: 'Dojo digital Aria Nur Jamal. Full-stack developer berpengalaman membangun sistem berskala besar di sektor kesehatan & edukasi, meneliti antarmuka taktil physics-driven dan ekosistem open-source.',
+	bio: 'Dojo digital Aria Nur Jamal. Full-stack developer berfokus pada skalabilitas backend dan enterprise middleware, dengan ketertarikan mengeksplorasi antarmuka web yang interaktif dan ekspresif.',
 	philosophy: [
 		'Kode bukan sekadar baris teks, melainkan instrumen digital dengan bobot, presisi, dan integritas arsitektural.',
 		'Desain antarmuka harus terasa dibuat oleh tangan pengrajin (craftsmanship), bukan mesin cetak otomatis yang hambar.',
