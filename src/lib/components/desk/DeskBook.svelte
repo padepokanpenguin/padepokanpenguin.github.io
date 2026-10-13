@@ -52,25 +52,31 @@
 	class="relative w-full max-w-4xl mx-auto rounded-3xl bg-stone-50 dark:bg-stone-900/90 border-2 border-stone-300 dark:border-stone-800 shadow-2xl overflow-hidden transition-colors duration-300"
 >
 	<!-- Top Spiral / Header Bar with Book Tabs -->
-	<header class="flex flex-wrap items-center justify-between gap-3 px-6 py-4 border-b-2 border-stone-200 dark:border-stone-800 bg-stone-100/70 dark:bg-stone-900/70">
-		<div class="flex items-center gap-2">
-			<!-- Visual Spiral Binding dots -->
-			<div class="flex gap-1.5 mr-3">
-				<span class="w-3 h-3 rounded-full bg-stone-300 dark:bg-stone-700 border border-stone-400 dark:border-stone-600"></span>
-				<span class="w-3 h-3 rounded-full bg-stone-300 dark:bg-stone-700 border border-stone-400 dark:border-stone-600"></span>
-				<span class="w-3 h-3 rounded-full bg-stone-300 dark:bg-stone-700 border border-stone-400 dark:border-stone-600"></span>
+	<header class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 px-3 sm:px-6 py-3 sm:py-4 border-b-2 border-stone-200 dark:border-stone-800 bg-stone-100/70 dark:bg-stone-900/70">
+		<div class="flex items-center justify-between w-full sm:w-auto">
+			<div class="flex items-center gap-2">
+				<!-- Visual Spiral Binding dots -->
+				<div class="flex gap-1.5 mr-2 sm:mr-3">
+					<span class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-stone-300 dark:bg-stone-700 border border-stone-400 dark:border-stone-600"></span>
+					<span class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-stone-300 dark:bg-stone-700 border border-stone-400 dark:border-stone-600"></span>
+					<span class="w-2.5 sm:w-3 h-2.5 sm:h-3 rounded-full bg-stone-300 dark:bg-stone-700 border border-stone-400 dark:border-stone-600"></span>
+				</div>
+				<span class="font-mono text-[11px] sm:text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-widest">
+					DeskFolio · Padepokan Book
+				</span>
 			</div>
-			<span class="font-mono text-xs font-bold text-stone-500 dark:text-stone-400 uppercase tracking-widest">
-				DeskFolio · Padepokan Book
-			</span>
+			<span class="sm:hidden font-mono text-[10px] text-stone-400">Geser tab ↔</span>
 		</div>
 
-		<!-- Interactive Tabs -->
-		<nav class="flex items-center gap-1.5 bg-stone-200/80 dark:bg-stone-800 p-1 rounded-xl" aria-label="Tab Navigasi Buku">
+		<!-- Interactive Tabs with horizontal scroll on mobile -->
+		<nav
+			class="w-full sm:w-auto overflow-x-auto flex items-center gap-1 sm:gap-1.5 bg-stone-200/80 dark:bg-stone-800 p-1 rounded-xl relative z-20 touch-pan-x"
+			aria-label="Tab Navigasi Buku"
+		>
 			{#each tabs as tab}
 				<button
 					type="button"
-					class="px-3 py-1.5 rounded-lg text-xs font-mono font-semibold transition-all duration-150 {activeTab === tab.id
+					class="px-2.5 sm:px-3 py-1.5 rounded-lg text-xs font-mono font-semibold whitespace-nowrap shrink-0 transition-all duration-150 cursor-pointer {activeTab === tab.id
 						? 'bg-stone-50 dark:bg-stone-700 text-stone-900 dark:text-stone-100 shadow-sm'
 						: 'text-stone-600 dark:text-stone-400 hover:text-stone-900 dark:hover:text-stone-200'}"
 					onclick={() => setTab(tab.id)}

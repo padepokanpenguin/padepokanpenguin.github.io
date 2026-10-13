@@ -26,7 +26,7 @@
 	class="relative min-h-screen bg-[#F5F4EF] dark:bg-[#0D1117] text-stone-900 dark:text-stone-100 desk-pattern transition-colors duration-300 overflow-x-hidden flex flex-col justify-between"
 >
 	<!-- Top Physics Pull-Cord (Lamp Switch) pinned to top right -->
-	<header class="fixed top-0 right-4 sm:right-12 z-50 pointer-events-auto">
+	<header class="absolute top-0 right-2 sm:right-12 z-20 pointer-events-auto">
 		<PullCord />
 	</header>
 
@@ -76,7 +76,7 @@
 	</div>
 
 	<!-- Desk Workbench Main Canvas Area -->
-	<main class="relative max-w-6xl w-full mx-auto px-4 sm:px-8 py-6 my-auto">
+	<main class="relative max-w-6xl w-full mx-auto px-3 sm:px-8 py-4 sm:py-6 my-auto">
 		<!-- Desktop Draggable Stickers (Free-floating on workbench) -->
 		<div class="hidden lg:block pointer-events-auto">
 			<DeskSticker
