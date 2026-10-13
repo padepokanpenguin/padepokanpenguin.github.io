@@ -22,10 +22,12 @@ export class ThemeManager {
 
 	private apply() {
 		if (typeof document !== 'undefined') {
+			const isDark = this.current === 'dark';
 			document.documentElement.setAttribute('data-theme', this.current);
+			document.documentElement.classList.toggle('dark', isDark);
 			const meta = document.querySelector('meta[name="theme-color"]');
 			if (meta) {
-				meta.setAttribute('content', this.current === 'dark' ? '#0D1117' : '#F5F4EF');
+				meta.setAttribute('content', isDark ? '#0D1117' : '#F5F4EF');
 			}
 		}
 	}

@@ -13,15 +13,17 @@
 
 	const NUM_POINTS = 8;
 	const SEGMENT_LEN = 14;
-	const PULL_THRESHOLD = 65;
+	const PULL_THRESHOLD = 26; // Snappier threshold
 
 	let canvas: HTMLCanvasElement | null = $state(null);
 	let isDragging = $state(false);
 	let hasFiredThisPull = $state(false);
+	let pointerStartY = 0;
+	let pointerMoved = false;
 	let animationFrameId: number;
 
 	const points: Point[] = [];
-	const anchorX = 40;
+	const anchorX = 45;
 	const anchorY = 0;
 
 	for (let i = 0; i < NUM_POINTS; i++) {
@@ -35,7 +37,7 @@
 	}
 
 	function updatePhysics() {
-		const gravity = 0.55;
+		const gravity = 0.58;
 		const friction = 0.985;
 
 		for (let i = 0; i < points.length; i++) {
@@ -52,7 +54,7 @@
 			p.y += vy;
 		}
 
-		// Relax constraints (3 iterations for stiff rope behavior)
+		// Relax constraints (3 iterations)
 		for (let iter = 0; iter < 3; iter++) {
 			for (let i = 0; i < points.length - 1; i++) {
 				const p1 = points[i];
@@ -113,7 +115,7 @@
 		ctx.translate(last.x, last.y);
 
 		// Handle drop-shadow
-		ctx.shadowColor = isDark ? 'rgba(0,0,0,0.45)' : 'rgba(0,0,0,0.18)';
+		ctx.shadowColor = isDark ? 'rgba(0,0,0,0.5)' : 'rgba(0,0,0,0.2)';
 		ctx.shadowBlur = 6;
 		ctx.shadowOffsetY = 3;
 
@@ -145,19 +147,27 @@
 		animationFrameId = requestAnimationFrame(loop);
 	}
 
+	function triggerSwitch() {
+		theme.toggle();
+		sound.playSwitchClick(theme.current === 'dark');
+	}
+
 	function onPointerDown(e: PointerEvent) {
 		const rect = canvas?.getBoundingClientRect();
 		if (!rect) return;
+
+		isDragging = true;
+		hasFiredThisPull = false;
+		pointerMoved = false;
+		pointerStartY = e.clientY;
+
+		(e.target as HTMLElement)?.setPointerCapture?.(e.pointerId);
+
 		const mx = e.clientX - rect.left;
 		const my = e.clientY - rect.top;
 		const last = points[points.length - 1];
-
-		// Check hit on pull handle
-		if (Math.hypot(mx - last.x, my - (last.y + 10)) < 28) {
-			isDragging = true;
-			hasFiredThisPull = false;
-			(e.target as HTMLElement)?.setPointerCapture?.(e.pointerId);
-		}
+		last.x = Math.max(15, Math.min(canvas!.width - 15, mx));
+		last.y = Math.max(NUM_POINTS * 8, Math.min(canvas!.height - 25, my));
 	}
 
 	function onPointerMove(e: PointerEvent) {
@@ -166,16 +176,19 @@
 		const mx = e.clientX - rect.left;
 		const my = e.clientY - rect.top;
 
+		if (Math.abs(e.clientY - pointerStartY) > 5) {
+			pointerMoved = true;
+		}
+
 		const last = points[points.length - 1];
-		last.x = Math.max(10, Math.min(canvas.width - 10, mx));
+		last.x = Math.max(15, Math.min(canvas.width - 15, mx));
 		last.y = Math.max(NUM_POINTS * 8, Math.min(canvas.height - 25, my));
 
 		// Check displacement for switch snap
 		const defaultY = NUM_POINTS * SEGMENT_LEN;
 		if (last.y - defaultY > PULL_THRESHOLD && !hasFiredThisPull) {
 			hasFiredThisPull = true;
-			theme.toggle();
-			sound.playSwitchClick(theme.current === 'dark');
+			triggerSwitch();
 		}
 	}
 
@@ -183,19 +196,26 @@
 		if (!isDragging) return;
 		isDragging = false;
 		const last = points[points.length - 1];
-		// Give a quick spring nudge upwards
-		last.oldY = last.y + 18;
-		sound.playThud();
+
+		// If it was a quick click or tap without pulling far, toggle directly!
+		if (!pointerMoved && !hasFiredThisPull) {
+			triggerSwitch();
+			// Rebound spring snap animation
+			last.oldY = last.y + 35;
+			last.oldX = last.x + (Math.random() > 0.5 ? 10 : -10);
+		} else {
+			// Elastic spring release nudge upwards
+			last.oldY = last.y + 24;
+			sound.playThud();
+		}
 	}
 
 	function handleKeyboardToggle(e: KeyboardEvent) {
 		if (e.key === 'Enter' || e.key === ' ') {
 			e.preventDefault();
-			theme.toggle();
-			sound.playSwitchClick(theme.current === 'dark');
-			// Agitate cord visually
+			triggerSwitch();
 			const last = points[points.length - 1];
-			last.oldY = last.y + 25;
+			last.oldY = last.y + 35;
 		}
 	}
 
@@ -214,23 +234,24 @@
 <aside aria-label="Pengaturan Tema" class="relative select-none">
 	<canvas
 		bind:this={canvas}
-		width="80"
-		height="220"
-		class="block cursor-grab active:cursor-grabbing touch-none"
+		width="90"
+		height="230"
+		class="block cursor-grab active:cursor-grabbing touch-none drop-shadow-sm"
 		onpointerdown={onPointerDown}
 		onpointermove={onPointerMove}
 		onpointerup={onPointerUp}
 		onpointercancel={onPointerUp}
+		role="button"
+		tabindex="0"
+		aria-label="Tarik atau klik tali untuk berganti tema"
+		onkeydown={handleKeyboardToggle}
 	></canvas>
 
 	<!-- Accessibility Keyboard Button -->
 	<button
 		type="button"
-		class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:right-2 focus:z-50 focus:px-3 focus:py-1.5 focus:bg-amber-500 focus:text-slate-900 focus:rounded-md focus:font-mono focus:text-xs focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400"
-		onclick={() => {
-			theme.toggle();
-			sound.playSwitchClick(theme.current === 'dark');
-		}}
+		class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:right-2 focus:z-50 focus:px-3 focus:py-1.5 focus:bg-amber-500 focus:text-slate-900 focus:rounded-md focus:font-mono focus:text-xs focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-amber-400 cursor-pointer"
+		onclick={triggerSwitch}
 		onkeydown={handleKeyboardToggle}
 	>
 		Toggle Tema ({theme.current === 'dark' ? 'Gelap' : 'Terang'})
@@ -238,12 +259,12 @@
 
 	<!-- Hand-drawn Annotation Doodle -->
 	<div
-		class="pointer-events-none absolute top-28 left-16 w-32 hidden sm:flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400 font-caveat text-base leading-none transition-opacity duration-300"
+		class="pointer-events-none absolute top-28 left-16 w-36 hidden sm:flex items-center gap-1.5 text-xs text-stone-500 dark:text-stone-400 font-caveat text-base leading-none transition-opacity duration-300"
 		class:opacity-40={isDragging}
 	>
 		<svg class="w-5 h-5 -rotate-45 shrink-0 stroke-current" viewBox="0 0 24 24" fill="none">
 			<path d="M5 12h14M12 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
 		</svg>
-		<span>Tarik talinya!</span>
+		<span>Tarik atau klik tali!</span>
 	</div>
 </aside>
