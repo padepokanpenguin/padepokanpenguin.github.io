@@ -22,6 +22,16 @@ export const projects: Project[] = [
 		highlight: 'Sub-second response streaming dan token handling yang efisien'
 	},
 	{
+		id: 'toefl-toeic-gmc',
+		title: 'TOEFL & TOEIC Prediction Test System',
+		category: 'Full-stack Platform',
+		year: '2023',
+		description: 'Sistem evaluasi kecakapan bahasa Inggris lengkap dengan simulasi ujian real-time, skoring otomatis, dan media storage Cloudflare R2.',
+		tech: ['Next.js', 'React.js', 'AdonisJS', 'PostgreSQL', 'Cloudflare R2', 'Linux VPS'],
+		demo: 'https://exam.gmcendekia.com',
+		highlight: 'Antarmuka tes responsif dengan scoring logic dan manajemen berkas audio listening'
+	},
+	{
 		id: 'deskfolio-svelte',
 		title: 'DeskFolio Svelte 5 Edition',
 		category: 'Creative Frontend & Physics',

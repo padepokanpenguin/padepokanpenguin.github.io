@@ -1,11 +1,18 @@
 export interface Profile {
 	name: string;
+	realName: string;
 	title: string;
 	handle: string;
 	domain: string;
 	bio: string;
 	philosophy: string[];
 	tags: string[];
+	experience: {
+		role: string;
+		company: string;
+		period: string;
+		desc: string;
+	}[];
 	stats: {
 		label: string;
 		value: string;
@@ -19,25 +26,49 @@ export interface Profile {
 
 export const profile: Profile = {
 	name: 'Padepokan Penguin',
-	title: 'Creative Engineering & Systems Craft',
+	realName: 'Aria Nur Jamal',
+	title: 'Full-stack Engineer & Creative Web Craftsman',
 	handle: 'padepokanpenguin',
 	domain: 'padepokanpenguin.github.io',
-	bio: 'Tempat bertapa dan menempa kode. Menghadirkan antarmuka web yang hidup, taktil, dan digerakkan oleh prinsip fisika nyata.',
+	bio: 'Dojo digital Aria Nur Jamal. Full-stack developer berpengalaman membangun sistem berskala besar di sektor kesehatan & edukasi, meneliti antarmuka taktil physics-driven dan ekosistem open-source.',
 	philosophy: [
-		'Kode bukan sekadar teks, melainkan instrumen digital dengan massa dan bobot.',
-		'Desain antarmuka harus terasa dibuat oleh manusia pengrajin, bukan mesin cetak otomatis.',
-		'Filosofi Linux: perkakas sederhana yang saling terhubung dan bekerja tanpa kompromi.'
+		'Kode bukan sekadar baris teks, melainkan instrumen digital dengan bobot, presisi, dan integritas arsitektural.',
+		'Desain antarmuka harus terasa dibuat oleh tangan pengrajin (craftsmanship), bukan mesin cetak otomatis yang hambar.',
+		'Filosofi Linux: perkakas sederhana, modular, saling terhubung, dan tangguh di lingkungan produksi.'
 	],
-	tags: ['Svelte 5', 'TypeScript', 'Web Physics', 'Creative Web', 'Linux Enthusiast', 'Open Source'],
+	tags: ['Svelte 5', 'TypeScript', 'Node.js', 'Next.js', 'AdonisJS', 'Linux VPS', 'Web Physics', 'Open Source'],
+	experience: [
+		{
+			role: 'Fullstack Developer',
+			company: 'Siloam Hospital Group',
+			period: 'Dec 2023 — Sekarang',
+			desc: 'Pengembangan & pemeliharaan modul HIS, WMS, MySiloam, dan integrasi middleware (Redis, RabbitMQ, Kafka, ELK Stack) dengan standar kepatuhan 100% SLA.'
+		},
+		{
+			role: 'Creative & Tech Contributor',
+			company: 'Surabaya Hacker Link',
+			period: 'Apr 2022 — Sekarang',
+			desc: 'Komunitas edukasi keamanan siber dan open-source tertua di Indonesia, memproduksi materi visual dan mendukung konferensi Unmask Cyber Crime.'
+		},
+		{
+			role: 'Backend Developer',
+			company: 'Future Gate High School',
+			period: 'May 2023 — Dec 2023',
+			desc: 'Arsitektur sistem informasi sekolah menggunakan AdonisJS, PostgreSQL, Linux VPS hardening, dan CI/CD pipeline otomatis.'
+		}
+	],
 	stats: [
-		{ label: 'Filosofi', value: 'Craft First' },
-		{ label: 'Platform', value: 'GitHub Pages' },
-		{ label: 'Runtime', value: 'Svelte 5' },
-		{ label: 'Audio', value: 'Web Audio API' }
+		{ label: 'Pengalaman', value: '3+ Tahun' },
+		{ label: 'Fokus', value: 'Full-stack & UI Craft' },
+		{ label: 'Framework Utama', value: 'Svelte 5 & Node.js' },
+		{ label: 'Hosting', value: 'GitHub Pages' }
 	],
 	socials: [
 		{ label: 'GitHub', url: 'https://github.com/padepokanpenguin', icon: 'github' },
-		{ label: 'Repository', url: 'https://github.com/padepokanpenguin/padepokanpenguin.github.io', icon: 'git-branch' },
-		{ label: 'Gemini API', url: 'https://github.com/padepokanpenguin/gemini-flash-api', icon: 'cpu' }
+		{ label: 'LinkedIn', url: 'https://www.linkedin.com/in/aria-nur-jamal-ba5856231/', icon: 'linkedin' },
+		{ label: 'Twitter / X', url: 'https://twitter.com/aria_nur_jamal', icon: 'twitter' },
+		{ label: 'Medium', url: 'https://tripletwinsco.medium.com/', icon: 'book' },
+		{ label: 'Telegram', url: 'https://t.me/kalang_kabut', icon: 'send' },
+		{ label: 'Download CV', url: 'https://docs.google.com/document/d/1IDG9QYp2nHVptUbDT_KraNNIb4oZUx8MURamvQDdkEI/edit?tab=t.0', icon: 'file-text' }
 	]
 };

@@ -78,12 +78,42 @@
 					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs font-mono mb-4">
 						<span>🥋 Hermitage of Code & Craft</span>
 					</div>
-					<h2 class="text-3xl sm:text-4xl font-fraunces font-bold text-stone-900 dark:text-stone-50 tracking-tight">
-						{profile.name}
-					</h2>
-					<p class="text-base sm:text-lg text-stone-600 dark:text-stone-300 font-inter mt-3 max-w-2xl leading-relaxed">
+					<div class="flex flex-wrap items-baseline gap-3">
+						<h2 class="text-3xl sm:text-4xl font-fraunces font-bold text-stone-900 dark:text-stone-50 tracking-tight">
+							{profile.name}
+						</h2>
+						<span class="font-caveat text-xl text-amber-600 dark:text-amber-400">
+							(Aria Nur Jamal)
+						</span>
+					</div>
+					<div class="text-xs font-mono font-bold text-stone-500 dark:text-stone-400 mt-1">
+						{profile.title}
+					</div>
+					<p class="text-sm sm:text-base text-stone-600 dark:text-stone-300 font-inter mt-3 max-w-2xl leading-relaxed">
 						{profile.bio}
 					</p>
+				</div>
+
+				<!-- Experience Highlights -->
+				<div class="space-y-3 pt-2">
+					<div class="font-mono text-xs font-bold text-stone-700 dark:text-stone-300 uppercase tracking-wider flex items-center gap-2">
+						<span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+						<span>Riwayat & Pengalaman Profesional</span>
+					</div>
+					<div class="grid sm:grid-cols-3 gap-3">
+						{#each profile.experience as exp}
+							<div class="p-3.5 rounded-xl bg-white dark:bg-stone-800/70 border border-stone-200 dark:border-stone-700/70 text-xs flex flex-col justify-between">
+								<div>
+									<div class="font-mono text-[11px] text-amber-600 dark:text-amber-400 font-semibold">{exp.period}</div>
+									<div class="font-bold text-stone-900 dark:text-stone-100 mt-0.5">{exp.role}</div>
+									<div class="text-[11px] text-stone-500 dark:text-stone-400 font-mono">{exp.company}</div>
+									<p class="text-stone-600 dark:text-stone-300 mt-2 text-[11px] leading-relaxed">
+										{exp.desc}
+									</p>
+								</div>
+							</div>
+						{/each}
+					</div>
 				</div>
 
 				<!-- Philosophy List -->
