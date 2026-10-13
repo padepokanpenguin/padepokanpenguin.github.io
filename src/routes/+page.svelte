@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import PullCord from '#lib/components/physics/PullCord.svelte';
+	import LanternToggle from '#lib/components/physics/LanternToggle.svelte';
 	import PenguinMascot from '#lib/components/physics/PenguinMascot.svelte';
 	import DeskBook from '#lib/components/desk/DeskBook.svelte';
 	import DeskSticker from '#lib/components/desk/DeskSticker.svelte';
@@ -25,13 +25,8 @@
 <div
 	class="relative min-h-screen bg-[#F5F4EF] dark:bg-[#0D1117] text-stone-900 dark:text-stone-100 desk-pattern transition-colors duration-300 overflow-x-hidden flex flex-col justify-between"
 >
-	<!-- Top Physics Pull-Cord (Lamp Switch) pinned to top right -->
-	<header class="absolute top-0 right-2 sm:right-12 z-20 pointer-events-auto">
-		<PullCord />
-	</header>
-
 	<!-- Main Navigation / Status Bar -->
-	<div class="max-w-6xl w-full mx-auto px-4 sm:px-8 pt-6 pb-2 flex items-center justify-between">
+	<header class="max-w-6xl w-full mx-auto px-4 sm:px-8 pt-5 pb-2 flex items-center justify-between">
 		<div class="flex items-center gap-3">
 			<a
 				href="/"
@@ -51,8 +46,11 @@
 			</a>
 		</div>
 
-		<!-- Sound and Info Controls -->
-		<div class="flex items-center gap-2 mr-20 sm:mr-24">
+		<!-- Right Controls: Tactile Lantern, Audio, GitHub -->
+		<div class="flex items-center gap-2 sm:gap-3">
+			<!-- Tactile Lantern Theme Switch -->
+			<LanternToggle />
+
 			<button
 				type="button"
 				class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm text-xs font-mono text-stone-700 dark:text-stone-300 hover:border-amber-400 transition-colors shadow-sm cursor-pointer"
@@ -73,7 +71,7 @@
 				<span>↗</span>
 			</a>
 		</div>
-	</div>
+	</header>
 
 	<!-- Desk Workbench Main Canvas Area -->
 	<main class="relative max-w-6xl w-full mx-auto px-3 sm:px-8 py-4 sm:py-6 my-auto">

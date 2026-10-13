@@ -8,11 +8,11 @@ export interface Experiment {
 
 export const experiments: Experiment[] = [
 	{
-		id: 'pull-cord',
-		title: 'Verlet Pull-Cord Light Switch',
-		tag: 'Physics / Canvas',
-		description: 'Simulasi tali 8-titik Verlet berbobot dengan gaya pegas balik dan pelatuk perubahan tema.',
-		interactionHint: 'Tarik tali di pojok kanan atas layar melebihi 65px'
+		id: 'lantern-switch',
+		title: 'Lentera Taktil Padepokan',
+		tag: 'SVG Flame Physics & Audio',
+		description: 'Lentera minyak padepokan dengan nyala api hidup, kedipan dinamis, asap saat padam, dan saklar pergantian tema taktil.',
+		interactionHint: 'Ketuk lentera di sudut kanan atas untuk menyalakan atau memadamkan api'
 	},
 	{
 		id: 'penguin-mascot',

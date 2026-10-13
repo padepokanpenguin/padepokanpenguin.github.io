@@ -78,6 +78,85 @@ class SoundEngine {
 		snap.stop(now + 0.035);
 	}
 
+	/** Match strike and lantern flame ignition */
+	playLanternIgnite(): void {
+		if (this.isMuted) return;
+		const ctx = this.getContext();
+		if (!ctx) return;
+
+		const now = ctx.currentTime;
+		// Scratchy friction strike
+		const bufferSize = ctx.sampleRate * 0.05;
+		const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+		const data = buffer.getChannelData(0);
+		for (let i = 0; i < bufferSize; i++) {
+			data[i] = Math.random() * 2 - 1;
+		}
+
+		const strike = ctx.createBufferSource();
+		strike.buffer = buffer;
+		const bandpass = ctx.createBiquadFilter();
+		bandpass.type = 'bandpass';
+		bandpass.frequency.setValueAtTime(2400, now);
+		bandpass.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+
+		const strikeGain = ctx.createGain();
+		strikeGain.gain.setValueAtTime(0.2, now);
+		strikeGain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+
+		strike.connect(bandpass);
+		bandpass.connect(strikeGain);
+		strikeGain.connect(ctx.destination);
+		strike.start(now);
+
+		// Warm flame flare flare
+		const osc = ctx.createOscillator();
+		const gain = ctx.createGain();
+		osc.type = 'sine';
+		osc.frequency.setValueAtTime(160, now + 0.03);
+		osc.frequency.exponentialRampToValueAtTime(320, now + 0.08);
+		osc.frequency.exponentialRampToValueAtTime(120, now + 0.16);
+
+		gain.gain.setValueAtTime(0.18, now + 0.03);
+		gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+
+		osc.connect(gain);
+		gain.connect(ctx.destination);
+		osc.start(now + 0.03);
+		osc.stop(now + 0.16);
+	}
+
+	/** Soft puff blow-out extinguishing flame */
+	playLanternExtinguish(): void {
+		if (this.isMuted) return;
+		const ctx = this.getContext();
+		if (!ctx) return;
+
+		const now = ctx.currentTime;
+		const bufferSize = ctx.sampleRate * 0.1;
+		const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+		const data = buffer.getChannelData(0);
+		for (let i = 0; i < bufferSize; i++) {
+			data[i] = Math.random() * 2 - 1;
+		}
+
+		const breath = ctx.createBufferSource();
+		breath.buffer = buffer;
+		const filter = ctx.createBiquadFilter();
+		filter.type = 'lowpass';
+		filter.frequency.setValueAtTime(600, now);
+		filter.frequency.exponentialRampToValueAtTime(140, now + 0.1);
+
+		const gain = ctx.createGain();
+		gain.gain.setValueAtTime(0.15, now);
+		gain.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+
+		breath.connect(filter);
+		filter.connect(gain);
+		gain.connect(ctx.destination);
+		breath.start(now);
+	}
+
 	/** Tactile paper page turn swoosh */
 	playPaperTurn(): void {
 		if (this.isMuted) return;
