@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="48" fill="#F59E0B" />
+  <!-- Penguin Body -->
+  <path d="M 50,15 C 32,15 25,32 25,60 C 25,82 34,88 50,88 C 66,88 75,82 75,60 C 75,32 68,15 50,15 Z" fill="#1C1917" />
+  <!-- White Belly -->
+  <path d="M 50,30 C 38,30 34,45 34,64 C 34,80 41,84 50,84 C 59,84 66,80 66,64 C 66,45 62,30 50,30 Z" fill="#FAFAF9" />
+  <!-- Eyes -->
+  <ellipse cx="43" cy="38" rx="4" ry="5" fill="#FAFAF9" />
+  <circle cx="44" cy="38" r="2.5" fill="#1C1917" />
+  <ellipse cx="57" cy="38" rx="4" ry="5" fill="#FAFAF9" />
+  <circle cx="56" cy="38" r="2.5" fill="#1C1917" />
+  <!-- Beak -->
+  <polygon points="50,50 44,43 56,43" fill="#F97316" />
+  <!-- Headband -->
+  <path d="M 30,26 Q 50,29 70,26" stroke="#E11D48" stroke-width="4" stroke-linecap="round" fill="none" />
+  <circle cx="50" cy="27" r="2.5" fill="#FBBF24" />
+</svg>
