@@ -26,20 +26,20 @@
 	class="relative min-h-screen bg-[#F5F4EF] dark:bg-[#0D1117] text-stone-900 dark:text-stone-100 desk-pattern transition-colors duration-300 overflow-x-hidden flex flex-col justify-between"
 >
 	<!-- Main Navigation / Status Bar -->
-	<header class="max-w-6xl w-full mx-auto px-4 sm:px-8 pt-5 pb-2 flex items-center justify-between">
-		<div class="flex items-center gap-3">
+	<header class="max-w-6xl w-full mx-auto px-3 sm:px-8 pt-4 sm:pt-5 pb-2 flex items-center justify-between gap-2">
+		<div class="flex items-center gap-2 sm:gap-3 min-w-0 shrink">
 			<a
 				href="/"
-				class="group flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-lg p-1"
+				class="group flex items-center gap-2 sm:gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 rounded-lg p-0.5 sm:p-1 min-w-0"
 			>
-				<div class="w-8 h-8 rounded-xl bg-amber-400 dark:bg-amber-500 border border-amber-600 flex items-center justify-center font-mono font-bold text-stone-900 shadow-sm group-hover:scale-105 transition-transform">
+				<div class="w-8 h-8 rounded-xl bg-amber-400 dark:bg-amber-500 border border-amber-600 flex items-center justify-center font-mono font-bold text-stone-900 shadow-sm group-hover:scale-105 transition-transform shrink-0">
 					🐧
 				</div>
-				<div>
-					<span class="font-fraunces font-bold text-lg text-stone-900 dark:text-stone-50 block leading-tight">
+				<div class="min-w-0">
+					<span class="font-fraunces font-bold text-base sm:text-lg text-stone-900 dark:text-stone-50 block leading-tight truncate">
 						Padepokan Penguin
 					</span>
-					<span class="font-mono text-[11px] text-stone-500 dark:text-stone-400 block">
+					<span class="font-mono text-[10px] sm:text-[11px] text-stone-500 dark:text-stone-400 block truncate">
 						padepokanpenguin.github.io
 					</span>
 				</div>
@@ -47,13 +47,13 @@
 		</div>
 
 		<!-- Right Controls: Tactile Lantern, Audio, GitHub -->
-		<div class="flex items-center gap-2 sm:gap-3">
+		<div class="flex items-center gap-1.5 sm:gap-3 shrink-0">
 			<!-- Tactile Lantern Theme Switch -->
 			<LanternToggle />
 
 			<button
 				type="button"
-				class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm text-xs font-mono text-stone-700 dark:text-stone-300 hover:border-amber-400 transition-colors shadow-sm cursor-pointer"
+				class="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm text-xs font-mono text-stone-700 dark:text-stone-300 hover:border-amber-400 transition-colors shadow-sm cursor-pointer shrink-0"
 				onclick={toggleAudio}
 				aria-label={isMuted ? 'Aktifkan Efek Suara' : 'Bisukan Efek Suara'}
 			>
@@ -65,10 +65,14 @@
 				href="https://github.com/padepokanpenguin"
 				target="_blank"
 				rel="noreferrer"
-				class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm text-xs font-mono font-semibold text-stone-700 dark:text-stone-300 hover:border-amber-400 transition-colors shadow-sm"
+				class="flex items-center gap-1.5 px-2.5 sm:px-3 py-1.5 rounded-xl border border-stone-300 dark:border-stone-700 bg-white/80 dark:bg-stone-800/80 backdrop-blur-sm text-xs font-mono font-semibold text-stone-700 dark:text-stone-300 hover:border-amber-400 transition-colors shadow-sm shrink-0 whitespace-nowrap"
+				aria-label="Kunjungi profil GitHub Padepokan Penguin"
 			>
+				<svg class="w-3.5 h-3.5 shrink-0 fill-current" viewBox="0 0 24 24">
+					<path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+				</svg>
 				<span>GitHub</span>
-				<span>↗</span>
+				<span class="hidden sm:inline">↗</span>
 			</a>
 		</div>
 	</header>
