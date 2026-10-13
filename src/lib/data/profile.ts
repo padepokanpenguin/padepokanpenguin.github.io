@@ -45,16 +45,16 @@ export const profile: Profile = {
 			desc: 'Pengembangan & pemeliharaan modul HIS, WMS, MySiloam, dan integrasi middleware (Redis, RabbitMQ, Kafka, ELK Stack) dengan standar kepatuhan 100% SLA.'
 		},
 		{
-			role: 'Programmer',
-			company: 'PT. Abqory Sharia Group',
-			period: 'Oct 2022 — Mar 2023',
-			desc: 'Membangun dan meluncurkan platform e-course edukasi menggunakan Next.js, integrasi RESTful API dengan Strapi CMS, dan manajemen konten dinamis.'
-		},
-		{
 			role: 'Backend Developer',
 			company: 'Future Gate High School',
 			period: 'May 2023 — Dec 2023',
 			desc: 'Arsitektur sistem informasi sekolah menggunakan AdonisJS, PostgreSQL, Linux VPS hardening, dan CI/CD pipeline otomatis.'
+		},
+		{
+			role: 'Programmer',
+			company: 'PT. Abqory Sharia Group',
+			period: 'Oct 2022 — Mar 2023',
+			desc: 'Membangun dan meluncurkan platform e-course edukasi menggunakan Next.js, integrasi RESTful API dengan Strapi CMS, dan manajemen konten dinamis.'
 		}
 	],
 	stats: [
