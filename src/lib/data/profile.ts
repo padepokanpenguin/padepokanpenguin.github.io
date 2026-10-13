@@ -45,10 +45,10 @@ export const profile: Profile = {
 			desc: 'Pengembangan & pemeliharaan modul HIS, WMS, MySiloam, dan integrasi middleware (Redis, RabbitMQ, Kafka, ELK Stack) dengan standar kepatuhan 100% SLA.'
 		},
 		{
-			role: 'Creative & Tech Contributor',
-			company: 'Surabaya Hacker Link',
-			period: 'Apr 2022 — Sekarang',
-			desc: 'Komunitas edukasi keamanan siber dan open-source tertua di Indonesia, memproduksi materi visual dan mendukung konferensi Unmask Cyber Crime.'
+			role: 'Programmer',
+			company: 'PT. Abqory Sharia Group',
+			period: 'Oct 2022 — Mar 2023',
+			desc: 'Membangun dan meluncurkan platform e-course edukasi menggunakan Next.js, integrasi RESTful API dengan Strapi CMS, dan manajemen konten dinamis.'
 		},
 		{
 			role: 'Backend Developer',
