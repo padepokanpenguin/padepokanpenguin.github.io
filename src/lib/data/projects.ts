@@ -24,14 +24,14 @@ export const projects: Project[] = [
 		highlight: 'Multi-agent orchestration, distributed message queues via BullMQ, dan embeddable webchat widget'
 	},
 	{
-		id: 'gemini-flash-api',
-		title: 'Gemini Flash API Gateway',
-		category: 'Backend & AI Integration',
-		year: '2025',
-		description: 'API gateway dan wrapper berkinerja tinggi untuk model Gemini Flash, memfasilitasi integrasi LLM cepat dengan penanganan streaming respons.',
-		tech: ['TypeScript', 'Node.js', 'Google GenAI SDK', 'REST API'],
-		github: 'https://github.com/padepokanpenguin/gemini-flash-api',
-		highlight: 'Sub-second response streaming dan token handling yang efisien'
+		id: 'dotvim',
+		title: 'Dotvim (Neovim Config)',
+		category: 'Developer Tooling & Linux Environment',
+		year: '2026',
+		description: 'Konfigurasi Neovim modern berbasis Lua yang selalu diperbarui dengan API Neovim terkini (0.12+), native LSP, integrasi Tree-sitter, Telescope, dan manajemen plugin modular via lazy.nvim.',
+		tech: ['Lua', 'Neovim 0.12+', 'Tree-sitter', 'LSP', 'lazy.nvim', 'Telescope'],
+		github: 'https://github.com/padepokanpenguin/dotvim',
+		highlight: 'Native vim.lsp.config, auto-bootstrap lazy.nvim, dan formatters via none-ls/prettierd'
 	},
 	{
 		id: 'toefl-toeic-gmc',

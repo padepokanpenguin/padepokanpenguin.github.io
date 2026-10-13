@@ -133,7 +133,7 @@
 			<span>© 2026</span>
 		</div>
 		<div class="flex items-center gap-4">
-			<span>Ditenagai Svelte 5 + Motion</span>
+			<span>dibuat dengan Svelte 5 + motion</span>
 			<span>·</span>
 			<a
 				href="https://feralui.dev"

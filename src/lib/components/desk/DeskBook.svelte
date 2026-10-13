@@ -2,15 +2,20 @@
 	import { profile } from '#lib/data/profile';
 	import { projects } from '#lib/data/projects';
 	import { experiments } from '#lib/data/experiments';
+	import { blogPosts, type BlogPost } from '#lib/data/blogs';
 	import { sound } from '#lib/sound/audio';
 	import Scribble from '#lib/components/ui/Scribble.svelte';
 
-	let activeTab = $state<'bio' | 'projects' | 'lab' | 'contact'>('bio');
+	let activeTab = $state<'bio' | 'projects' | 'blog' | 'lab' | 'contact'>('bio');
 	let hoveredProject = $state<string | null>(null);
+	let hoveredBlog = $state<string | null>(null);
+	let selectedPost = $state<BlogPost | null>(null);
+	let selectedTag = $state<string | null>(null);
 
 	const tabs = [
 		{ id: 'bio', label: '🥋 Padepokan', title: 'Tentang & Filosofi' },
 		{ id: 'projects', label: '📦 Karya', title: 'Koleksi Proyek' },
+		{ id: 'blog', label: '📝 Tulisan', title: 'Catatan & Artikel' },
 		{ id: 'lab', label: '🧪 Lab Fisika', title: 'Eksperimen Interaktif' },
 		{ id: 'contact', label: '📡 Markas', title: 'Kanal & Kontak' }
 	] as const;
@@ -18,11 +23,12 @@
 	function setTab(id: typeof activeTab) {
 		if (activeTab === id) return;
 		activeTab = id;
+		selectedPost = null;
 		sound.playPaperTurn();
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
-		const order: Array<typeof activeTab> = ['bio', 'projects', 'lab', 'contact'];
+		const order: Array<typeof activeTab> = ['bio', 'projects', 'blog', 'lab', 'contact'];
 		const idx = order.indexOf(activeTab);
 		if (e.key === 'ArrowRight' && idx < order.length - 1) {
 			setTab(order[idx + 1]);
@@ -222,6 +228,155 @@
 						</div>
 					{/each}
 				</div>
+			</div>
+
+		<!-- TAB 3: TULISAN / BLOG -->
+		{:else if activeTab === 'blog'}
+			<div class="space-y-6 animate-fadeIn">
+				{#if selectedPost}
+					<!-- Single Post Reading View -->
+					<div class="space-y-6">
+						<button
+							type="button"
+							class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors cursor-pointer group"
+							onclick={() => {
+								selectedPost = null;
+								sound.playPaperTurn();
+							}}
+						>
+							<span class="group-hover:-translate-x-1 transition-transform">←</span>
+							<span>Kembali ke Semua Tulisan</span>
+						</button>
+
+						<div class="border-b border-stone-200 dark:border-stone-800 pb-5">
+							<div class="flex items-center gap-2 mb-2">
+								<span class="font-mono text-xs text-amber-600 dark:text-amber-400 font-bold">{selectedPost.date}</span>
+								<span class="text-stone-300 dark:text-stone-700">·</span>
+								<span class="font-mono text-xs text-stone-500 dark:text-stone-400">Oleh Aria Nur Jamal</span>
+							</div>
+							<h2 class="text-2xl sm:text-3xl font-fraunces font-bold text-stone-900 dark:text-stone-50 leading-tight">
+								{selectedPost.title}
+							</h2>
+							<div class="flex flex-wrap gap-1.5 mt-3">
+								{#each selectedPost.tags as tag}
+									<span class="px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 font-mono text-[11px]">
+										#{tag}
+									</span>
+								{/each}
+							</div>
+						</div>
+
+						<!-- Article Body Render -->
+						<div class="max-w-none text-sm sm:text-base leading-relaxed text-stone-700 dark:text-stone-300 space-y-4 whitespace-pre-line font-inter">
+							{selectedPost.content}
+						</div>
+
+						<div class="pt-6 border-t border-stone-200 dark:border-stone-800 flex justify-between items-center">
+							<button
+								type="button"
+								class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 transition-colors cursor-pointer"
+								onclick={() => {
+									selectedPost = null;
+									sound.playPaperTurn();
+								}}
+							>
+								<span>← Kembali ke Semua Tulisan</span>
+							</button>
+						</div>
+					</div>
+				{:else}
+					<!-- Posts List View -->
+					<div>
+						<div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-3">
+							<div>
+								<h2 class="text-2xl font-fraunces font-bold text-stone-900 dark:text-stone-50">
+									Catatan & Tulisan
+								</h2>
+								<p class="text-xs font-mono text-stone-500 dark:text-stone-400 mt-1">
+									Koleksi artikel teknis, rekayasa software, dan pemikiran seputar teknologi
+								</p>
+							</div>
+							<span class="font-caveat text-lg text-amber-600 dark:text-amber-400">
+								{blogPosts.length} Tulisan
+							</span>
+						</div>
+
+						<!-- Tag Filter Chips -->
+						<div class="flex flex-wrap gap-1.5 pt-4 pb-2">
+							<button
+								type="button"
+								class="px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer {selectedTag === null ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'}"
+								onclick={() => selectedTag = null}
+							>
+								Semua ({blogPosts.length})
+							</button>
+							{#each ['tutorial', 'backend', 'devops', 'gemini', 'hugo', 'skill', 'self-development'] as t}
+								{@const count = blogPosts.filter(p => p.tags.includes(t)).length}
+								{#if count > 0}
+									<button
+										type="button"
+										class="px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer {selectedTag === t ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'}"
+										onclick={() => selectedTag = selectedTag === t ? null : t}
+									>
+										#{t} ({count})
+									</button>
+								{/if}
+							{/each}
+						</div>
+
+						<!-- Articles Stream -->
+						<div class="space-y-4 pt-3">
+							{#each blogPosts.filter(p => !selectedTag || p.tags.includes(selectedTag)) as post}
+								<div
+									class="p-5 rounded-2xl bg-white dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700/80 shadow-sm hover:border-amber-400 dark:hover:border-amber-500/80 transition-all duration-200 cursor-pointer group"
+									onclick={() => {
+										selectedPost = post;
+										sound.playPaperTurn();
+									}}
+									onkeydown={(e) => {
+										if (e.key === 'Enter' || e.key === ' ') {
+											selectedPost = post;
+											sound.playPaperTurn();
+										}
+									}}
+									onmouseenter={() => (hoveredBlog = post.slug)}
+									onmouseleave={() => (hoveredBlog = null)}
+									role="button"
+									tabindex="0"
+									aria-label="Baca tulisan: {post.title}"
+								>
+									<div class="flex flex-wrap items-baseline justify-between gap-2">
+										<div class="inline-block relative">
+											<h3 class="text-base sm:text-lg font-fraunces font-bold text-stone-900 dark:text-stone-100 group-hover:text-amber-600 dark:group-hover:text-amber-400 transition-colors">
+												{post.title}
+											</h3>
+											<Scribble active={hoveredBlog === post.slug} />
+										</div>
+										<span class="font-mono text-xs text-stone-400 dark:text-stone-500">{post.date}</span>
+									</div>
+
+									<p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 mt-2 leading-relaxed">
+										{post.summary}
+									</p>
+
+									<div class="mt-3 pt-2.5 border-t border-stone-100 dark:border-stone-700/50 flex flex-wrap items-center justify-between gap-2">
+										<div class="flex flex-wrap gap-1.5">
+											{#each post.tags.slice(0, 4) as t}
+												<span class="px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 font-mono text-[10px]">
+													#{t}
+												</span>
+											{/each}
+										</div>
+										<span class="text-xs font-mono font-bold text-amber-600 dark:text-amber-400 group-hover:translate-x-0.5 transition-transform flex items-center gap-1">
+											<span>Baca Artikel</span>
+											<span>→</span>
+										</span>
+									</div>
+								</div>
+							{/each}
+						</div>
+					</div>
+				{/if}
 			</div>
 
 		<!-- TAB 3: LAB EXPERIMENTS -->
