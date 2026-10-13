@@ -4,8 +4,16 @@
 	import { experiments } from '#lib/data/experiments';
 	import { blogPosts, type BlogPost } from '#lib/data/blogs';
 	import { sound } from '#lib/sound/audio';
+	import { marked } from 'marked';
 	import Scribble from '#lib/components/ui/Scribble.svelte';
 
+	function renderMarkdown(content: string): string {
+		try {
+			return marked.parse(content, { gfm: true, breaks: true }) as string;
+		} catch {
+			return content;
+		}
+	}
 	let activeTab = $state<'bio' | 'projects' | 'blog' | 'lab' | 'contact'>('bio');
 	let hoveredProject = $state<string | null>(null);
 	let hoveredBlog = $state<string | null>(null);
@@ -267,8 +275,8 @@
 						</div>
 
 						<!-- Article Body Render -->
-						<div class="max-w-none text-sm sm:text-base leading-relaxed text-stone-700 dark:text-stone-300 space-y-4 whitespace-pre-line font-inter">
-							{selectedPost.content}
+						<div class="article-markdown font-inter text-sm sm:text-base leading-relaxed text-stone-700 dark:text-stone-300">
+							{@html renderMarkdown(selectedPost.content)}
 						</div>
 
 						<div class="pt-6 border-t border-stone-200 dark:border-stone-800 flex justify-between items-center">
@@ -482,5 +490,84 @@
 	}
 	.animate-fadeIn {
 		animation: fadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+	}
+
+	:global(.article-markdown h1),
+	:global(.article-markdown h2),
+	:global(.article-markdown h3),
+	:global(.article-markdown h4) {
+		font-family: var(--font-fraunces), serif;
+		font-weight: 700;
+		color: var(--tw-prose-headings, inherit);
+		margin-top: 1.75rem;
+		margin-bottom: 0.6rem;
+		line-height: 1.3;
+	}
+	:global(.article-markdown h1) {
+		font-size: 1.6rem;
+	}
+	:global(.article-markdown h2) {
+		font-size: 1.35rem;
+	}
+	:global(.article-markdown h3) {
+		font-size: 1.15rem;
+	}
+	:global(.article-markdown p) {
+		margin-bottom: 1.1rem;
+		line-height: 1.75;
+	}
+	:global(.article-markdown ul),
+	:global(.article-markdown ol) {
+		padding-left: 1.5rem;
+		margin-bottom: 1.1rem;
+		list-style-type: disc;
+	}
+	:global(.article-markdown ol) {
+		list-style-type: decimal;
+	}
+	:global(.article-markdown li) {
+		margin-bottom: 0.35rem;
+		line-height: 1.6;
+	}
+	:global(.article-markdown pre) {
+		background-color: #161B22;
+		color: #E6EDF3;
+		padding: 1.1rem;
+		border-radius: 0.85rem;
+		overflow-x: auto;
+		font-family: var(--font-mono), monospace;
+		font-size: 0.85rem;
+		margin: 1.35rem 0;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+	}
+	:global(.article-markdown code:not(pre code)) {
+		background-color: rgba(120, 113, 108, 0.15);
+		color: #D97706;
+		padding: 0.15rem 0.4rem;
+		border-radius: 0.35rem;
+		font-family: var(--font-mono), monospace;
+		font-size: 0.88em;
+	}
+	:global(.article-markdown blockquote) {
+		border-left: 3px solid #F59E0B;
+		padding-left: 1rem;
+		font-style: italic;
+		color: #78716C;
+		margin: 1.25rem 0;
+	}
+	:global(.article-markdown a) {
+		color: #D97706;
+		text-decoration: underline;
+		text-underline-offset: 3px;
+		font-weight: 600;
+	}
+	:global(.article-markdown strong) {
+		font-weight: 700;
+		color: inherit;
+	}
+	:global(.article-markdown hr) {
+		border: none;
+		border-top: 1px solid rgba(120, 113, 108, 0.2);
+		margin: 2rem 0;
 	}
 </style>

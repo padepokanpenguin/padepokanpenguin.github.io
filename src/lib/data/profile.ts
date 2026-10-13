@@ -67,7 +67,6 @@ export const profile: Profile = {
 		{ label: 'GitHub', url: 'https://github.com/padepokanpenguin', icon: 'github' },
 		{ label: 'LinkedIn', url: 'https://www.linkedin.com/in/aria-nur-jamal-ba5856231/', icon: 'linkedin' },
 		{ label: 'Twitter / X', url: 'https://twitter.com/aria_nur_jamal', icon: 'twitter' },
-		{ label: 'Medium', url: 'https://tripletwinsco.medium.com/', icon: 'book' },
 		{ label: 'Telegram', url: 'https://t.me/kalang_kabut', icon: 'send' },
 		{ label: 'Download CV', url: 'https://docs.google.com/document/d/1IDG9QYp2nHVptUbDT_KraNNIb4oZUx8MURamvQDdkEI/edit?tab=t.0', icon: 'file-text' }
 	]

@@ -38,16 +38,6 @@ export const blogPosts: BlogPost[] = [
     "content": "Sore itu, seperti biasa, saya push kode blog saya ke GitHub. Semuanya normal — GitHub Actions jalan, build successful, deployment complete. Tapi begitu saya buka blog saya...\r\n\r\n**404.**\r\n\r\nTidak ada error di GitHub Actions. Tidak ada warning di logs. Blog просто tidak mau muncul.\r\n\r\nMari saya ceritakan perjalanan debugging-nya.\r\n\r\n## Langkah 1: Revert, Tapi Masalah Tetap Ada\r\n\r\n第一步, saya cek perubahan terbaru. Apakah saya touching anything yang terkait dengan deployment? Tidak. Semua perubahan hanya soal konten.\r\n\r\nSaya coba revert ke commit sebelumnya — biar lihat apakah masalahnya memang dari perubahan terakhir atau tidak.\r\n\r\nHasilnya? Tetap 404.\r\n\r\nSaya mulai curiga ini bukan soal kode yang saya ubah.\r\n\r\nCoba cek GitHub Actions:\r\n\r\n```bash\r\ngh run list --limit 10\r\n```\r\n\r\nKeliatan ada pattern:\r\n- ✅ Deployment terbaru: \"Use Hugo 0.123.0...\" — Berhasil\r\n- ❌ Percobaan sebelumnya: \"Update Hugo version...\" — Gagal\r\n- ✅ Lebih awal lagi: \"Revert Hugo version...\" — Berhasil\r\n\r\nJadi masalahnya bermula dari percobaan update Hugo.\r\n\r\n```bash\r\ngh run view 16703525626 --log-failed\r\n```\r\n\r\n## Langkah 2: Error yang Tidak Terduga\r\n\r\nDari log, error-nya ternyata:\r\n\r\n```\r\nERROR render of \"/\" failed: partial \"partials/templates/_funcs/get-page-images\" not found\r\n```\r\n\r\nWait, seriously? Saya sudah pakai theme ini berbulan-bulan dan tiba-tiba missing partial?\r\n\r\nSaya cek submodule status:\r\n\r\n```bash\r\ngit submodule status\r\n```\r\n\r\nOutput: `-dad94ab4b7c55eea0b63f7b81419d027fe9a8d81 themes/PaperMod`\r\n\r\n**Tanda negatif** di depan commit hash. Itu artinya submodule belum diinisialisasi. Direktori `themes/PaperMod` basically kosong.\r\n\r\nIronis.\r\n\r\nSolusinya straightforward:\r\n\r\n```bash\r\ngit submodule update --init --recursive\r\n```\r\n\r\n```\r\nSubmodule 'themes/PaperMod' registered for path 'themes/PaperMod'\r\nCloning into 'themes/PaperMod'...\r\nSubmodule path 'themes/PaperMod': checked out 'dad94ab4b7c55eea0b63f7b81419d027fe9a8d81'\r\n```\r\n\r\nSelesai. Tapi tunggu, ada lagi.\r\n\r\n## Langkah 3: Duplikat Submodule\r\n\r\nSaya cek `.gitmodules` dan menemukan ini:\r\n\r\n```ini\r\n[submodule \"PaperMod\"]\r\n    path = PaperMod\r\n    url = https://github.com/adityatelange/hugo-PaperMod.git\r\n[submodule \"themes/PaperMod\"]\r\n    path = themes/PaperMod\r\n    url = https://github.com/adityatelange/hugo-PaperMod.git\r\n```\r\n\r\nTwo entries untuk submodule yang sama — tapi dengan path berbeda. Saya hapus yang `PaperMod` (tanpa `themes/`) dan сохраняю yang `themes/PaperMod`.\r\n\r\nNext, kompatibilitas versi. GitHub Actions yang gagal tadi pakai Hugo 0.148.0. Tapi versi tersebut punya breaking changes yang hapus `.Site.Social` — sesuatu yang masih digunakan PaperMod versi lama.\r\n\r\nAction yang saya ambil:\r\n1. Update PaperMod ke v8.0\r\n2. Kunci Hugo ke versi stabil 0.123.0\r\n\r\n```bash\r\ncd themes/PaperMod\r\ngit checkout v8.0\r\n```\r\n\r\n## Langkah 4: GitHub Actions Berhasil, Tapi Tetap 404\r\n\r\nOke, semua masalah di atas sudah diperbaiki. Saya commit, push, dan GitHub Actions jalan dengan smooth:\r\n\r\n- ✅ Install Hugo CLI\r\n- ✅ Checkout (with submodules)\r\n- ✅ Setup Pages\r\n- ✅ Build with Hugo\r\n- ✅ Upload artifact\r\n- ✅ Deploy\r\n\r\nTidak ada error. Semuanya hijau.\r\n\r\nTapi begitu buka blog...\r\n\r\n**404 lagi.**\r\n\r\nIni yang paling frustrating. Kode sudah benar, build sudah berhasil, tapi hasilnya 404. Where is the problem?\r\n\r\nSaya coba cek GitHub Pages API:\r\n\r\n```bash\r\ngh api repos/padepokanpenguin/padepokanpenguin.github.io/pages\r\n```\r\n\r\nResponse-nya reveal everything:\r\n\r\n```json\r\n{\r\n  \"build_type\": \"legacy\",\r\n  \"source\": {\r\n    \"branch\": \"master\",\r\n    \"path\": \"/\"\r\n  }\r\n}\r\n```\r\n\r\n**Build type \"Legacy\"**.\r\n\r\nWHOA. Di sini masalahnya.\r\n\r\nWalaupun saya sudah punya custom Hugo GitHub Actions workflow yang berjalan sempurna, GitHub Pages mengabaikannya sepenuhnya. Instead, dia mencoba build dengan Jekyll — sistem lama. Karena tidak ada Jekyll config di repo ini, yang muncul ya 404.\r\n\r\n## Langkah 5: Pengaturan yang Tersembunyi\r\n\r\nSolusinya ternyata simple — tapi lokasinya tidak obvious.\r\n\r\nSaya harus ubah GitHub Pages source dari \"Deploy from a branch\" ke **\"GitHub Actions\"** langsung dari repository settings.\r\n\r\nSekarang GitHub paham: \"Oke, saya tidak akan coba build sendiri. Gunakan workflow custom yang sudah provided.\"\r\n\r\nSetelah itu, blog langsung bisa diakses normal.\r\n\r\n## Pelajaran yang Dipetik\r\n\r\nDari pengalaman ini, ada beberapa hal yang saya realise:\r\n\r\n1. **Submodule perlu di-init** — Tanda `-` di `git submodule status` artinya submodule belum checkout. Jangan assume karena ada di repo, berarti sudah ready.\r\n\r\n2. **Versi yang lebih baru tidak selalu lebih baik** — Hugo 0.148.0 punya breaking changes. Kadang locked ke versi stabil itu pilihan yang lebih bijak.\r\n\r\n3. **Settings bisa override kode** — Sekecil apapun repository settings bisa membuat workflow yang sudah perfect jadi tidak digunakan.\r\n\r\n4. **Error message tidak selalu menunjukkan letak masalah** — Dari luar看起来 semua normal. Masalah sebenarnya ada di pengaturan platform, bukan di kode.\r\n\r\n## Best Practices Debugging yang Saya Terapkan\r\n\r\n### 1. Cek Perubahan Terbaru Dulu\r\nGunakan `git log` dan riwayat GitHub Actions untuk lihat apa yang berubah. Biasanya jawabannya ada di situ.\r\n\r\n### 2. Follow the Error Trail\r\nSetiap error message itu petunjuk. Dari missing partial → submodule issue → versi conflict → settings problem. errors lead to next clue.\r\n\r\n### 3. Verify Asumsi\r\nSaya assume GitHub Actions workflow saya yang dijalankan. Fakta di lapangan bilang lain. Selalu verify, jangan assume.\r\n\r\n### 4. Fix Satu Per Satu\r\nJangan coba fix semua sekaligus. Saya pisahkan: submodule dulu, then versi, then settings. Lebih mudah track apa yang solve apa.\r\n\r\n### 5. Document the Journey\r\nMenulis pengalaman ini bukan cuma buat kalian — tapi juga buat diri saya sendiri di masa depan ketika hal yang sama terjadi lagi.\r\n\r\n## Penutup\r\n\r\nSetelah setting GitHub Pages diubah ke GitHub Actions workflow, blog finally bisa diakses lagi.\r\n\r\nKadang bug yang paling bikin frustrasi justru yang teach kita paling banyak. Pengalaman ini mengingatkan saya bahwa dalam development, masalah tidak selalu ada di kode yang kita tulis — kadang ada di configuration platform yang kita assume sudah benar.\r\n\r\nJadi, jangan malas baca dokumentasi. Jangan malas debug. Dan kalau sudah menyerah... coba cek settings-nya. 😆"
   },
   {
-    "slug": "2025-08-02-business-understanding-the-missing-skill-in-many-developers",
-    "title": "Business Understanding: The Missing Skill in Many Developers",
-    "date": "2025-08-02",
-    "tags": [
-      "uncategorized"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/business-understanding-the-missing-skill-in-many-developers-7862d0fd337f?so...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/business-understanding-the-missing-skill-in-many-developers-7862d0fd337f?source=rss-1ee194a8227------2)"
-  },
-  {
     "slug": "problem-solving-skill",
     "title": "Problem Solving Skill",
     "date": "2024-05-06",
@@ -80,110 +70,5 @@ export const blogPosts: BlogPost[] = [
     ],
     "summary": "Suatu hari penulis ditanya oleh seorang teman, kira-kira pertanyaannya seperti ini: Kira-kira hal apa yang bisa dari pemrograman atau IT yang bisa dig...",
     "content": "Suatu hari penulis ditanya oleh seorang teman, kira-kira pertanyaannya seperti ini:\r\nKira-kira hal apa yang bisa dari pemrograman atau IT yang bisa digabungkan dengan ilmu lain? Maka penulispun menjawab, Computational Thinking. Lalu si penanya bertanya, Computational Thinking? Apa itu Computational Thinking? Di sini penulis berusaha untuk menjawab pertanyaan tersebut sesederhana mungkin karena si penanya tidak memiliki background IT. Computational Thinking yang bisa disebut berfikir secara komputasi adalah salah satu cara berfikir yang digunakan dalam menyelesaikan masalah. Tiba-tiba di penanya mengatakan, beberapa waktu lalu saya sempat tanya ke salah satu saudara yang lulusan IT dan orang tersebut menjadi founder salah satu start up yang terkenal dengan pertanyaan yang sama dan dia menjawab hal yang sama yaitu berfikir secara komputasi.\r\n\r\n## Apa itu Computational Thinking?\r\n\r\nComputational Thinking atau berfikir secara komputasi adalah salah satu proses berfikir yang melibatkan bagaimana memformulasikan persoalan dan solusinya sehingga solusi tersebut dapat direpresentasikan dalam bentuk yang efektif. Dalam berfikir secara komputasi memiliki beberapa landasan, yaitu dekomposisi, abstraksi, algoritma, pengenalan pola, dan mengevaluasi cara.\r\n\r\nMari kita bahas satu persatu dari landasan tersebut.\r\n\r\n### 1. Dekomposisi (Decompotition)\r\nDekomposisi atau decompotition adalah memecahkan atau membagi suatu masalah menjadi bagian-bagian kecil, sehingga membuat kita lebih mudah dalam menyelesaikan masalah tersebut. Pada kasus kali ini kita akan menggunakan masalah pembuatan meja. Jika kita ingin membuat meja kita harus melihat apa saja yang kita butuhkan dalam pembuatan meja tersebut dan membagi hal tersebut menjadi bagian-bagian yang memiliki fungsi sendiri. Suatu meja memiliki tatakan (bagian atas), kaki-kaki meja dan penyambung antara kaki dan meja bagian atas. Dari sini kita dapat mengambil kesimpulan bahwa kita memiliki 3 bagian dari masalah pembuatan meja yaitu kita harus menyiapkan bagian atas meja, kaki-kaki meja dan penyambung antara kaki-kaki meja dan bagian atas meja. Sehingga kita bisa fokus dalam memaksimalkan fungsi-fungsi dari bagian-bagian yang akan kita buat.\r\n\r\n### 2. Abstraksi (Abstraction)\r\nAbstraksi atau abstraction adalah mengutamakan hal-hal yang penting dalam pemecahan suatu masalah. Di sini kita akan menggunakan contoh diatas yaitu pembuatan meja. Dalam pembuatan meja kita harus melihat apa saja yang dibutuhkan agar meja tersebut berfungsi sesuatu dengan kebutuhan kita, jika kita membutuhkan meja yang sederhana dan hanya digunakan untuk menulis atau menaruh barang-barang saja, maka kita bisa membuat kesimpulan bahwa meja yang kita butuhkan adalah meja sederhana tanpa ada tambahan apapun. Kita tidak perlu memikirkan harus ada roda di kaki meja tersebut atau meja tersebut memiliki warna yang aesthetic dan lain-lain. Setelah kita membuat meja tersebut dan sudah mencapai tujuan dari fungsi yang kita butuhkan barulah kita memikirkan masalah yang lain.\r\n\r\n### 3. Algoritma (Algorithm)\r\nAlgoritma atau algorithm adalah membuat langkah apa yang akan kita lakukan untuk menyelesaikan suatu masalah. Dalam pembuatan meja di atas kita sudah mengetahui apa saja yang kita butuhkan dan apa saja bagian-bagian penting yang harus dikerjakan. Dari sini kita bisa membuat langkah-langkah untuk menyelesaikan masalah yaitu pembuatan meja, kita bisa memulai dari membuat kaki meja terlebih dahulu atau bagian atas meja atau bagian untuk menyambungkan antara kaki dan bagian atas meja.\r\n\r\n### 4. Pengenalan Pola (Pattern Recognition)\r\nPengenalan pola atau patter recognition adalah mengenali dan memahami langkah-langkah yang kita buat dalam pemecahan suatu masalah sehingga jika kita menghadapi masalah yang sama kita dapat menyelesaikan masalah tersebut secara cepat dan efektif. Pada saat pembuatan meja, kita harus mengenali, memahami dan menghafal langkah-langkah yang kita butuhkan dalam pembuatan meja, sehingga jika kita ingin membuat meja yang sama untuk kedua kali, ketiga kali dan seterusnya, maka proses tersebut menjadi lebih cepat dan lebih efisien.\r\n\r\n### 5. Mengevaluasi Cara (Algorithm Evaluation)\r\nMengevaluasi cara adalah menganalisa dan mengevaluasi apa yang sudah kita kerjakan, bagaimana hasilnya dan apakah ada cara yang lebih cepat dan efektif dalam penyelesaian masalah tersebut. Dalam pembuatan suatu meja kita bisa menganalisa cara yang kita pakai dan bahan atau kayu apa yang akan kita gunakan untuk membuat meja tersebut. Dari sini kita bisa mengembangkan fikiran kita sehingga meja yang kita buat bisa sesuai dengan penggunaannya. Contoh meja yang akan digunakan untuk meletakkan barang-barang berat maka membutuhkan kayu yang kuat, seperti kayu jati.\r\n\r\n\r\n#### Kesimpulan\r\nComputational Thinking atau berfikir secara komputasi tidak berpacu pada jurusan tertentu atau pekerjaan bidang tertentu. Dengan memahami dasar-dasar berfikir secara komputasi maka kita akan bisa menerapkan cara berfikir ini pada segala aspek dan bidang."
-  },
-  {
-    "slug": "2023-03-03-a-pattern-in-our-life",
-    "title": "A Pattern In Our Life",
-    "date": "2023-03-03",
-    "tags": [
-      "aboutlife",
-      "good-life",
-      "lifestyle",
-      "life",
-      "healthy-habbits"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/a-pattern-in-our-life-ab8ddde7086e?source=rss-1ee194a8227------2)...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/a-pattern-in-our-life-ab8ddde7086e?source=rss-1ee194a8227------2)"
-  },
-  {
-    "slug": "2021-12-02-why-is-writing-better-than-reading",
-    "title": "Why is writing better than reading?",
-    "date": "2021-12-02",
-    "tags": [
-      "writing",
-      "writing-life",
-      "writing-tips"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/why-is-writing-better-than-reading-4d37d29003ca?source=rss-1ee194a8227-----...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/why-is-writing-better-than-reading-4d37d29003ca?source=rss-1ee194a8227------2)"
-  },
-  {
-    "slug": "2021-11-28-lets-get-deep-in-css-selector-part-2",
-    "title": "Let’s Get Deep In CSS Selector part 2",
-    "date": "2021-11-28",
-    "tags": [
-      "css",
-      "web-design",
-      "web-development",
-      "pseudo-class"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/lets-get-deep-in-css-selector-part-2-92b73cbaf878?source=rss-1ee194a8227---...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/lets-get-deep-in-css-selector-part-2-92b73cbaf878?source=rss-1ee194a8227------2)"
-  },
-  {
-    "slug": "2021-11-23-lets-get-deep-in-css-selector-part-1",
-    "title": "Let’s Get Deep In CSS Selector part 1",
-    "date": "2021-11-23",
-    "tags": [
-      "uiwebview",
-      "web-development",
-      "web-design",
-      "css",
-      "desain-ui-web"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/lets-get-deep-in-css-selector-part-1-cfd8461a751b?source=rss-1ee194a8227---...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/lets-get-deep-in-css-selector-part-1-cfd8461a751b?source=rss-1ee194a8227------2)"
-  },
-  {
-    "slug": "2021-11-22-lets-get-started-with-css",
-    "title": "Let’s Get started with CSS",
-    "date": "2021-11-22",
-    "tags": [
-      "css",
-      "good-websites",
-      "webdesign-and-development",
-      "uiwebview",
-      "web-development"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/lets-get-started-with-css-2227beeb09b0?source=rss-1ee194a8227------2)...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/lets-get-started-with-css-2227beeb09b0?source=rss-1ee194a8227------2)"
-  },
-  {
-    "slug": "2021-11-20-why-should-you-start-writing",
-    "title": "Why Should You Start Writing?",
-    "date": "2021-11-20",
-    "tags": [
-      "writing-tips",
-      "write",
-      "writing",
-      "reasons-for-writing"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/why-should-you-start-writing-a7f6401cccd2?source=rss-1ee194a8227------2)...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/why-should-you-start-writing-a7f6401cccd2?source=rss-1ee194a8227------2)"
-  },
-  {
-    "slug": "2021-11-17-what-is-meta-tagwhy-should-we-know-about-it",
-    "title": "What is meta tag?Why should we know about it?",
-    "date": "2021-11-17",
-    "tags": [
-      "meta-tag-generator",
-      "website-traffic",
-      "web-development",
-      "html5"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/what-is-meta-tag-why-should-we-know-about-it-9b2af4eb94c4?source=rss-1ee194...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/what-is-meta-tag-why-should-we-know-about-it-9b2af4eb94c4?source=rss-1ee194a8227------2)"
-  },
-  {
-    "slug": "2021-11-12-4-steps-for-being-web-developer",
-    "title": "4 steps for being web developer",
-    "date": "2021-11-12",
-    "tags": [
-      "how-to",
-      "webdev",
-      "learning-path"
-    ],
-    "summary": "---2\" draft: false --- [Baca di Medium →](https://tripletwinsco.medium.com/4-steps-for-being-web-developer-37597e12c894?source=rss-1ee194a8227------2)...",
-    "content": "---2\"\r\ndraft: false\r\n---\r\n\r\n\r\n\r\n[Baca di Medium →](https://tripletwinsco.medium.com/4-steps-for-being-web-developer-37597e12c894?source=rss-1ee194a8227------2)"
   }
 ];
