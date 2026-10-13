@@ -450,13 +450,15 @@
 							href={social.url}
 							target="_blank"
 							rel="noreferrer"
-							class="flex items-center justify-between p-4 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 hover:border-amber-400 dark:hover:border-amber-500 transition-all text-stone-800 dark:text-stone-200 group"
+							class="flex items-center justify-between p-3.5 sm:p-4 rounded-xl bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 hover:border-amber-400 dark:hover:border-amber-500 transition-all text-stone-800 dark:text-stone-200 group min-w-0"
 						>
-							<div class="flex items-center gap-2.5">
-								<span class="font-bold">{social.label}</span>
-								<span class="text-stone-400">({social.url.replace('https://', '')})</span>
+							<div class="flex items-center gap-2 sm:gap-2.5 min-w-0 mr-2">
+								<span class="font-bold shrink-0">{social.label}</span>
+								<span class="text-stone-400 dark:text-stone-500 truncate text-[11px] sm:text-xs">
+									({social.handle ?? social.url.replace('https://', '')})
+								</span>
 							</div>
-							<span class="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-amber-600 dark:text-amber-400">
+							<span class="shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform text-amber-600 dark:text-amber-400">
 								↗
 							</span>
 						</a>
