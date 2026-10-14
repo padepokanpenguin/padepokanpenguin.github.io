@@ -6,6 +6,7 @@
 	import DeskSticker from '#lib/components/desk/DeskSticker.svelte';
 	import { sound } from '#lib/sound/audio';
 	import { theme } from '#lib/state/theme.svelte';
+	import { visitor } from '#lib/state/visitor.svelte';
 
 	let isMuted = $state(sound.isMuted);
 
@@ -15,6 +16,7 @@
 
 	onMount(() => {
 		theme.init();
+		visitor.init();
 	});
 </script>
 
@@ -129,10 +131,17 @@
 
 	<!-- Footer -->
 	<footer class="max-w-6xl w-full mx-auto px-4 sm:px-8 py-6 flex flex-wrap items-center justify-between gap-4 text-xs font-mono text-stone-500 dark:text-stone-400 border-t border-stone-200/60 dark:border-stone-800/60">
-		<div class="flex items-center gap-2">
-			<span>Ditempa oleh</span>
-			<strong class="font-bold text-stone-700 dark:text-stone-300">Padepokan Penguin</strong>
-			<span>© 2026</span>
+		<div class="flex items-center gap-3 flex-wrap">
+			<div class="flex items-center gap-2">
+				<span>Ditempa oleh</span>
+				<strong class="font-bold text-stone-700 dark:text-stone-300">Padepokan Penguin</strong>
+				<span>© 2026</span>
+			</div>
+			<span class="hidden sm:inline text-stone-300 dark:text-stone-700">·</span>
+			<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-stone-200/50 dark:bg-stone-800/60 border border-stone-300/60 dark:border-stone-700/60 text-[11px] text-stone-600 dark:text-stone-300 shadow-xs" title="Total Pengunjung Situs">
+				<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
+				<span>{visitor.count.toLocaleString('id-ID')} Pengunjung</span>
+			</div>
 		</div>
 		<div class="flex items-center gap-4">
 			<span>dibuat dengan Svelte 5 + motion</span>

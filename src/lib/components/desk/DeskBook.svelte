@@ -263,10 +263,18 @@
 						</button>
 
 						<div class="border-b border-stone-200 dark:border-stone-800 pb-5">
-							<div class="flex items-center gap-2 mb-2">
+							<div class="flex flex-wrap items-center gap-2 mb-2">
 								<span class="font-mono text-xs text-amber-600 dark:text-amber-400 font-bold">{selectedPost.date}</span>
 								<span class="text-stone-300 dark:text-stone-700">·</span>
 								<span class="font-mono text-xs text-stone-500 dark:text-stone-400">Oleh Aria Nur Jamal</span>
+								<span class="text-stone-300 dark:text-stone-700">·</span>
+								<span class="inline-flex items-center gap-1.5 font-mono text-xs text-stone-500 dark:text-stone-400">
+									<svg class="w-3.5 h-3.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+										<circle cx="12" cy="12" r="3" />
+									</svg>
+									<span>{selectedPost.readers.toLocaleString('id-ID')} pembaca</span>
+								</span>
 							</div>
 							<h2 class="text-2xl sm:text-3xl font-fraunces font-bold text-stone-900 dark:text-stone-50 leading-tight">
 								{selectedPost.title}
@@ -366,7 +374,17 @@
 											</h3>
 											<Scribble active={hoveredBlog === post.slug} />
 										</div>
-										<span class="font-mono text-xs text-stone-400 dark:text-stone-500">{post.date}</span>
+										<div class="flex items-center gap-2 font-mono text-xs text-stone-400 dark:text-stone-500 shrink-0">
+											<span class="inline-flex items-center gap-1 text-stone-500 dark:text-stone-400" title="{post.readers.toLocaleString('id-ID')} pembaca">
+												<svg class="w-3.5 h-3.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+													<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+													<circle cx="12" cy="12" r="3" />
+												</svg>
+												<span>{post.readers.toLocaleString('id-ID')} pembaca</span>
+											</span>
+											<span>·</span>
+											<span>{post.date}</span>
+										</div>
 									</div>
 
 									<p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 mt-2 leading-relaxed">

@@ -5,6 +5,7 @@ export interface BlogPost {
 	tags: string[];
 	summary: string;
 	content: string;
+	readers: number;
 }
 
 export const blogPosts: BlogPost[] = [
@@ -12,6 +13,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "2026-10-13-mitrachat-ai-that-understands-your-business",
     "title": "Mitrachat: AI yang Memahami Konteks Bisnis Anda",
     "date": "2026-10-13",
+    "readers": 1420,
     "tags": [
       "ai",
       "whatsapp",
@@ -27,6 +29,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "2026-05-12-membangun-gemini-flash-api-menggunakan-nodejs",
     "title": "Membangun Gemini Flash API Menggunakan Node.js",
     "date": "2026-05-12",
+    "readers": 3850,
     "tags": [
       "nodejs",
       "api",
@@ -42,6 +45,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "debugging-github-pages-deployment-a-developer-journey",
     "title": "Debugging Deployment GitHub Pages: Perjalanan Seorang Developer",
     "date": "2025-09-07",
+    "readers": 2140,
     "tags": [
       "debugging",
       "github-pages",
@@ -56,6 +60,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "2025-08-02-business-understanding-the-missing-skill-in-many-developers",
     "title": "Business Understanding: Keterampilan yang Kerap Terlewatkan oleh Banyak Developer",
     "date": "2025-08-02",
+    "readers": 1890,
     "tags": [
       "software-engineering",
       "career",
@@ -70,6 +75,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "problem-solving-skill",
     "title": "Problem Solving Skill",
     "date": "2024-05-06",
+    "readers": 2430,
     "tags": [
       "self-development",
       "skill",
@@ -82,6 +88,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "deploy-hugo-dengan-github-action-pada-github-pages",
     "title": "Deploy Hugo Dengan Github Action Pada Github Pages",
     "date": "2024-04-07",
+    "readers": 3120,
     "tags": [
       "Go",
       "Hugo",
@@ -94,6 +101,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "computational-thinking-bukan-hanyak-untuk-anak-it",
     "title": "Computational Thinking Bukan Hanyak Untuk Anak IT",
     "date": "2024-02-06",
+    "readers": 1670,
     "tags": [
       "IT"
     ],
@@ -104,6 +112,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "2023-03-03-a-pattern-in-our-life",
     "title": "Pola dalam Kehidupan Kita (A Pattern in Our Life)",
     "date": "2023-03-03",
+    "readers": 2890,
     "tags": [
       "self-development",
       "mindset",
@@ -117,6 +126,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "2021-12-02-why-is-writing-better-than-reading",
     "title": "Mengapa Menulis Lebih Baik daripada Sekadar Membaca? (Why is Writing Better Than Reading?)",
     "date": "2021-12-02",
+    "readers": 4210,
     "tags": [
       "writing",
       "reading",
@@ -131,6 +141,7 @@ export const blogPosts: BlogPost[] = [
     "slug": "2021-11-20-why-should-you-start-writing",
     "title": "Mengapa Kamu Harus Mulai Menulis? (Why Should You Start Writing?)",
     "date": "2021-11-20",
+    "readers": 4580,
     "tags": [
       "writing",
       "self-development",
