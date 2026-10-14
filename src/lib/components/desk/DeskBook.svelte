@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { profile } from '#lib/data/profile';
+	import { profile, calculateExperienceYears } from '#lib/data/profile';
 	import { projects } from '#lib/data/projects';
 	import { experiments } from '#lib/data/experiments';
 	import { blogPosts, type BlogPost } from '#lib/data/blogs';
@@ -28,6 +28,7 @@
 	let hoveredBlog = $state<string | null>(null);
 	let selectedPost = $state<BlogPost | null>(initialPost);
 	let selectedTag = $state<string | null>(null);
+	let experienceYears = $state(calculateExperienceYears());
 
 	$effect(() => {
 		if (initialPost) selectedPost = initialPost;
@@ -43,6 +44,7 @@
 	] as const;
 	onMount(() => {
 		articleReaders.init();
+		experienceYears = calculateExperienceYears();
 		if (selectedPost) {
 			articleReaders.recordView(selectedPost.slug);
 		}
@@ -244,7 +246,7 @@
 					{#each profile.stats as stat}
 						<div>
 							<div class="font-mono text-xs text-stone-500 dark:text-stone-400">{stat.label}</div>
-							<div class="font-mono text-sm sm:text-base font-bold text-stone-800 dark:text-stone-200 mt-0.5">{stat.value}</div>
+							<div class="font-mono text-sm sm:text-base font-bold text-stone-800 dark:text-stone-200 mt-0.5">{stat.label === 'Pengalaman' ? experienceYears : stat.value}</div>
 						</div>
 					{/each}
 				</div>

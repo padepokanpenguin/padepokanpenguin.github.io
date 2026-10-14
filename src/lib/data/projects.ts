@@ -15,63 +15,43 @@ export const projects: Project[] = [
 	{
 		id: 'mitrachat-ai-app',
 		title: 'MitraChat AI Platform',
-		category: 'Full-stack AI & Agentic System',
+		category: 'Full-Stack AI & Agentic System',
 		year: '2026',
-		description: 'Aplikasi full-stack enterprise berbasis Turborepo monorepo untuk mengelola AI agents, workflow automation, intelligent routing, multi-channel customer engagement, dan type-safe RPC.',
+		description: 'Platform full-stack enterprise berbasis Turborepo monorepo untuk orkestrasi AI agents, otomatisasi alur kerja, intelligent routing, layanan pelanggan multi-kanal, dan komunikasi type-safe RPC.',
 		tech: ['Turborepo', 'React', 'Hono', 'Mastra.ai', 'oRPC', 'PostgreSQL', 'Drizzle ORM', 'BullMQ', 'Redis'],
 		demo: 'https://mitrachat.id',
 		demoLabel: 'Kunjungi mitrachat.id',
-		highlight: 'Multi-agent orchestration, distributed message queues via BullMQ, dan embeddable webchat widget'
+		highlight: 'Multi-agent orchestration, antrean pesan terdistribusi via BullMQ, dan widget webchat terintegrasi'
+	},
+	{
+		id: 'toefl-toeic-gmc',
+		title: 'TOEFL & TOEIC Prediction Test System',
+		category: 'Full-Stack EdTech Platform',
+		year: '2023',
+		description: 'Sistem evaluasi kecakapan bahasa Inggris daring lengkap dengan simulasi ujian berwaktu real-time, kalkulasi skor otomatis, dan penyimpanan media audio di Cloudflare R2.',
+		tech: ['Next.js', 'React.js', 'AdonisJS', 'PostgreSQL', 'Cloudflare R2', 'Linux VPS'],
+		demo: 'https://exam.gmcendekia.com',
+		demoLabel: 'Lihat Platform Ujian',
+		highlight: 'Antarmuka ujian anti-gangguan dengan mesin skoring otomatis dan streaming audio listening'
 	},
 	{
 		id: 'dotvim',
 		title: 'Dotvim (Neovim Config)',
 		category: 'Developer Tooling & Linux Environment',
 		year: '2026',
-		description: 'Konfigurasi Neovim modern berbasis Lua yang selalu diperbarui dengan API Neovim terkini (0.12+), native LSP, integrasi Tree-sitter, Telescope, dan manajemen plugin modular via lazy.nvim.',
+		description: 'Konfigurasi Neovim modern berbasis Lua yang dioptimalkan untuk API Neovim terkini (0.12+), dilengkapi native LSP, Tree-sitter, Telescope, dan manajemen plugin modular via lazy.nvim.',
 		tech: ['Lua', 'Neovim 0.12+', 'Tree-sitter', 'LSP', 'lazy.nvim', 'Telescope'],
 		github: 'https://github.com/padepokanpenguin/dotvim',
-		highlight: 'Native vim.lsp.config, auto-bootstrap lazy.nvim, dan formatters via none-ls/prettierd'
-	},
-	{
-		id: 'toefl-toeic-gmc',
-		title: 'TOEFL & TOEIC Prediction Test System',
-		category: 'Full-stack Platform',
-		year: '2023',
-		description: 'Sistem evaluasi kecakapan bahasa Inggris lengkap dengan simulasi ujian real-time, skoring otomatis, dan media storage Cloudflare R2.',
-		tech: ['Next.js', 'React.js', 'AdonisJS', 'PostgreSQL', 'Cloudflare R2', 'Linux VPS'],
-		demo: 'https://exam.gmcendekia.com',
-		highlight: 'Antarmuka tes responsif dengan scoring logic dan manajemen berkas audio listening'
+		highlight: 'Konfigurasi native vim.lsp.config, auto-bootstrap lazy.nvim, dan kode formatter berkecepatan tinggi'
 	},
 	{
 		id: 'padepokan-archive',
-		title: 'Padepokan Archive',
-		category: 'Designing with Logic',
+		title: 'Padepokan Archive (Interactive Desk)',
+		category: 'Creative Web & UI Engineering',
 		year: '2026',
-		description: 'Portofolio meja kerja interaktif berbasis Web Physics menggunakan Svelte 5 Runes dan spring bawaan tanpa library pihak ketiga yang membengkak.',
-		tech: ['Svelte 5', 'TypeScript', 'svelte/motion', 'Tailwind v4'],
+		description: 'Portofolio dan buku catatan digital berkonsep meja kerja interaktif menggunakan Svelte 5 Runes, simulasi fisika murni, dan sintesis audio prosedural tanpa pustaka eksternal berat.',
+		tech: ['Svelte 5', 'TypeScript', 'svelte/motion', 'Tailwind CSS v4', 'Web Audio API'],
 		github: 'https://github.com/padepokanpenguin/padepokanpenguin.github.io',
-		demo: '#',
-		highlight: 'Zero Virtual DOM overhead, ukuran bundle hanya ~25KB gzipped'
-	},
-	{
-		id: 'verlet-cord-engine',
-		title: 'Verlet Rope Physics Switch',
-		category: 'Physics Simulation',
-		year: '2026',
-		description: 'Engine simulasi tali Verlet dengan constraint relaxation dan inersia mouse/touch yang menggerakkan saklar lampu tema dengan sensasi taktil nyata.',
-		tech: ['HTML5 Canvas', 'Mathematics', 'Verlet Integration'],
-		github: 'https://github.com/padepokanpenguin/padepokanpenguin.github.io',
-		highlight: 'Performa konsisten 60 FPS dengan 3x constraint relaxation loop'
-	},
-	{
-		id: 'web-audio-synth',
-		title: 'Synthesized Web Haptics',
-		category: 'Audio Engineering',
-		year: '2026',
-		description: 'Generator efek suara mikro-taktil murni menggunakan Web Audio API oscillator dan lowpass filter. Zero file audio eksternal untuk load time instan.',
-		tech: ['Web Audio API', 'Signal Synthesis', 'TypeScript'],
-		github: 'https://github.com/padepokanpenguin/padepokanpenguin.github.io',
-		highlight: 'Nol latency, nol aset statis MP3, ramah kuota pengguna'
+		highlight: 'Zero Virtual DOM overhead, prerendering statis ramah SEO, dan ukuran bundle ekstra ringan (~25KB gzipped)'
 	}
 ];
