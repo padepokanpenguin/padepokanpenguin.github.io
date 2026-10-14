@@ -8,6 +8,7 @@
 	import { marked } from 'marked';
 	import Scribble from '#lib/components/ui/Scribble.svelte';
 	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
 	function renderMarkdown(content: string): string {
 		try {
@@ -22,10 +23,10 @@
 	}
 	let { initialPost = null, initialTab = 'bio' }: Props = $props();
 
-	let activeTab = $state<'bio' | 'projects' | 'blog' | 'lab' | 'contact'>('bio');
+	let activeTab = $state<'bio' | 'projects' | 'blog' | 'lab' | 'contact'>(initialTab);
 	let hoveredProject = $state<string | null>(null);
 	let hoveredBlog = $state<string | null>(null);
-	let selectedPost = $state<BlogPost | null>(null);
+	let selectedPost = $state<BlogPost | null>(initialPost);
 	let selectedTag = $state<string | null>(null);
 
 	$effect(() => {
@@ -44,8 +45,20 @@
 		articleReaders.init();
 		if (selectedPost) {
 			articleReaders.recordView(selectedPost.slug);
-		} else if (typeof window !== 'undefined' && window.location.hash === '#blog') {
-			activeTab = 'blog';
+		}
+
+		if (typeof window !== 'undefined') {
+			const applyHash = () => {
+				if (window.location.pathname.startsWith('/blog/')) return;
+				const hash = window.location.hash.replace('#', '') as typeof activeTab;
+				if (hash && ['bio', 'projects', 'blog', 'lab', 'contact'].includes(hash)) {
+					activeTab = hash;
+					selectedPost = null;
+				}
+			};
+			applyHash();
+			window.addEventListener('hashchange', applyHash);
+			return () => window.removeEventListener('hashchange', applyHash);
 		}
 	});
 
@@ -56,10 +69,18 @@
 	}
 
 	function setTab(id: typeof activeTab) {
-		if (activeTab === id) return;
+		if (activeTab === id && !selectedPost) return;
 		activeTab = id;
 		selectedPost = null;
 		sound.playPaperTurn();
+
+		if (typeof window !== 'undefined') {
+			if (window.location.pathname.startsWith('/blog/')) {
+				goto('/#' + id);
+			} else {
+				window.history.replaceState(null, '', '#' + id);
+			}
+		}
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
@@ -163,7 +184,7 @@
 	<article class="p-6 sm:p-10 min-h-[460px] bg-stone-50 dark:bg-stone-900/60 font-inter">
 		<!-- TAB 1: BIO / PADEPOKAN PHILOSOPHY -->
 		{#if activeTab === 'bio'}
-			<div class="space-y-8 animate-fadeIn">
+			<div id="bio" class="space-y-8 animate-fadeIn">
 				<div>
 					<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs font-mono mb-4">
 						<span>🥋 Hermitage of Code & Craft</span>
@@ -231,7 +252,7 @@
 
 		<!-- TAB 2: PROJECTS -->
 		{:else if activeTab === 'projects'}
-			<div class="space-y-6 animate-fadeIn">
+			<div id="projects" class="space-y-6 animate-fadeIn">
 				<div class="flex items-center justify-between border-b border-stone-200 dark:border-stone-800 pb-3">
 					<div>
 						<h2 class="text-2xl font-fraunces font-bold text-stone-900 dark:text-stone-50">
@@ -316,16 +337,21 @@
 
 		<!-- TAB 3: TULISAN / BLOG -->
 		{:else if activeTab === 'blog'}
-			<div class="space-y-6 animate-fadeIn">
+			<div id="blog" class="space-y-6 animate-fadeIn">
 				{#if selectedPost}
 					<!-- Single Post Reading View -->
 					<div class="space-y-6">
 						<a
 							href="/#blog"
 							class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors cursor-pointer group"
-							onclick={() => {
-								selectedPost = null;
+							onclick={(e) => {
 								sound.playPaperTurn();
+								if (typeof window !== 'undefined' && window.location.pathname.startsWith('/blog/')) {
+									e.preventDefault();
+									goto('/#blog');
+								} else {
+									selectedPost = null;
+								}
 							}}
 						>
 							<span class="group-hover:-translate-x-1 transition-transform">←</span>
@@ -343,7 +369,7 @@
 										<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
 										<circle cx="12" cy="12" r="3" />
 									</svg>
-									<span>{articleReaders.getReaders(selectedPost).toLocaleString('id-ID')} pembaca</span>
+									<span>{articleReaders.getReaders(selectedPost.slug).toLocaleString('id-ID')} pembaca</span>
 								</span>
 							</div>
 							<h2 class="text-2xl sm:text-3xl font-fraunces font-bold text-stone-900 dark:text-stone-50 leading-tight">
@@ -367,9 +393,14 @@
 							<a
 								href="/#blog"
 								class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 transition-colors cursor-pointer"
-								onclick={() => {
-									selectedPost = null;
+								onclick={(e) => {
 									sound.playPaperTurn();
+									if (typeof window !== 'undefined' && window.location.pathname.startsWith('/blog/')) {
+										e.preventDefault();
+										goto('/#blog');
+									} else {
+										selectedPost = null;
+									}
 								}}
 							>
 								<span>← Kembali ke Semua Coretan</span>
@@ -438,12 +469,12 @@
 											<Scribble active={hoveredBlog === post.slug} />
 										</div>
 										<div class="flex items-center gap-2 font-mono text-xs text-stone-400 dark:text-stone-500 shrink-0">
-											<span class="inline-flex items-center gap-1 text-stone-500 dark:text-stone-400" title="{post.readers.toLocaleString('id-ID')} pembaca">
+											<span class="inline-flex items-center gap-1 text-stone-500 dark:text-stone-400" title="{articleReaders.getReaders(post.slug).toLocaleString('id-ID')} pembaca">
 												<svg class="w-3.5 h-3.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 													<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
 													<circle cx="12" cy="12" r="3" />
 												</svg>
-												<span>{articleReaders.getReaders(post).toLocaleString('id-ID')} pembaca</span>
+												<span>{articleReaders.getReaders(post.slug).toLocaleString('id-ID')} pembaca</span>
 											</span>
 											<span>·</span>
 											<span>{post.date}</span>
@@ -476,7 +507,7 @@
 
 		<!-- TAB 3: LAB EXPERIMENTS -->
 		{:else if activeTab === 'lab'}
-			<div class="space-y-6 animate-fadeIn">
+			<div id="lab" class="space-y-6 animate-fadeIn">
 				<div>
 					<h2 class="text-2xl font-fraunces font-bold text-stone-900 dark:text-stone-50">
 						Eksperimen Interaktif (Feral Physics)
@@ -515,7 +546,7 @@
 
 		<!-- TAB 4: CONTACT & HEADQUARTERS -->
 		{:else if activeTab === 'contact'}
-			<div class="space-y-6 animate-fadeIn max-w-lg">
+			<div id="contact" class="space-y-6 animate-fadeIn max-w-lg">
 				<div>
 					<h2 class="text-2xl font-fraunces font-bold text-stone-900 dark:text-stone-50">
 						Markas & Kolaborasi

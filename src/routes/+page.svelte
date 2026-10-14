@@ -193,7 +193,7 @@
 			<span class="hidden sm:inline text-stone-300 dark:text-stone-700">·</span>
 			<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-stone-200/50 dark:bg-stone-800/60 border border-stone-300/60 dark:border-stone-700/60 text-[11px] text-stone-600 dark:text-stone-300 shadow-xs" title="Total Pengunjung Situs">
 				<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" aria-hidden="true"></span>
-				<span>{visitor.count.toLocaleString('id-ID')} Pengunjung</span>
+				<span>{(visitor.count ?? 1).toLocaleString('id-ID')} Pengunjung</span>
 			</div>
 		</div>
 		<div class="flex items-center gap-4">

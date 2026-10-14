@@ -19,7 +19,8 @@ export default defineConfig({
 				strict: true
 			}),
 			prerender: {
-				handleHttpError: 'warn'
+				handleHttpError: 'warn',
+				handleMissingId: 'warn'
 			}
 		})
 	]
