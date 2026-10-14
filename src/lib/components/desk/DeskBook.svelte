@@ -4,8 +4,10 @@
 	import { experiments } from '#lib/data/experiments';
 	import { blogPosts, type BlogPost } from '#lib/data/blogs';
 	import { sound } from '#lib/sound/audio';
+	import { articleReaders } from '#lib/state/articleReaders.svelte';
 	import { marked } from 'marked';
 	import Scribble from '#lib/components/ui/Scribble.svelte';
+	import { onMount } from 'svelte';
 
 	function renderMarkdown(content: string): string {
 		try {
@@ -14,11 +16,22 @@
 			return content;
 		}
 	}
+	interface Props {
+		initialPost?: BlogPost | null;
+		initialTab?: 'bio' | 'projects' | 'blog' | 'lab' | 'contact';
+	}
+	let { initialPost = null, initialTab = 'bio' }: Props = $props();
+
 	let activeTab = $state<'bio' | 'projects' | 'blog' | 'lab' | 'contact'>('bio');
 	let hoveredProject = $state<string | null>(null);
 	let hoveredBlog = $state<string | null>(null);
 	let selectedPost = $state<BlogPost | null>(null);
 	let selectedTag = $state<string | null>(null);
+
+	$effect(() => {
+		if (initialPost) selectedPost = initialPost;
+		if (initialTab) activeTab = initialTab;
+	});
 
 	const tabs = [
 		{ id: 'bio', label: '🥋 Padepokan', title: 'Tentang & Filosofi' },
@@ -27,6 +40,20 @@
 		{ id: 'lab', label: '🧪 Lab Fisika', title: 'Eksperimen Interaktif' },
 		{ id: 'contact', label: '📡 Markas', title: 'Kanal & Kontak' }
 	] as const;
+	onMount(() => {
+		articleReaders.init();
+		if (selectedPost) {
+			articleReaders.recordView(selectedPost.slug);
+		} else if (typeof window !== 'undefined' && window.location.hash === '#blog') {
+			activeTab = 'blog';
+		}
+	});
+
+	function openPost(post: BlogPost) {
+		selectedPost = post;
+		articleReaders.recordView(post.slug);
+		sound.playPaperTurn();
+	}
 
 	function setTab(id: typeof activeTab) {
 		if (activeTab === id) return;
@@ -47,6 +74,49 @@
 </script>
 
 <svelte:window onkeydown={handleKeydown} />
+<svelte:head>
+	{#if selectedPost}
+		<title>{selectedPost.title} · Padepokan Penguin</title>
+		<meta name="description" content={selectedPost.summary} />
+		<link rel="canonical" href="https://padepokanpenguin.github.io/#blog?slug={selectedPost.slug}" />
+		<meta property="og:title" content="{selectedPost.title} · Padepokan Penguin" />
+		<meta property="og:description" content={selectedPost.summary} />
+		<meta property="og:type" content="article" />
+		<meta property="og:url" content="https://padepokanpenguin.github.io/#blog?slug={selectedPost.slug}" />
+		<meta property="article:published_time" content="{selectedPost.date}" />
+		<meta property="article:author" content="Aria Nur Jamal" />
+		{#each selectedPost.tags as tag}
+			<meta property="article:tag" content={tag} />
+		{/each}
+		<meta name="twitter:title" content="{selectedPost.title} · Padepokan Penguin" />
+		<meta name="twitter:description" content={selectedPost.summary} />
+		{@html `<script type="application/ld+json">${JSON.stringify({
+			'@context': 'https://schema.org',
+			'@type': 'BlogPosting',
+			'headline': selectedPost.title,
+			'description': selectedPost.summary,
+			'datePublished': selectedPost.date,
+			'author': {
+				'@type': 'Person',
+				'name': 'Aria Nur Jamal',
+				'url': 'https://padepokanpenguin.github.io/'
+			},
+			'publisher': {
+				'@type': 'Organization',
+				'name': 'Padepokan Penguin',
+				'logo': {
+					'@type': 'ImageObject',
+					'url': 'https://padepokanpenguin.github.io/favicon.svg'
+				}
+			},
+			'mainEntityOfPage': {
+				'@type': 'WebPage',
+				'@id': `https://padepokanpenguin.github.io/#blog?slug=${selectedPost.slug}`
+			},
+			'keywords': selectedPost.tags.join(', ')
+		})}</script>`}
+	{/if}
+</svelte:head>
 
 <section
 	class="relative w-full max-w-4xl mx-auto rounded-3xl bg-stone-50 dark:bg-stone-900/90 border-2 border-stone-300 dark:border-stone-800 shadow-2xl overflow-hidden transition-colors duration-300"
@@ -250,8 +320,8 @@
 				{#if selectedPost}
 					<!-- Single Post Reading View -->
 					<div class="space-y-6">
-						<button
-							type="button"
+						<a
+							href="/#blog"
 							class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 dark:hover:text-amber-300 transition-colors cursor-pointer group"
 							onclick={() => {
 								selectedPost = null;
@@ -260,7 +330,7 @@
 						>
 							<span class="group-hover:-translate-x-1 transition-transform">←</span>
 							<span>Kembali ke Semua Coretan</span>
-						</button>
+						</a>
 
 						<div class="border-b border-stone-200 dark:border-stone-800 pb-5">
 							<div class="flex flex-wrap items-center gap-2 mb-2">
@@ -273,7 +343,7 @@
 										<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
 										<circle cx="12" cy="12" r="3" />
 									</svg>
-									<span>{selectedPost.readers.toLocaleString('id-ID')} pembaca</span>
+									<span>{articleReaders.getReaders(selectedPost).toLocaleString('id-ID')} pembaca</span>
 								</span>
 							</div>
 							<h2 class="text-2xl sm:text-3xl font-fraunces font-bold text-stone-900 dark:text-stone-50 leading-tight">
@@ -294,8 +364,8 @@
 						</div>
 
 						<div class="pt-6 border-t border-stone-200 dark:border-stone-800 flex justify-between items-center">
-							<button
-								type="button"
+							<a
+								href="/#blog"
 								class="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-amber-600 dark:text-amber-400 hover:text-amber-700 transition-colors cursor-pointer"
 								onclick={() => {
 									selectedPost = null;
@@ -303,7 +373,7 @@
 								}}
 							>
 								<span>← Kembali ke Semua Coretan</span>
-							</button>
+							</a>
 						</div>
 					</div>
 				{:else}
@@ -349,22 +419,15 @@
 						<!-- Articles Stream -->
 						<div class="space-y-4 pt-3">
 							{#each blogPosts.filter(p => !selectedTag || p.tags.includes(selectedTag)) as post}
-								<div
-									class="p-5 rounded-2xl bg-white dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700/80 shadow-sm hover:border-amber-400 dark:hover:border-amber-500/80 transition-all duration-200 cursor-pointer group"
+								<a
+									href="/blog/{post.slug}"
+									class="block p-5 rounded-2xl bg-white dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700/80 shadow-sm hover:border-amber-400 dark:hover:border-amber-500/80 transition-all duration-200 cursor-pointer group text-left"
 									onclick={() => {
-										selectedPost = post;
+										articleReaders.recordView(post.slug);
 										sound.playPaperTurn();
-									}}
-									onkeydown={(e) => {
-										if (e.key === 'Enter' || e.key === ' ') {
-											selectedPost = post;
-											sound.playPaperTurn();
-										}
 									}}
 									onmouseenter={() => (hoveredBlog = post.slug)}
 									onmouseleave={() => (hoveredBlog = null)}
-									role="button"
-									tabindex="0"
 									aria-label="Baca tulisan: {post.title}"
 								>
 									<div class="flex flex-wrap items-baseline justify-between gap-2">
@@ -380,7 +443,7 @@
 													<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
 													<circle cx="12" cy="12" r="3" />
 												</svg>
-												<span>{post.readers.toLocaleString('id-ID')} pembaca</span>
+												<span>{articleReaders.getReaders(post).toLocaleString('id-ID')} pembaca</span>
 											</span>
 											<span>·</span>
 											<span>{post.date}</span>
@@ -404,7 +467,7 @@
 											<span>→</span>
 										</span>
 									</div>
-								</div>
+								</a>
 							{/each}
 						</div>
 					</div>

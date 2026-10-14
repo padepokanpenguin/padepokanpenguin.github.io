@@ -22,6 +22,59 @@
 
 <svelte:head>
 	<title>Padepokan Penguin · Creative Engineering & Physics UI</title>
+	<meta name="description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal). Full-stack developer berfokus pada skalabilitas backend dan antarmuka web interaktif." />
+	<meta name="keywords" content="Full-stack Engineer, Svelte 5, TypeScript, Node.js, Web Physics, Linux, Padepokan Penguin, Aria Nur Jamal, Portfolio, Software Engineer Indonesia" />
+	<meta name="author" content="Aria Nur Jamal" />
+	<link rel="canonical" href="https://padepokanpenguin.github.io/" />
+
+	<!-- Open Graph / Facebook -->
+	<meta property="og:site_name" content="Padepokan Penguin" />
+	<meta property="og:type" content="website" />
+	<meta property="og:url" content="https://padepokanpenguin.github.io/" />
+	<meta property="og:title" content="Padepokan Penguin · Creative Engineering & Physics UI" />
+	<meta property="og:description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal). Full-stack developer berfokus pada skalabilitas backend dan antarmuka web interaktif." />
+	<meta property="og:image" content="https://padepokanpenguin.github.io/favicon.svg" />
+	<meta property="og:locale" content="id_ID" />
+
+	<!-- Twitter -->
+	<meta name="twitter:card" content="summary" />
+	<meta name="twitter:site" content="@aria_nur_jamal" />
+	<meta name="twitter:creator" content="@aria_nur_jamal" />
+	<meta name="twitter:title" content="Padepokan Penguin · Creative Engineering & Physics UI" />
+	<meta name="twitter:description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal)." />
+	<meta name="twitter:image" content="https://padepokanpenguin.github.io/favicon.svg" />
+
+	<!-- Structured Data (JSON-LD Schema.org) -->
+	{@html `<script type="application/ld+json">${JSON.stringify({
+		'@context': 'https://schema.org',
+		'@graph': [
+			{
+				'@type': 'Person',
+				'@id': 'https://padepokanpenguin.github.io/#person',
+				'name': 'Aria Nur Jamal',
+				'alternateName': 'Padepokan Penguin',
+				'url': 'https://padepokanpenguin.github.io/',
+				'jobTitle': 'Full-stack Engineer',
+				'worksFor': {
+					'@type': 'Organization',
+					'name': 'Siloam Hospital Group'
+				},
+				'sameAs': [
+					'https://github.com/padepokanpenguin',
+					'https://www.linkedin.com/in/aria-nur-jamal-ba5856231/',
+					'https://twitter.com/aria_nur_jamal'
+				]
+			},
+			{
+				'@type': 'WebSite',
+				'@id': 'https://padepokanpenguin.github.io/#website',
+				'url': 'https://padepokanpenguin.github.io/',
+				'name': 'Padepokan Penguin',
+				'description': 'Dojo digital Aria Nur Jamal. Full-stack developer berfokus pada skalabilitas backend dan antarmuka web interaktif.',
+				'inLanguage': 'id-ID'
+			}
+		]
+	})}</script>`}
 </svelte:head>
 
 <div
