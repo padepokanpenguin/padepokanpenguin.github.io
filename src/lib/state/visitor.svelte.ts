@@ -1,12 +1,14 @@
-import { shouldTriggerVisitor } from '#lib/utils/visitorTrigger';
-
 /**
  * Pelacak Pengunjung (Visitor Counter) via VisitorBadge API.
- * Menampilkan jumlah pengunjung asli (real-time live) langsung dari endpoint
- * sesuai dengan path route yang sedang dibuka (misal: padepokanpenguin.github.io atau padepokanpenguin.github.io/blog/[slug]).
- * Menggunakan readonly=true untuk pengunjung yang kembali dalam 24 jam agar angka tetap sinkron tanpa melipatgandakan hit.
+ * Menampilkan jumlah pengunjung asli (real-time live) langsung dari endpoint.
+ * Hanya memanggil tanpa readonly pada render pertama kali di perangkat pengunjung.
+ * Semua pemanggilan berikutnya (refresh, navigasi, atau revisit) menggunakan readonly=true
+ * agar angka tetap sinkron secara live tanpa menambah counter berulang.
  */
 export class VisitorTracker {
+	private static readonly STORAGE_KEY = 'padepokan_visitor_count';
+	private static readonly FIRST_HIT_KEY = 'padepokan_first_render_hit';
+
 	count = $state<number | null>(null);
 	isLoading = $state(false);
 
@@ -22,7 +24,8 @@ export class VisitorTracker {
 				: 'padepokanpenguin.github.io';
 		}
 
-		const storageKey = `padepokan_visitor_${path.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
+		const storageKey = `${VisitorTracker.STORAGE_KEY}_${path.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
+		const firstHitKey = `${VisitorTracker.FIRST_HIT_KEY}_${path.replace(/[^a-zA-Z0-9_-]/g, '_')}`;
 
 		// 1. Ambil nilai cache lokal agar angka riil sebelumnya langsung tampil
 		const cached = localStorage.getItem(storageKey);
@@ -36,12 +39,13 @@ export class VisitorTracker {
 		try {
 			this.isLoading = true;
 
-			// Cek apakah pengunjung ini baru untuk route ini (berdasarkan fingerprint & IP)
-			const isNewVisitor = await shouldTriggerVisitor(path);
-			const query = !isNewVisitor ? '&readonly=true' : '';
+			// Periksa apakah ini render pertama kali untuk path ini di perangkat ini
+			const hasTriggeredFirstHit = localStorage.getItem(firstHitKey);
 
-			// Jika pengunjung baru: tanpa readonly (counter bertambah +1 di server)
-			// Jika pengunjung lama: dengan &readonly=true (counter TIDAK bertambah, hanya sinkronisasi angka terbaru)
+			// Hanya render pertama kali yang tanpa readonly (menambah counter +1 di server)
+			// Sisanya (refresh, pindah tab, buka kembali) selalu menggunakan &readonly=true
+			const query = hasTriggeredFirstHit ? '&readonly=true' : '';
+
 			const res = await fetch(
 				`https://api.visitorbadge.io/api/visitors?path=${encodeURIComponent(path)}${query}`,
 				{ signal: AbortSignal.timeout(6000) }
@@ -55,6 +59,8 @@ export class VisitorTracker {
 					if (!isNaN(remoteNum)) {
 						this.count = remoteNum;
 						localStorage.setItem(storageKey, String(remoteNum));
+						// Tandai bahwa render pertama kali telah dipanggil
+						localStorage.setItem(firstHitKey, '1');
 					}
 				}
 			}
