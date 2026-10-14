@@ -18,7 +18,7 @@
 
 	onMount(() => {
 		theme.init();
-		visitor.init();
+		visitor.init(`padepokanpenguin.github.io/blog/${data.post.slug}`);
 	});
 </script>
 

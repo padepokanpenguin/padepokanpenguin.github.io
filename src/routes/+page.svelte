@@ -16,7 +16,7 @@
 
 	onMount(() => {
 		theme.init();
-		visitor.init();
+		visitor.init('padepokanpenguin.github.io');
 	});
 </script>
 

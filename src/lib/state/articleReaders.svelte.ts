@@ -1,9 +1,9 @@
-import { blogPosts } from '#lib/data/blogs';
+import { shouldTriggerVisitor } from '#lib/utils/visitorTrigger';
 
 /**
  * Pelacak pembaca artikel live real-time dari endpoint VisitorBadge.
  * Mengambil angka riil dari https://api.visitorbadge.io/api/visitors?path=padepokanpenguin.github.io/blog/{slug}
- * tanpa nilai hardcode.
+ * Didukung deduplikasi fingerprint browser dan IP address agar tidak menghitung ulang saat refresh.
  */
 export class ArticleReadersTracker {
 	private static readonly STORAGE_KEY = 'padepokan_article_live_readers';
@@ -24,22 +24,28 @@ export class ArticleReadersTracker {
 				}
 			}
 		} catch {}
-
-		// 2. Sinkronisasi data live untuk semua artikel
-		for (const post of blogPosts) {
-			this.fetchCount(post.slug);
-		}
 	}
 
 	getReaders(slug: string): number {
 		return this.counts[slug] ?? 1;
 	}
 
-	async fetchCount(slug: string) {
+	async recordView(slug: string) {
 		if (typeof window === 'undefined') return;
+
+		const routePath = `padepokanpenguin.github.io/blog/${slug}`;
+
+		// 1. Cek apakah pengunjung ini baru untuk artikel ini (berdasarkan fingerprint & IP)
+		const isNewVisitor = await shouldTriggerVisitor(routePath);
+		if (!isNewVisitor) {
+			// Pengunjung sama dalam rentang 24 jam -> JANGAN tembak API agar counter tidak bertambah berulang
+			return;
+		}
+
+		// 2. Hanya tembak API jika pengunjung/IP baru
 		try {
 			const res = await fetch(
-				`https://api.visitorbadge.io/api/visitors?path=padepokanpenguin.github.io/blog/${encodeURIComponent(slug)}`,
+				`https://api.visitorbadge.io/api/visitors?path=${encodeURIComponent(routePath)}`,
 				{ signal: AbortSignal.timeout(6000) }
 			);
 			if (res.ok) {
@@ -59,10 +65,6 @@ export class ArticleReadersTracker {
 				}
 			}
 		} catch {}
-	}
-
-	recordView(slug: string) {
-		this.fetchCount(slug);
 	}
 }
 
