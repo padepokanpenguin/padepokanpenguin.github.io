@@ -4,7 +4,7 @@ import { shouldTriggerVisitor } from '#lib/utils/visitorTrigger';
  * Pelacak Pengunjung (Visitor Counter) via VisitorBadge API.
  * Menampilkan jumlah pengunjung asli (real-time live) langsung dari endpoint
  * sesuai dengan path route yang sedang dibuka (misal: padepokanpenguin.github.io atau padepokanpenguin.github.io/blog/[slug]).
- * Dilengkapi deduplikasi fingerprint browser dan IP address agar tidak menghitung ulang saat refresh.
+ * Menggunakan readonly=true untuk pengunjung yang kembali dalam 24 jam agar angka tetap sinkron tanpa melipatgandakan hit.
  */
 export class VisitorTracker {
 	count = $state<number | null>(null);
@@ -38,16 +38,15 @@ export class VisitorTracker {
 
 			// Cek apakah pengunjung ini baru untuk route ini (berdasarkan fingerprint & IP)
 			const isNewVisitor = await shouldTriggerVisitor(path);
-			if (!isNewVisitor) {
-				// Pengunjung sama dalam rentang 24 jam -> JANGAN tembak API agar counter tidak bertambah berulang
-				return;
-			}
+			const query = !isNewVisitor ? '&readonly=true' : '';
 
-			// Panggil API hit counter live hanya jika pengunjung baru
+			// Jika pengunjung baru: tanpa readonly (counter bertambah +1 di server)
+			// Jika pengunjung lama: dengan &readonly=true (counter TIDAK bertambah, hanya sinkronisasi angka terbaru)
 			const res = await fetch(
-				`https://api.visitorbadge.io/api/visitors?path=${encodeURIComponent(path)}`,
+				`https://api.visitorbadge.io/api/visitors?path=${encodeURIComponent(path)}${query}`,
 				{ signal: AbortSignal.timeout(6000) }
 			);
+
 			if (res.ok) {
 				const svgText = await res.text();
 				const match = svgText.match(/VISITORS:?\s*([\d,.]+)/i);
