@@ -367,7 +367,7 @@
 								<span class="text-stone-300 dark:text-stone-700">·</span>
 								<span class="font-mono text-xs text-stone-500 dark:text-stone-400">Oleh Aria Nur Jamal</span>
 								<span class="text-stone-300 dark:text-stone-700">·</span>
-								<span class="inline-flex items-center gap-1.5 font-mono text-xs text-stone-500 dark:text-stone-400">
+								<span class="inline-flex items-center gap-1.5 font-mono text-xs text-stone-500 dark:text-stone-400 transition-all duration-500 ease-out {!articleReaders.isLoaded(selectedPost.slug) ? 'blur-[3px] opacity-40 select-none' : 'blur-none opacity-100'}">
 									<svg class="w-3.5 h-3.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 										<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
 										<circle cx="12" cy="12" r="3" />
@@ -472,7 +472,7 @@
 											<Scribble active={hoveredBlog === post.slug} />
 										</div>
 										<div class="flex items-center gap-2 font-mono text-xs text-stone-400 dark:text-stone-500 shrink-0">
-											<span class="inline-flex items-center gap-1 text-stone-500 dark:text-stone-400" title="{articleReaders.getReaders(post.slug).toLocaleString('id-ID')} pembaca">
+											<span class="inline-flex items-center gap-1 text-stone-500 dark:text-stone-400 transition-all duration-500 ease-out {!articleReaders.isLoaded(post.slug) ? 'blur-[3px] opacity-40 select-none' : 'blur-none opacity-100'}" title="{articleReaders.getReaders(post.slug).toLocaleString('id-ID')} pembaca">
 												<svg class="w-3.5 h-3.5 opacity-75" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 													<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
 													<circle cx="12" cy="12" r="3" />

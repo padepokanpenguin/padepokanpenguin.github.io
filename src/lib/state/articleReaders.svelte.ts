@@ -10,7 +10,7 @@ export class ArticleReadersTracker {
 
 	// Map slug artikel -> jumlah pembaca riil dari endpoint
 	counts = $state<Record<string, number>>({});
-
+	isReady = $state(false);
 	init() {
 		if (typeof window === 'undefined') return;
 
@@ -24,8 +24,16 @@ export class ArticleReadersTracker {
 				}
 			}
 		} catch {}
+
+		// Berikan sedikit jeda transisi agar efek blur loading awal bertransisi secara mulus
+		setTimeout(() => {
+			this.isReady = true;
+		}, 400);
 	}
 
+	isLoaded(slug: string): boolean {
+		return this.isReady || this.counts[slug] !== undefined;
+	}
 	getReaders(slug: string): number {
 		return this.counts[slug] ?? 1;
 	}
