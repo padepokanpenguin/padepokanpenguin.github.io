@@ -49,7 +49,7 @@ export const projects: Project[] = [
 		title: 'Padepokan Archive (Interactive Desk)',
 		category: 'Creative Web & UI Engineering',
 		year: '2026',
-		description: 'Portofolio dan buku catatan digital berkonsep meja kerja interaktif menggunakan Svelte 5 Runes, simulasi fisika murni, dan sintesis audio prosedural tanpa pustaka eksternal berat.',
+		description: 'Portofolio dan buku catatan digital berkonsep meja kerja interaktif menggunakan Svelte 5 Runes, mikro-interaksi taktil berbasis pegas (spring motion), dan sintesis audio prosedural tanpa pustaka eksternal berat.',
 		tech: ['Svelte 5', 'TypeScript', 'svelte/motion', 'Tailwind CSS v4', 'Web Audio API'],
 		github: 'https://github.com/padepokanpenguin/padepokanpenguin.github.io',
 		highlight: 'Zero Virtual DOM overhead, prerendering statis ramah SEO, dan ukuran bundle ekstra ringan (~25KB gzipped)'

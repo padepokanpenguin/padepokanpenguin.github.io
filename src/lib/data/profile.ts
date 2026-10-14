@@ -48,7 +48,7 @@ export const profile: Profile = {
 		'Desain antarmuka harus terasa dibuat oleh tangan pengrajin (craftsmanship), bukan mesin cetak otomatis yang hambar.',
 		'Filosofi Linux: perkakas sederhana, modular, saling terhubung, dan tangguh di lingkungan produksi.'
 	],
-	tags: ['Svelte 5', 'TypeScript', 'Node.js', 'Next.js', 'AdonisJS', 'Linux VPS', 'Web Physics', 'Open Source'],
+	tags: ['Svelte 5', 'TypeScript', 'Node.js', 'Next.js', 'AdonisJS', 'Linux VPS', 'Interactive UI', 'Open Source'],
 	experience: [
 		{
 			role: 'Full-Stack Developer',

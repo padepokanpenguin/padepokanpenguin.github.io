@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import LanternToggle from '#lib/components/physics/LanternToggle.svelte';
-	import PenguinMascot from '#lib/components/physics/PenguinMascot.svelte';
+	import LanternToggle from '#lib/components/interactive/LanternToggle.svelte';
+	import PenguinMascot from '#lib/components/interactive/PenguinMascot.svelte';
 	import DeskBook from '#lib/components/desk/DeskBook.svelte';
 	import DeskSticker from '#lib/components/desk/DeskSticker.svelte';
 	import { sound } from '#lib/sound/audio';
@@ -21,9 +21,9 @@
 </script>
 
 <svelte:head>
-	<title>Padepokan Penguin · Creative Engineering & Physics UI</title>
-	<meta name="description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal). Full-stack developer berfokus pada skalabilitas backend dan antarmuka web interaktif." />
-	<meta name="keywords" content="Full-stack Engineer, Svelte 5, TypeScript, Node.js, Web Physics, Linux, Padepokan Penguin, Aria Nur Jamal, Portfolio, Software Engineer Indonesia" />
+	<title>Padepokan Penguin · Full-Stack Engineering & Interactive UI Craft</title>
+	<meta name="description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal). Full-Stack Engineer berfokus pada skalabilitas backend dan antarmuka web interaktif." />
+	<meta name="keywords" content="Full-Stack Engineer, Svelte 5, TypeScript, Node.js, Interactive UI, Linux, Padepokan Penguin, Aria Nur Jamal, Portfolio, Software Engineer Indonesia" />
 	<meta name="author" content="Aria Nur Jamal" />
 	<link rel="canonical" href="https://padepokanpenguin.github.io/" />
 
@@ -31,8 +31,8 @@
 	<meta property="og:site_name" content="Padepokan Penguin" />
 	<meta property="og:type" content="website" />
 	<meta property="og:url" content="https://padepokanpenguin.github.io/" />
-	<meta property="og:title" content="Padepokan Penguin · Creative Engineering & Physics UI" />
-	<meta property="og:description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal). Full-stack developer berfokus pada skalabilitas backend dan antarmuka web interaktif." />
+	<meta property="og:title" content="Padepokan Penguin · Full-Stack Engineering & Interactive UI Craft" />
+	<meta property="og:description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal). Full-Stack Engineer berfokus pada skalabilitas backend dan antarmuka web interaktif." />
 	<meta property="og:image" content="https://padepokanpenguin.github.io/favicon.svg" />
 	<meta property="og:locale" content="id_ID" />
 
@@ -40,7 +40,7 @@
 	<meta name="twitter:card" content="summary" />
 	<meta name="twitter:site" content="@aria_nur_jamal" />
 	<meta name="twitter:creator" content="@aria_nur_jamal" />
-	<meta name="twitter:title" content="Padepokan Penguin · Creative Engineering & Physics UI" />
+	<meta name="twitter:title" content="Padepokan Penguin · Full-Stack Engineering & Interactive UI Craft" />
 	<meta name="twitter:description" content="Portfolio dan lab eksperimental Padepokan Penguin (Aria Nur Jamal)." />
 	<meta name="twitter:image" content="https://padepokanpenguin.github.io/favicon.svg" />
 
@@ -54,10 +54,10 @@
 				'name': 'Aria Nur Jamal',
 				'alternateName': 'Padepokan Penguin',
 				'url': 'https://padepokanpenguin.github.io/',
-				'jobTitle': 'Full-stack Engineer',
+				'jobTitle': 'Full-Stack Engineer',
 				'worksFor': {
 					'@type': 'Organization',
-					'name': 'Siloam Hospital Group'
+					'name': 'Siloam Hospitals Group'
 				},
 				'sameAs': [
 					'https://github.com/padepokanpenguin',
@@ -137,7 +137,7 @@
 		<!-- Draggable Stickers (Free-floating on workbench) -->
 		<div class="block pointer-events-auto">
 			<DeskSticker
-				initialX={-20}
+				initialX={12}
 				initialY={20}
 				initialRot={-6}
 				label="LINUX INSIDE"

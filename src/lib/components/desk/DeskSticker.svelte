@@ -32,14 +32,10 @@
 
 	onMount(() => {
 		if (typeof window !== 'undefined') {
-			// Clamp initial position so stickers never start off-screen on mobile
+			// Clamp posisi X agar tidak keluar batas kiri (min 12px) maupun kanan layar
 			const maxSafeX = Math.max(16, window.innerWidth - 180);
-			if (initialX > maxSafeX) {
-				posX = Math.max(16, maxSafeX - 10);
-			} else {
-				posX = initialX;
-			}
-			posY = initialY;
+			posX = Math.min(Math.max(12, initialX), maxSafeX);
+			posY = Math.max(12, initialY);
 			rotation = initialRot;
 		}
 	});
@@ -84,6 +80,10 @@
 	onpointerup={onPointerUp}
 	onpointercancel={onPointerUp}
 	onkeydown={(e) => {
+		if (['ArrowRight', 'ArrowLeft', 'ArrowDown', 'ArrowUp'].includes(e.key)) {
+			e.preventDefault();
+			e.stopPropagation(); // Mencegah tab DeskBook ikut berpindah saat menggeser stiker
+		}
 		if (e.key === 'ArrowRight') posX += 12;
 		if (e.key === 'ArrowLeft') posX -= 12;
 		if (e.key === 'ArrowDown') posY += 12;

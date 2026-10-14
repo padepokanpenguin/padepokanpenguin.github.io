@@ -9,10 +9,10 @@ export interface Experiment {
 export const experiments: Experiment[] = [
 	{
 		id: 'lantern-switch',
-		title: 'Lentera Taktil & Tali Fisika Verlet',
-		tag: 'SVG Flame & Verlet Physics',
-		description: 'Simulasi lentera minyak dan tali saklar berbasis integrasi Verlet (60 FPS constraint relaxation) dengan nyala api dinamis, efek asap saat padam, dan pergantian tema instan.',
-		interactionHint: 'Tarik tali saklar atau ketuk lentera di sudut kanan atas untuk menyalakan/memadamkan api'
+		title: 'Lentera Taktil Padepokan',
+		tag: 'SVG Layers & Theme Transition',
+		description: 'Lentera minyak antik berlapis SVG dengan nyala api dinamis, kedipan hidup, asap partikel saat padam, dan saklar pergantian tema taktil dengan efek audio korek api.',
+		interactionHint: 'Ketuk lentera di sudut kanan atas untuk menyalakan atau memadamkan api'
 	},
 	{
 		id: 'penguin-mascot',
@@ -32,7 +32,7 @@ export const experiments: Experiment[] = [
 		id: 'scribble-ink',
 		title: 'Dynamic Hand-Drawn Marker',
 		tag: 'SVG Path Animation',
-		description: 'Animasi garis bawah bergaya goresan spidol tangan yang digambar secara dinamis mengikuti lebar elemen teks saat kursor diarahkan.',
+		description: 'Animasi garis bawah bergaya goresan spidol yang digambar secara dinamis mengikuti lebar teks saat kursor diarahkan (hover).',
 		interactionHint: 'Arahkan kursor (hover) ke judul proyek atau tautan di dalam buku catatan'
 	}
 ];

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import LanternToggle from '#lib/components/physics/LanternToggle.svelte';
-	import PenguinMascot from '#lib/components/physics/PenguinMascot.svelte';
+	import LanternToggle from '#lib/components/interactive/LanternToggle.svelte';
+	import PenguinMascot from '#lib/components/interactive/PenguinMascot.svelte';
 	import DeskBook from '#lib/components/desk/DeskBook.svelte';
 	import DeskSticker from '#lib/components/desk/DeskSticker.svelte';
 	import { sound } from '#lib/sound/audio';
@@ -137,7 +137,7 @@
 	<main class="relative max-w-6xl w-full mx-auto px-3 sm:px-8 py-4 sm:py-6 my-auto">
 		<div class="block pointer-events-auto">
 			<DeskSticker
-				initialX={-20}
+				initialX={12}
 				initialY={20}
 				initialRot={-6}
 				label="LINUX INSIDE"

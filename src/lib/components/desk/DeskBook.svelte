@@ -39,7 +39,7 @@
 		{ id: 'bio', label: '🥋 Padepokan', title: 'Tentang & Filosofi' },
 		{ id: 'projects', label: '📦 Karya', title: 'Koleksi Proyek' },
 		{ id: 'blog', label: '📝 Coretan', title: 'Catatan & Coretan' },
-		{ id: 'lab', label: '🧪 Lab Fisika', title: 'Eksperimen Interaktif' },
+		{ id: 'lab', label: '🧪 Lab Taktil', title: 'Eksperimen Interaktif' },
 		{ id: 'contact', label: '📡 Markas', title: 'Kanal & Kontak' }
 	] as const;
 	onMount(() => {
@@ -86,6 +86,7 @@
 	}
 
 	function handleKeydown(e: KeyboardEvent) {
+		if (e.target instanceof HTMLElement && (e.target.getAttribute('role') === 'button' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
 		const order: Array<typeof activeTab> = ['bio', 'projects', 'blog', 'lab', 'contact'];
 		const idx = order.indexOf(activeTab);
 		if (e.key === 'ArrowRight' && idx < order.length - 1) {
@@ -101,11 +102,11 @@
 	{#if selectedPost}
 		<title>{selectedPost.title} · Padepokan Penguin</title>
 		<meta name="description" content={selectedPost.summary} />
-		<link rel="canonical" href="https://padepokanpenguin.github.io/#blog?slug={selectedPost.slug}" />
+		<link rel="canonical" href="https://padepokanpenguin.github.io/blog/{selectedPost.slug}" />
 		<meta property="og:title" content="{selectedPost.title} · Padepokan Penguin" />
 		<meta property="og:description" content={selectedPost.summary} />
 		<meta property="og:type" content="article" />
-		<meta property="og:url" content="https://padepokanpenguin.github.io/#blog?slug={selectedPost.slug}" />
+		<meta property="og:url" content="https://padepokanpenguin.github.io/blog/{selectedPost.slug}" />
 		<meta property="article:published_time" content="{selectedPost.date}" />
 		<meta property="article:author" content="Aria Nur Jamal" />
 		{#each selectedPost.tags as tag}
@@ -134,7 +135,7 @@
 			},
 			'mainEntityOfPage': {
 				'@type': 'WebPage',
-				'@id': `https://padepokanpenguin.github.io/#blog?slug=${selectedPost.slug}`
+				'@id': `https://padepokanpenguin.github.io/blog/${selectedPost.slug}`
 			},
 			'keywords': selectedPost.tags.join(', ')
 		})}</script>`}
@@ -435,7 +436,7 @@
 							>
 								Semua ({blogPosts.length})
 							</button>
-							{#each ['tutorial', 'backend', 'devops', 'gemini', 'hugo', 'skill', 'self-development'] as t}
+							{#each Array.from(new Set(blogPosts.flatMap(p => p.tags))) as t}
 								{@const count = blogPosts.filter(p => p.tags.includes(t)).length}
 								{#if count > 0}
 									<button
@@ -512,10 +513,10 @@
 			<div id="lab" class="space-y-6 animate-fadeIn">
 				<div>
 					<h2 class="text-2xl font-fraunces font-bold text-stone-900 dark:text-stone-50">
-						Eksperimen Interaktif (Feral Physics)
+						Eksperimen Antarmuka & Interaksi Taktil
 					</h2>
 					<p class="text-xs font-mono text-stone-500 dark:text-stone-400 mt-1">
-						Laboratorium rekayasa fisika dan sensasi taktil antarmuka web
+						Laboratorium mikro-interaksi, animasi pegas, dan sintesis audio web
 					</p>
 				</div>
 
@@ -554,7 +555,7 @@
 						Markas & Kolaborasi
 					</h2>
 					<p class="text-sm text-stone-600 dark:text-stone-300 mt-2 leading-relaxed">
-						Tertarik berdiskusi seputar creative web engineering, physics UI, atau proyek open source? Pintu padepokan selalu terbuka.
+						Tertarik berdiskusi seputar creative web engineering, interactive UI, atau proyek open source? Pintu padepokan selalu terbuka.
 					</p>
 				</div>
 
@@ -669,6 +670,11 @@
 		border-radius: 0.35rem;
 		font-family: var(--font-mono), monospace;
 		font-size: 0.88em;
+	}
+	:global(.dark .article-markdown code:not(pre code)),
+	:global([data-theme="dark"] .article-markdown code:not(pre code)) {
+		color: #FBBF24;
+		background-color: rgba(251, 191, 36, 0.12);
 	}
 	:global(.article-markdown blockquote) {
 		border-left: 3px solid #F59E0B;
