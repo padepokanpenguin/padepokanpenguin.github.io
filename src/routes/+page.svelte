@@ -4,6 +4,7 @@
 	import PenguinMascot from '#lib/components/interactive/PenguinMascot.svelte';
 	import DeskBook from '#lib/components/desk/DeskBook.svelte';
 	import DeskSticker from '#lib/components/desk/DeskSticker.svelte';
+	import FloatingScene3D from '#lib/components/3d/FloatingScene3D.svelte';
 	import { sound } from '#lib/sound/audio';
 	import { theme } from '#lib/state/theme.svelte';
 	import { visitor } from '#lib/state/visitor.svelte';
@@ -163,6 +164,12 @@
 				label="CRAFT OVER SLOP"
 				variant="tape"
 			/>
+		</div>
+
+
+		<!-- 3D Interactive Tech Stack Scene -->
+		<div class="mb-8">
+			<FloatingScene3D />
 		</div>
 
 		<!-- Central Workbench Content -->
