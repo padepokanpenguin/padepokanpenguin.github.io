@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { profile, calculateExperienceYears } from '#lib/data/profile';
 	import { projects } from '#lib/data/projects';
-	import { experiments } from '#lib/data/experiments';
 	import { blogPosts, type BlogPost } from '#lib/data/blogs';
+	import { challenges, type Challenge } from '#lib/data/challenges';
+	import NgodeRunner from '#lib/components/desk/NgodeRunner.svelte';
 	import { sound } from '#lib/sound/audio';
 	import { articleReaders } from '#lib/state/articleReaders.svelte';
 	import { marked } from 'marked';
@@ -19,17 +20,18 @@
 	}
 	interface Props {
 		initialPost?: BlogPost | null;
-		initialTab?: 'bio' | 'projects' | 'blog' | 'lab' | 'contact';
+		initialTab?: 'bio' | 'projects' | 'blog' | 'lab' | 'ngode' | 'contact';
 	}
 	let { initialPost = null, initialTab = 'bio' }: Props = $props();
 
-	let activeTab = $state<'bio' | 'projects' | 'blog' | 'lab' | 'contact'>(initialTab);
+	let activeTab = $state<'bio' | 'projects' | 'blog' | 'lab' | 'ngode' | 'contact'>(initialTab);
 	let hoveredProject = $state<string | null>(null);
 	let hoveredBlog = $state<string | null>(null);
 	let selectedPost = $state<BlogPost | null>(initialPost);
 	let selectedTag = $state<string | null>(null);
+	let selectedChallenge = $state<Challenge | null>(null);
+	let selectedCategory = $state<string | null>(null);
 	let experienceYears = $state(calculateExperienceYears());
-
 	$effect(() => {
 		if (initialPost) selectedPost = initialPost;
 		if (initialTab) activeTab = initialTab;
@@ -40,6 +42,7 @@
 		{ id: 'projects', label: '📦 Karya', title: 'Koleksi Proyek' },
 		{ id: 'blog', label: '📝 Coretan', title: 'Catatan & Coretan' },
 		{ id: 'lab', label: '🧪 Lab Taktil', title: 'Eksperimen Interaktif' },
+		{ id: 'ngode', label: '🏋️ Ngode', title: 'Gym Algoritma & Soal Koding' },
 		{ id: 'contact', label: '📡 Markas', title: 'Kanal & Kontak' }
 	] as const;
 	onMount(() => {
@@ -53,9 +56,10 @@
 			const applyHash = () => {
 				if (window.location.pathname.startsWith('/blog/')) return;
 				const hash = window.location.hash.replace('#', '') as typeof activeTab;
-				if (hash && ['bio', 'projects', 'blog', 'lab', 'contact'].includes(hash)) {
+				if (hash && ['bio', 'projects', 'blog', 'lab', 'ngode', 'contact'].includes(hash)) {
 					activeTab = hash;
 					selectedPost = null;
+					selectedChallenge = null;
 				}
 			};
 			applyHash();
@@ -71,9 +75,10 @@
 	}
 
 	function setTab(id: typeof activeTab) {
-		if (activeTab === id && !selectedPost) return;
+		if (activeTab === id && !selectedPost && !selectedChallenge) return;
 		activeTab = id;
 		selectedPost = null;
+		selectedChallenge = null;
 		sound.playPaperTurn();
 
 		if (typeof window !== 'undefined') {
@@ -87,7 +92,7 @@
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (e.target instanceof HTMLElement && (e.target.getAttribute('role') === 'button' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA')) return;
-		const order: Array<typeof activeTab> = ['bio', 'projects', 'blog', 'lab', 'contact'];
+		const order: Array<typeof activeTab> = ['bio', 'projects', 'blog', 'lab', 'ngode', 'contact'];
 		const idx = order.indexOf(activeTab);
 		if (e.key === 'ArrowRight' && idx < order.length - 1) {
 			setTab(order[idx + 1]);
@@ -545,6 +550,105 @@
 						</div>
 					{/each}
 				</div>
+			</div>
+
+		<!-- TAB 5: NGODE (GYM ALGORITMA) -->
+		{:else if activeTab === 'ngode'}
+			<div id="ngode" class="space-y-6 animate-fadeIn">
+				{#if selectedChallenge}
+					<NgodeRunner
+						challenge={selectedChallenge}
+						onBack={() => { selectedChallenge = null; }}
+					/>
+				{:else}
+					<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-200 dark:border-stone-800 pb-4">
+						<div>
+							<div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 text-xs font-mono font-bold mb-2">
+								<span>🏋️ Sesi Latihan Algoritma</span>
+							</div>
+							<h2 class="text-2xl font-fraunces font-bold text-stone-900 dark:text-stone-50">
+								Ngode Gym
+							</h2>
+							<p class="text-xs font-mono text-stone-500 dark:text-stone-400 mt-1">
+								Tempat push-up logika koding. Selesaikan tantangan manipulasi array interaktif langsung di browser.
+							</p>
+						</div>
+						<span class="font-caveat text-lg text-amber-600 dark:text-amber-400 self-start sm:self-auto">
+							{challenges.length} Soal Tersedia
+						</span>
+					</div>
+
+					<!-- Category Filter Chips -->
+					<div class="flex flex-wrap gap-1.5">
+						<button
+							type="button"
+							class="px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer {selectedCategory === null ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'}"
+							onclick={() => selectedCategory = null}
+						>
+							Semua ({challenges.length})
+						</button>
+						{#each ['Array 1D', 'Array 2D', 'Array 3D'] as cat}
+							{@const count = challenges.filter(c => c.category === cat).length}
+							<button
+								type="button"
+								class="px-2.5 py-1 rounded-lg text-xs font-mono transition-colors cursor-pointer {selectedCategory === cat ? 'bg-amber-500 text-stone-950 font-bold' : 'bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400 hover:bg-stone-200 dark:hover:bg-stone-700'}"
+								onclick={() => selectedCategory = selectedCategory === cat ? null : cat}
+							>
+								{cat} ({count})
+							</button>
+						{/each}
+					</div>
+
+					<!-- Challenge Cards List -->
+					<div class="space-y-4">
+						{#each challenges.filter(c => !selectedCategory || c.category === selectedCategory) as ch}
+							<div
+								class="p-5 rounded-2xl bg-white dark:bg-stone-800/60 border border-stone-200 dark:border-stone-700/80 shadow-sm hover:border-amber-400 dark:hover:border-amber-500/80 transition-all duration-200 flex flex-col justify-between"
+							>
+								<div>
+									<div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+										<div class="flex items-center gap-2">
+											<span class="text-xl">{ch.emoji}</span>
+											<h3 class="text-base sm:text-lg font-fraunces font-bold text-stone-900 dark:text-stone-100">
+												{ch.title}
+											</h3>
+										</div>
+										<div class="flex items-center gap-1.5">
+											<span class="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold
+												{ch.difficulty === 'Pemula' ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300' :
+												 ch.difficulty === 'Menengah' ? 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300' :
+												 'bg-red-100 dark:bg-red-950/60 text-red-700 dark:text-red-300'}"
+											>
+												{ch.difficulty}
+											</span>
+											<span class="px-2 py-0.5 rounded-full bg-stone-100 dark:bg-stone-700 text-stone-600 dark:text-stone-300 text-[11px] font-mono">
+												{ch.category}
+											</span>
+										</div>
+									</div>
+
+									<p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 line-clamp-2 leading-relaxed">
+										{ch.story.split('\n')[0]}
+									</p>
+								</div>
+
+								<div class="mt-4 pt-3 border-t border-stone-100 dark:border-stone-700/50 flex items-center justify-between">
+									<span class="text-[11px] font-mono text-stone-400 dark:text-stone-500">
+										💡 {ch.hints.length} petunjuk · {ch.testCases.length} test cases
+									</span>
+									<button
+										type="button"
+										class="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-stone-950 font-mono text-xs font-bold transition-all cursor-pointer flex items-center gap-1 shadow-xs hover:scale-102"
+										onclick={() => { selectedChallenge = ch; sound.playPaperTurn(); }}
+									>
+										<span>Mulai Latihan</span>
+										<span>→</span>
+									</button>
+								</div>
+							</div>
+						{/each}
+					</div>
+				{/if}
 			</div>
 
 		<!-- TAB 4: CONTACT & HEADQUARTERS -->
