@@ -3,6 +3,7 @@
 	import { projects } from '#lib/data/projects';
 	import { blogPosts, type BlogPost } from '#lib/data/blogs';
 	import { challenges, type Challenge } from '#lib/data/challenges';
+	import { experiments } from '#lib/data/experiments';
 	import NgodeRunner from '#lib/components/desk/NgodeRunner.svelte';
 	import { sound } from '#lib/sound/audio';
 	import { articleReaders } from '#lib/state/articleReaders.svelte';
